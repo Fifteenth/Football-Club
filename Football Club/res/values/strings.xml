@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">足球俱乐部</string>
+    <string name="ai">球     队     阵     容 </string>
+    <string name="pvp">战     术     设     置 </string>
+    <string name="about">软    件    说     明</string>
+    <string name="about_cotent">\t\t\t\t JAVA足球俱乐部  \n\n  2014</string>
+    
+    <string name="formation_cn">选择阵型</string>
+
+    <drawable name="clubColor">#9ACD32</drawable>
+
+</resources>
