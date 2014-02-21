@@ -35,7 +35,7 @@ public class ClubActivity extends Activity {
 //				    .setMessage("此功能敬请期待!" )
 //				    .setPositiveButton("确定" ,null).show();   
 				
-				Intent intent=new Intent(ClubActivity.this, NavigationActivit.class);			
+				Intent intent=new Intent(ClubActivity.this, NavigationActivity.class);			
 				startActivity(intent);
 			}
 		});

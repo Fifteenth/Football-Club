@@ -513,7 +513,7 @@ public class FootballFieldView extends SurfaceView
 		 				}
 	 					
 	 					// Ë¢ÐÂ
-	 					Thread.sleep(20);
+	 					Thread.sleep(200);
 						try {
 							postInvalidate();
 						} catch (Exception e) {

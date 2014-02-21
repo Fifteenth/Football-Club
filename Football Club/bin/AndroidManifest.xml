@@ -10,7 +10,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name="com.android.activity.NavigationActivit"
+            android:name="com.android.activity.NavigationActivity"
             android:label="@string/app_name" 
             android:screenOrientation="portrait">
             <intent-filter>
@@ -30,6 +30,9 @@
     	    android:theme="@android:style/Theme.Dialog"/>
 
     	<activity android:name="com.android.activity.TeamIntroductionActivity"  
+            android:screenOrientation="portrait"/>
+    	
+    	<activity android:name="com.android.activity.TeamActivity"  
             android:screenOrientation="portrait"/>
     </application>
 

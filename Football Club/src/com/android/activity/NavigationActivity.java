@@ -17,7 +17,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class NavigationActivit extends Activity {
+public class NavigationActivity extends Activity {
 
 	private TextView tvTitle; 	
 	private GalleryView gallery; 	
@@ -61,16 +61,20 @@ public class NavigationActivit extends Activity {
 			
 				switch(position){
 				case 0:
-					Intent teamIntroductionActivity = new Intent(NavigationActivit.this, TeamIntroductionActivity.class);
+					Intent teamIntroductionActivity = new Intent(NavigationActivity.this, TeamIntroductionActivity.class);
 					startActivity(teamIntroductionActivity);
 					break;
+				case 2:
+					Intent team = new Intent(NavigationActivity.this, TeamActivity.class);
+					startActivity(team);
+					break;
 				case 3:
-					Intent startActivity = new Intent(NavigationActivit.this, StartActivity.class);
+					Intent startActivity = new Intent(NavigationActivity.this, StartActivity.class);
 					FormationActivity.startActivity = startActivity;
 					startActivity(startActivity);
 					break;
 				default:
-					new  AlertDialog.Builder(NavigationActivit.this)    
+					new  AlertDialog.Builder(NavigationActivity.this)    
 				    .setTitle("提示：" )
 				    .setMessage("此功能敬请期待!" )
 				    .setPositiveButton("确定" ,null).show(); 
