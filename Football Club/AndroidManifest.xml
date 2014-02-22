@@ -19,21 +19,31 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="com.android.activity.StartActivity"  
+        <activity android:name="com.android.activity.TacticalActivity"  
             android:screenOrientation="portrait"
             android:theme="@color/transparent"/>
         
-        <activity android:name="com.android.activity.AboutActivity"  
+        <activity android:name="com.android.activity.ManagementAboutActivity"  
+            android:screenOrientation="portrait"/>
+        
+        <activity android:name="com.android.activity.ManagementActivity"  
             android:screenOrientation="portrait"/>
         
     	<activity android:name="com.android.activity.FormationActivity" 
     	    android:theme="@android:style/Theme.Dialog"/>
 
-    	<activity android:name="com.android.activity.TeamIntroductionActivity"  
+    	<activity android:name="com.android.activity.IntroductionActivity"  
             android:screenOrientation="portrait"/>
     	
     	<activity android:name="com.android.activity.TeamActivity"  
             android:screenOrientation="portrait"/>
+    	
+    	<activity android:name="com.android.activity.FinanceActivity"  
+            android:screenOrientation="portrait"/>
+    	
+    	<activity android:name="com.android.activity.MatchesActivity"  
+            android:screenOrientation="portrait"/>
+    	
     </application>
 
 </manifest>

@@ -44,7 +44,7 @@ public class FormationActivity extends Activity {
 	    super.onCreate(savedInstanceState);
 	    
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.formation);
+        setContentView(R.layout.activity_formation);
         
         Window window = getWindow();  
         WindowManager.LayoutParams wl = window.getAttributes();  
@@ -94,23 +94,23 @@ public class FormationActivity extends Activity {
 	            		
 	            		switch(lastSelection){
 		            		case 0:{
-		            			StartActivity.formation = ConstantVariable.formation331;
+		            			TacticalActivity.formation = ConstantVariable.formation331;
 		            			break;
 		            		}
 		            		case 1:{
-		            			StartActivity.formation = ConstantVariable.formation322;
+		            			TacticalActivity.formation = ConstantVariable.formation322;
 		            			break;
 		            		}
 		            		case 2:{
-		            			StartActivity.formation = ConstantVariable.formation232;
+		            			TacticalActivity.formation = ConstantVariable.formation232;
 		            			break;
 		            		}
 		            		case 3:{
-		            			StartActivity.formation = ConstantVariable.formation241;
+		            			TacticalActivity.formation = ConstantVariable.formation241;
 		            			break;
 		            		}
 		            		case 4:{
-		            			StartActivity.formation = ConstantVariable.formation421;
+		            			TacticalActivity.formation = ConstantVariable.formation421;
 		            			break;
 		            		}
 	            		}

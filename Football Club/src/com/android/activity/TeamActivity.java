@@ -42,13 +42,13 @@ public class TeamActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.setContentView(R.layout.team);
+		this.setContentView(R.layout.activity_team);
 
 		Resources resources = this.getResources();
 		// 赋值实体类对象
 		for (int i = 0; i < 9; i++) {
 			DetailEntity de_1 = new DetailEntity();
-			de_1.setLayoutID(R.layout.myadatper);
+			de_1.setLayoutID(R.layout.listview_team);
 			de_1.setText(playerNames[i]);
 			de_1.setTitle(playerPositions[i]);
 			String pngName = "player_avatar_0"+(i+1);

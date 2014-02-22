@@ -28,7 +28,7 @@ public class NavigationActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
-		setContentView(R.layout.navigation);
+		setContentView(R.layout.activity_navigation);
 
 		initRes();
 	}
@@ -61,18 +61,37 @@ public class NavigationActivity extends Activity {
 			
 				switch(position){
 				case 0:
-					Intent teamIntroductionActivity = new Intent(NavigationActivity.this, TeamIntroductionActivity.class);
+					Intent teamIntroductionActivity = new Intent(NavigationActivity.this, IntroductionActivity.class);
 					startActivity(teamIntroductionActivity);
+					break;
+				case 1:
+					Intent matchsActivity = new Intent(NavigationActivity.this, MatchesActivity.class);
+					startActivity(matchsActivity);
 					break;
 				case 2:
 					Intent team = new Intent(NavigationActivity.this, TeamActivity.class);
 					startActivity(team);
 					break;
 				case 3:
-					Intent startActivity = new Intent(NavigationActivity.this, StartActivity.class);
+					Intent startActivity = new Intent(NavigationActivity.this, TacticalActivity.class);
 					FormationActivity.startActivity = startActivity;
 					startActivity(startActivity);
 					break;
+				case 4:
+					new  AlertDialog.Builder(NavigationActivity.this)    
+				    .setTitle("提示：" )
+				    .setMessage("转会市场已关闭!" )
+				    .setPositiveButton("确定" ,null).show(); 
+					break;
+				case 5:
+					Intent financeActivity = new Intent(NavigationActivity.this,FinanceActivity.class);
+					startActivity(financeActivity);
+					break;
+				case 6:
+					Intent managementActivity = new Intent(NavigationActivity.this,ManagementActivity.class);
+					startActivity(managementActivity);
+					break;
+				
 				default:
 					new  AlertDialog.Builder(NavigationActivity.this)    
 				    .setTitle("提示：" )

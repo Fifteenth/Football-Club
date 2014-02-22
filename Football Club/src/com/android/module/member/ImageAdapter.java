@@ -32,8 +32,8 @@ public class ImageAdapter extends BaseAdapter {
 	public List<Map<String, Object>> list;
 	
 
-	public Integer[] imgs = { R.drawable.image01, R.drawable.image02, R.drawable.image03,
-							  R.drawable.image04, R.drawable.image05, R.drawable.image06, R.drawable.image07};
+	public Integer[] imgs = { R.drawable.navigation_01, R.drawable.navigation_02, R.drawable.navigation_03,
+							  R.drawable.navigation_04, R.drawable.navigation_05, R.drawable.navigation_06, R.drawable.navigation_07};
 	
 
 	public ImageAdapter(Context c) {
