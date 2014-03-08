@@ -76,5 +76,22 @@ public class ConstantVariable {
 	public static String PLAY_TYPE_B_ = "player_b_";
 	
 	
+	public static String PLAYER_AVATAR = "player_avatar_0";
+	
+	/**** Activity ****/
+	// finance
+	public static String FINANCE_DIALOG_MONEY = "½ð¶î:£¤" ;
+	public static String FINANCE_BUTTON_PAYMENT = "½É·Ñ";
+	public static String FINANCE_LISTVIEW_BALANCE = "Óà¶î";
+	public static String FINANCE_SYSMBOL = "£¤";
+	
+	
+	public static int FINANCE_TYPE_PAYMENT = 1;
+	public static int FINANCE_TYPE_DEDUCTION = 2;
+	public static int FINANCE_TYPE_DETAILS = 3;
+	
+	
+	
+	
 
 }

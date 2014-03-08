@@ -3,11 +3,16 @@ package com.android.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.android.base.ConstantVariable;
+import com.android.base.util.XMLUtil;
 import com.android.club.R;
+import com.android.dialog.CostDialog;
+import com.android.to.FinanceTO;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -18,55 +23,79 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class FinanceActivity extends Activity{
 
-	String playerNames[] = {"豪哥","2哥","大可可","涛哥","曹五","吴经理","海波","建华","叉哥"};
+	List<FinanceTOEntity> list = new ArrayList<FinanceTOEntity>();
 	
-	String string = "余额:0$";
-	List<DetailEntity> list = new ArrayList<DetailEntity>();
+	private ListView listView;
+	private CostDialog dialog;
+	private List <FinanceTO>financeTOList;
+	private FinanceTO selectedFinanceTO;
+	private Button buttonDownOrUp;
 	
-	ListView lv;
-
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.setContentView(R.layout.activity_finance);
-
+		setContentView(R.layout.activity_finance);
+		
+		dialog = new CostDialog(this,
+				new CostDialog.OnCustomDialogListener() {
+			@Override
+			public void back(String name) {
+                     
+            }
+		});
+		
+		 
 		Resources resources = this.getResources();
-		// 赋值实体类对象
-		for (int i = 0; i < 9; i++) {
-			DetailEntity de_1 = new DetailEntity();
-			de_1.setLayoutID(R.layout.listview_finance);
-			de_1.setText(playerNames[i]);
-			de_1.setTitle(string);
-			String pngName = "player_avatar_0"+(i+1);
-			int id = resources.getIdentifier(pngName, 
-	       			"drawable" , getApplicationContext().getPackageName());  
-			
-			de_1.setBitmap(id);
-			de_1.setBtnText("缴费");
-			list.add(de_1);
-		}
 
-		lv = (ListView) this.findViewById(R.id.listView_my);
+
+		//通过Resources，获得XmlResourceParser实例   
+		XmlResourceParser xrp = resources.getXml(R.xml.finance);   
+		financeTOList = XMLUtil.getFinanceTOList(xrp);
+		
+		// 赋值实体类对象
+		if(list.size()==0){
+			for (int i = 0; i < 9; i++) {
+				FinanceTO financeTO = financeTOList.get(i);
+				
+				FinanceTOEntity financeTOEntity = new FinanceTOEntity();
+				financeTOEntity.setLayoutID(R.layout.listview_finance);
+				financeTOEntity.setText(financeTO.getName());
+				financeTOEntity.setTitle(ConstantVariable.FINANCE_LISTVIEW_BALANCE
+						+financeTO.getAmount() + ConstantVariable.FINANCE_SYSMBOL);
+				String pngName = ConstantVariable.PLAYER_AVATAR+(i+1);
+				int id = resources.getIdentifier(pngName, 
+		       			"drawable" , getApplicationContext().getPackageName());  
+				
+				financeTOEntity.setBitmap(id);
+				financeTOEntity.setBtnText(ConstantVariable.FINANCE_DIALOG_MONEY);
+				list.add(financeTOEntity);
+			}
+		}
+		
+
+		listView = (ListView) this.findViewById(R.id.listView_my);
 
 		// 实例化自定义适配器
 		MyAdapter ma = new MyAdapter(this, list);
 
-		lv.setAdapter(ma);
+		listView.setAdapter(ma);
 
-		lv.setOnItemClickListener(new OnItemClickListener() {
+		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				
-				lv.setItemChecked(position, true);
+				listView.setItemChecked(position, true);
 			}
 		});
 		
@@ -80,12 +109,12 @@ public class FinanceActivity extends Activity{
 	 */
 	class MyAdapter implements ListAdapter {
 
-		private List<DetailEntity> list;
+		private List<FinanceTOEntity> list;
 
 		/** 实例及其对应的视图布局的XML文件 */
 		private LayoutInflater layoutInflater;
 
-		public MyAdapter(Context context, List<DetailEntity> list) {
+		public MyAdapter(Context context, List<FinanceTOEntity> list) {
 			this.list = list;
 			layoutInflater = LayoutInflater.from(context);
 		}
@@ -125,15 +154,17 @@ public class FinanceActivity extends Activity{
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
+			final FinanceTOEntity financeTOEntity = list.get(position);
+			
 			if (convertView == null) {
 				// 加载布局
-				convertView = layoutInflater.inflate(list.get(position)
-						.getLayoutID(), null);
+				convertView = layoutInflater.inflate(
+						financeTOEntity.getLayoutID(), null);
 				// 设置布局内容
 				ImageView iv = (ImageView) convertView.findViewById(R.id.img);
 				iv.setBackgroundResource(list.get(position).getBitmap());
 				
-				Bitmap output = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
+				//Bitmap output = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
 
 				TextView tv_1 = (TextView) convertView.findViewById(R.id.title);
 				tv_1.setText(list.get(position).getTitle());
@@ -141,9 +172,44 @@ public class FinanceActivity extends Activity{
 				TextView tv_2 = (TextView) convertView.findViewById(R.id.text);
 				tv_2.setText(list.get(position).getText());
 				
-				Button btn = (Button) convertView.findViewById(R.id.button);
-//				btn.setVisibility(View.INVISIBLE);
-				btn.setText(list.get(position).getBtnText());
+				//
+				Button buttonPayment = (Button) convertView.findViewById(R.id.button_payment);
+				buttonPayment.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						selectedFinanceTO = financeTOList.get(position);
+						dialog.setName(selectedFinanceTO.getName()
+								+"  "+ConstantVariable.FINANCE_DIALOG_MONEY);
+						
+						dialog.showDialog(ConstantVariable.FINANCE_TYPE_PAYMENT);
+					}
+					
+				});
+				
+				final RelativeLayout relativeLayoutDownOrUp = (RelativeLayout) convertView.findViewById(R.id.linearyoutDown);
+				relativeLayoutDownOrUp.setVisibility(financeTOEntity.getLinearyoutVissble()); // 隐藏	
+				buttonDownOrUp = (Button) convertView.findViewById(R.id.button_down);
+
+				if(financeTOEntity.getLinearyoutVissble() == View.GONE){
+					buttonDownOrUp.setBackgroundResource(R.drawable.button_down);
+				}else{
+					buttonDownOrUp.setBackgroundResource(R.drawable.button_up);
+				}
+				buttonDownOrUp.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if(financeTOEntity.getLinearyoutVissble() == View.GONE){
+							buttonDownOrUp.setBackgroundResource(R.drawable.button_up);
+							financeTOEntity.setLinearyoutVissble(View.VISIBLE);
+						}else{
+							buttonDownOrUp.setBackgroundResource(R.drawable.button_down);
+							financeTOEntity.setLinearyoutVissble(View.GONE);
+						}
+						relativeLayoutDownOrUp.setVisibility(financeTOEntity.getLinearyoutVissble()); 
+						onCreate(null);
+					}
+				});
+				
 			}
 			return convertView;
 		}
@@ -201,7 +267,7 @@ public class FinanceActivity extends Activity{
 	 * @author Administrator
 	 * 
 	 */
-	class DetailEntity {
+	class FinanceTOEntity {
 		/** 布局ID */
 		private int layoutID;
 
@@ -216,6 +282,8 @@ public class FinanceActivity extends Activity{
 
 		/** 按钮名称 */
 		private String BtnText;
+		
+		private int linearyoutVissble = View.GONE;
 
 		public String getBtnText() {
 			return BtnText;
@@ -255,6 +323,14 @@ public class FinanceActivity extends Activity{
 
 		public void setText(String text) {
 			this.text = text;
+		}
+		
+		public int getLinearyoutVissble() {
+			return linearyoutVissble;
+		}
+
+		public void setLinearyoutVissble(int linearyoutVissble) {
+			this.linearyoutVissble = linearyoutVissble;
 		}
 	}
 }
