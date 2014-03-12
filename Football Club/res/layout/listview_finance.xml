@@ -71,7 +71,8 @@
 		    android:id="@+id/linearyoutDown"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:orientation="horizontal" >
+	        android:orientation="horizontal"
+	        android:background="@layout/listviewstyle_finance2">
 	        
 		    <Button
 		        android:id="@+id/button_payment"
@@ -80,7 +81,7 @@
 		        android:layout_alignParentLeft="true"
 		        android:layout_marginLeft="10sp"
 		        android:textSize="12sp"  
-		        android:text="@string/button_payment"
+		        android:background="@drawable/button_finance_payment"
 		        />
 	    
 		    <Button
@@ -89,7 +90,7 @@
 		        android:layout_height="wrap_content"
 		        android:layout_centerInParent="true"
 		        android:textSize="12sp"  
-		        android:text="@string/button_deductions"
+		        android:background="@drawable/button_finance_deductions"
 		        />
 		    
 		    <Button
@@ -99,7 +100,7 @@
 		        android:layout_alignParentRight="true"
 		        android:layout_marginRight="10sp"
 		        android:textSize="12sp"  
-		        android:text="@string/button_details"
+		        android:background="@drawable/button_finance_details"
 		        />
 		 </RelativeLayout>
 		 

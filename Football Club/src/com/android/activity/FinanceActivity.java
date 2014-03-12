@@ -1,12 +1,21 @@
 package com.android.activity;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.xmlpull.v1.XmlPullParser;
+
 import com.android.base.ConstantVariable;
-import com.android.base.util.XMLUtil;
 import com.android.club.R;
 import com.android.dialog.CostDialog;
+import com.android.service.FinanceService;
 import com.android.to.FinanceTO;
 
 import android.app.Activity;
@@ -17,6 +26,7 @@ import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.Bundle;
+import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +47,9 @@ public class FinanceActivity extends Activity{
 	private ListView listView;
 	private CostDialog dialog;
 	private List <FinanceTO>financeTOList;
+	private List <FinanceTO>financePaymentTOList;
+	private List <FinanceTO>financeDeductionsTOList;
+	
 	private FinanceTO selectedFinanceTO;
 	private Button buttonDownOrUp;
 	
@@ -53,14 +66,70 @@ public class FinanceActivity extends Activity{
             }
 		});
 		
+		File xmlFile = new File(getFilesDir(), "/person1.xml");  
+		
+		try {
+			InputStream inputStream = new FileInputStream(xmlFile.getPath());
+			
+			StringBuffer out = new StringBuffer();
+			byte[] b = new byte[4096];
+			try {
+				for (int n; (n = inputStream.read(b)) != -1;) {
+					out.append(new String(b, 0, n));
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+	        out.toString(); 
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {  
+            FileOutputStream outStream = new FileOutputStream(xmlFile);  
+            FileOutputStream fos = null;  
+            
+            StringBuffer str = new StringBuffer();  
+	           str.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>"  
+	                   + "<resources>");  
+	           str.append("</resources>"); 
+	           
+	          try {  
+	              fos = new FileOutputStream(xmlFile);  
+	              fos.write(str.toString().getBytes());  
+	          } catch (FileNotFoundException e) {  
+	              e.printStackTrace();  
+	          } catch (IOException e) {  
+	              e.printStackTrace();  
+	          } finally {  
+	              if (fos != null) {  
+	                  try {  
+	                      fos.flush();  
+	                      fos.close();  
+	                  } catch (IOException e) {  
+	                      e.printStackTrace();  
+	                  }  
+	              }  
+	          } 
+            
+            
+//            FinanceService.writeXML(getc,financePaymentList, outStream);
+            System.out.println("写入成功");  
+        } catch (Exception e) {  
+            // TODO Auto-generated catch block  
+            e.printStackTrace();  
+        }  
 		 
 		Resources resources = this.getResources();
-
-
+		InputStream inputStreamFinance = getClass().getClassLoader().getResourceAsStream("finance.xml");
+		InputStream inputStreamFinancePayment = getClass().getClassLoader().getResourceAsStream("finance_payment.xml");
+		InputStream inputStreamFinanceDeductions = getClass().getClassLoader().getResourceAsStream("finance_deductions.xml");
 		//通过Resources，获得XmlResourceParser实例   
-		XmlResourceParser xrp = resources.getXml(R.xml.finance);   
-		financeTOList = XMLUtil.getFinanceTOList(xrp);
-		
+		financeTOList = FinanceService.getFinanceTOList(inputStreamFinance);
+		financePaymentTOList = FinanceService.getFinanceTOList(inputStreamFinancePayment);
+		financeDeductionsTOList = FinanceService.getFinanceTOList(inputStreamFinanceDeductions);
 		// 赋值实体类对象
 		if(list.size()==0){
 			for (int i = 0; i < 9; i++) {
@@ -180,10 +249,11 @@ public class FinanceActivity extends Activity{
 						selectedFinanceTO = financeTOList.get(position);
 						dialog.setName(selectedFinanceTO.getName()
 								+"  "+ConstantVariable.FINANCE_DIALOG_MONEY);
-						
+						dialog.setFinancePaymentList(financePaymentTOList);
+						dialog.setFinanceDeductionsList(financeDeductionsTOList);
+						dialog.setSelectedFinanceTO(selectedFinanceTO);
 						dialog.showDialog(ConstantVariable.FINANCE_TYPE_PAYMENT);
 					}
-					
 				});
 				
 				final RelativeLayout relativeLayoutDownOrUp = (RelativeLayout) convertView.findViewById(R.id.linearyoutDown);
@@ -191,18 +261,18 @@ public class FinanceActivity extends Activity{
 				buttonDownOrUp = (Button) convertView.findViewById(R.id.button_down);
 
 				if(financeTOEntity.getLinearyoutVissble() == View.GONE){
-					buttonDownOrUp.setBackgroundResource(R.drawable.button_down);
+					buttonDownOrUp.setBackgroundResource(R.drawable.button_hidden_down);
 				}else{
-					buttonDownOrUp.setBackgroundResource(R.drawable.button_up);
+					buttonDownOrUp.setBackgroundResource(R.drawable.button_hidden_up);
 				}
 				buttonDownOrUp.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						if(financeTOEntity.getLinearyoutVissble() == View.GONE){
-							buttonDownOrUp.setBackgroundResource(R.drawable.button_up);
+							buttonDownOrUp.setBackgroundResource(R.drawable.button_hidden_up);
 							financeTOEntity.setLinearyoutVissble(View.VISIBLE);
 						}else{
-							buttonDownOrUp.setBackgroundResource(R.drawable.button_down);
+							buttonDownOrUp.setBackgroundResource(R.drawable.button_hidden_down);
 							financeTOEntity.setLinearyoutVissble(View.GONE);
 						}
 						relativeLayoutDownOrUp.setVisibility(financeTOEntity.getLinearyoutVissble()); 

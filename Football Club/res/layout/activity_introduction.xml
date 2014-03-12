@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_x="10dp"
         android:layout_y="106dp"
-        android:src="@drawable/java"/>
+        android:src="@drawable/team_logo"/>
 
     <TextView
         android:id="@+id/textView1"
