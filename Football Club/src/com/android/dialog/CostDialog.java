@@ -1,21 +1,24 @@
 package com.android.dialog;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
+import com.android.activity.FinanceActivity;
+import com.android.activity.ManagementAboutActivity;
+import com.android.activity.ManagementActivity;
 import com.android.base.ConstantVariable;
+import com.android.base.util.DateUtil;
+import com.android.base.util.FileUtil;
+import com.android.base.util.SDCardUtil;
+import com.android.base.util.XMLUtil;
+import com.android.base.variable.XMLVariable;
 import com.android.club.R;
 import com.android.service.FinanceService;
 import com.android.to.FinanceTO;
-
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,14 +31,19 @@ public class CostDialog extends Dialog{
             public void back(String name);
     }
     
+    
+    private FinanceActivity financeActivity;
    
     private String name;
-    private int dialogType;
     private FinanceTO selectedFinanceTO;
+    private List<FinanceTO>financeList;
 	private List<FinanceTO>financePaymentList;
-    private List<FinanceTO>financeDeductionsList;
+    private List<FinanceTO>financeDeductionList;
+    private int financeListSelectedIndex;
+
+    public int dialogType;
     
-    public String getName() {
+	public String getName() {
 		return name;
 	}
 
@@ -50,6 +58,14 @@ public class CostDialog extends Dialog{
 	public void setSelectedFinanceTO(FinanceTO selectedFinanceTO) {
 		this.selectedFinanceTO = selectedFinanceTO;
 	}
+	
+	public List<FinanceTO> getFinanceList() {
+		return financeList;
+	}
+
+	public void setFinanceList(List<FinanceTO> financeList) {
+		this.financeList = financeList;
+	}
 
 	public List<FinanceTO> getFinancePaymentList() {
 		return financePaymentList;
@@ -59,12 +75,20 @@ public class CostDialog extends Dialog{
 		this.financePaymentList = financePaymentList;
 	}
 
-	public List<FinanceTO> getFinanceDeductionsList() {
-		return financeDeductionsList;
+	public List<FinanceTO> getFinanceDeductionList() {
+		return financeDeductionList;
 	}
 
-	public void setFinanceDeductionsList(List<FinanceTO> financeDeductionsList) {
-		this.financeDeductionsList = financeDeductionsList;
+	public void setFinanceDeductionList(List<FinanceTO> financeDeductionList) {
+		this.financeDeductionList = financeDeductionList;
+	}
+	
+	public int getFinanceListSelectedIndex() {
+		return financeListSelectedIndex;
+	}
+
+	public void setFinanceListSelectedIndex(int financeListSelectedIndex) {
+		this.financeListSelectedIndex = financeListSelectedIndex;
 	}
 
 	private OnCustomDialogListener customDialogListener;
@@ -73,10 +97,7 @@ public class CostDialog extends Dialog{
     public CostDialog(Context context,OnCustomDialogListener customDialogListener) {
     	super(context);
     	this.customDialogListener = customDialogListener;
-    	
-    	//
-    	
-    	
+    	financeActivity = (FinanceActivity) context;
     }
     
    @Override
@@ -94,14 +115,16 @@ public class CostDialog extends Dialog{
    public void showDialog(int dialogType) {
 	   switch(dialogType){
 	 
-	   case 0:
+	   case 1:
 		   this.dialogType = ConstantVariable.FINANCE_TYPE_PAYMENT;
 		   break;
 	
-	   case 1:
+	   case 2:
+		   this.dialogType = ConstantVariable.FINANCE_TYPE_DEDUCTION;
 		   break;
 		   
-	   case 2:
+	   case 3:
+		   this.dialogType = ConstantVariable.FINANCE_TYPE_RECORD;
 		   break;
 	   
 	   }
@@ -113,56 +136,98 @@ public class CostDialog extends Dialog{
 	   super.show();
    };
 
-   private View.OnClickListener clickListener = new View.OnClickListener() {
-            
-           @Override
-            public void onClick(View v) {
-        	   customDialogListener.back(String.valueOf(editText.getText()));
-        	   CostDialog.this.dismiss();
-        	   
-        	   try {
-        		   switch(dialogType){
-	        	   case 0:
-	        		   Context context = getContext();
-	        		   // 看不到文件
-	        		   File file = new File(context.getFilesDir(), "/finance_payment.xml"); 
-	        		   InputStream inputStream = new FileInputStream(file.getPath());
-	        		   StringBuffer out = new StringBuffer();
-	        		   byte[] b = new byte[4096];
-	        		   try {
-	        			   for (int n; (n = inputStream.read(b)) != -1;) {
-	        				   out.append(new String(b, 0, n));
-	        			   }
-	        		   } catch (IOException e) {
-	        			   // TODO Auto-generated catch block
-	        			   e.printStackTrace();
-	        		   } 
-	        		   out.toString(); 
-	        		   
-	        		   FileOutputStream outStream = new FileOutputStream(file);
-	        		   int amount = Integer.valueOf(editText.getText().toString());
-	        		   selectedFinanceTO.setAmount(amount);
-	        		   financePaymentList.add(selectedFinanceTO);
-	        		   // 重绘XML
-	        		   FinanceService.getOutString(financePaymentList, outStream);
-	                   
-	        		   break;
-	        	
-	        	   case 1:
-	        		   break;
-	        		   
-	        	   case 2:
-	        		   break;
-        		   } 
-        	   }
-        	   
-        	   catch(Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+	private View.OnClickListener clickListener = new View.OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			customDialogListener.back(String.valueOf(editText.getText()));
+			CostDialog.this.dismiss();
+
+			int amountText = 0;
+			try {
+				switch (dialogType) {
+				case 1:
+					
+					/*
+					 * getContext().getFilesDir()
+					 */
+					
+					// 看不到文件 API
+//					String SYSTEM_OUT_PRINTLN1 = XMLUtil.getXMLAsString(
+//							financePaymentXmlFile,XMLVariable.FINANCE_PAYMENT);
+//					System.out.println(SYSTEM_OUT_PRINTLN1);
+					
+					amountText = Integer.valueOf(editText.getText().toString());
+					financeAction(dialogType,amountText);
+					break;
+
+				case 2:
+					
+					amountText = Integer.valueOf(editText.getText().toString());
+					financeAction(dialogType,amountText);
+					break;
+
+				case 3:
+
+					break;
+
 				}
-            }
+			}
+
+			catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
     };
     
+    
+    public void financeAction(int dialogType,int amountText) throws Exception{
+    	String sdCardRootPath = SDCardUtil.getRootPath();
+		
+		File financeXMLFile = new File(sdCardRootPath,XMLVariable.FINANCE);
+		
+		int amountOld = selectedFinanceTO.getAmount();
+		selectedFinanceTO.setAmount(amountText);
+		// Replace 
+		// Add Amount
+		int amountTotal;
+		selectedFinanceTO.setCurrentTime(DateUtil.getCurrentTimeYYYYMMDDhhmmss());
+		if(dialogType==ConstantVariable.FINANCE_TYPE_PAYMENT){
+			selectedFinanceTO.setType("+");
+			financePaymentList.add(selectedFinanceTO);
+			amountTotal = amountOld + amountText;
+			// finance_payment.xml
+			File financePaymentXmlFile = new File(sdCardRootPath,XMLVariable.FINANCE_PAYMENT);
+			saveFinanceXML(financePaymentList,financePaymentXmlFile);
+		}else{
+			selectedFinanceTO.setType("-");
+			financeDeductionList.add(selectedFinanceTO);
+			amountTotal = amountOld - amountText;
+			// finance_deduction.xml
+			File financeDeductionXmlFile = new File(sdCardRootPath,XMLVariable.FINANCE_DEDUCTION);
+			saveFinanceXML(financeDeductionList,financeDeductionXmlFile);
+		}
+		 
+		financeList.get(financeListSelectedIndex).setAmount(amountTotal);
+		
+		
+		// finance.xml
+		saveFinanceXML(financeList,financeXMLFile);
+		// Refresh
+		RefreshFinanceActivity();
+    }
+    
+    public void RefreshFinanceActivity(){
+    	financeList = null;
+		financeActivity.list.clear();
+		financeActivity.onCreate(null);
+    }
+    
+    public void saveFinanceXML(List<FinanceTO> financeTOList,File financeXMLFile) throws Exception{
+    	FileOutputStream financePaymentXmlOutputStream = FileUtil.getFileOutputStream(financeXMLFile);
+		FinanceService.getWriteXMLAndSave(financeTOList, financePaymentXmlOutputStream);
+    }
     
     
 

@@ -3,7 +3,6 @@ package com.android.activity;
 import com.android.club.R;
 
 import android.app.Activity;
-//import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TextView;
 

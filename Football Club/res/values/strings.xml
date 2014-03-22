@@ -15,14 +15,16 @@
     
     <!--  -->
     <string name="module_finance">财务管理</string>
+    <string name="module_finance_record">财务记录</string>
+    <string name="module_finance_notice">财务通知</string>
     <string name="module_matchs">赛事信息</string>
     <string name="module_management">球队管理</string>
     <string name="module_team">球队阵容</string>
     
     <!-- button -->
     <string name="button_payment">缴费</string>
-    <string name="button_deductions">扣费</string>
-    <string name="button_details">记录</string>
+    <string name="button_deduction">扣费</string>
+    <string name="button_record">记录</string>
     <string name="button_payment_confirm">确认</string>
     
     

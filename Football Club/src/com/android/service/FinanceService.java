@@ -9,6 +9,8 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
+
+import com.android.base.util.XMLUtil;
 import com.android.base.variable.TOFieldsVariable;
 import com.android.to.FinanceTO;
 import android.util.Xml;
@@ -38,13 +40,21 @@ public class FinanceService {
 	        			counter++;   
 	        			
 	        			FinanceTO financeTO = new FinanceTO();
-	        			financeTO.setNumber(Integer.valueOf(pullParser.getAttributeValue(
-	        					null,TOFieldsVariable.FINANCETO_NUMBER)));
+	        			Object number= pullParser.getAttributeValue(
+	        					null,TOFieldsVariable.FINANCETO_NUMBER);
+	        			if(number==null){
+	        				financeTO.setNumber(0);
+	        			}else{
+	        				financeTO.setNumber(Integer.valueOf((String)number));
+	        			}
 	        			financeTO.setName(pullParser.getAttributeValue(
 	        					null, TOFieldsVariable.FINANCETO_NAME));
 	        			financeTO.setAmount(Integer.valueOf(pullParser.getAttributeValue(
 	        					null,TOFieldsVariable.FINANCETO_AMOUNT)));
-	        			
+	        			financeTO.setCurrentTime(pullParser.getAttributeValue(
+	        					null,TOFieldsVariable.FINANCETO_TIME));
+	        			financeTO.setType(pullParser.getAttributeValue(
+	        					null,TOFieldsVariable.FINANCETO_TYPE));
 	        			financeTOList.add(financeTO);
 	        		}   
 	        	} else if (event == XmlPullParser.END_TAG) {    
@@ -66,33 +76,44 @@ public class FinanceService {
 	
 	
 	//
-	public static String getOutString(List<FinanceTO> financeTOList, OutputStream out) throws Exception {
+	public static String getWriteXML(List<FinanceTO> financeTOList, OutputStream xmlOutputStream) 
+			throws Exception {
         XmlSerializer serializer = Xml.newSerializer();       
-        StringWriter writer=new StringWriter();
-        
-//        serializer.setOutput(writer);
-        
-        serializer.setOutput(out,"utf-8");
-        
+        serializer.setOutput(xmlOutputStream,"utf-8");
         serializer.startDocument("utf-8", true);                
         serializer.startTag("", "finance");        
         for (FinanceTO financeTO : financeTOList) {
+        	// Start
         	serializer.startTag("", "player");
             String name = financeTO.getName();
+            // Number
+            int number = financeTO.getNumber();
+            serializer.attribute("", "number", number+"");
+            // Name
             if(name!=null){
             	serializer.attribute("", "name", name);
-            }          
+            }    
+            // Amount
             serializer.attribute("", "amount", financeTO.getAmount()+""); 
+            // Time
+            serializer.attribute("", "time", financeTO.getCurrentTime()+""); 
+            // Type
+            serializer.attribute("", "type", financeTO.getType()+""); 
+            
+            // End
             serializer.endTag("", "player");
         }   
         serializer.endTag("", "finance");
         serializer.endDocument();
         
-        out.flush();
-        out.close();
-        
-        return out.toString();
+        return xmlOutputStream.toString();
     }
+	
+	public static void getWriteXMLAndSave(List<FinanceTO> financeTOList, OutputStream xmlOutputStream) 
+			throws Exception {
+		getWriteXML(financeTOList,xmlOutputStream);
+		XMLUtil.saveXML(xmlOutputStream);
+	}
 	
 	
 /*	public static boolean writeXML(Context context,List<FinanceTO> financeTOList,

@@ -80,15 +80,17 @@ public class ConstantVariable {
 	
 	/**** Activity ****/
 	// finance
-	public static String FINANCE_DIALOG_MONEY = "金额:￥" ;
+	public static String FINANCE_DIALOG_MONEY = "金额(￥):" ;
 	public static String FINANCE_BUTTON_PAYMENT = "缴费";
 	public static String FINANCE_LISTVIEW_BALANCE = "余额";
 	public static String FINANCE_SYSMBOL = "￥";
 	
+	public static String FINANCE_DEFAULT = "未命名";
+	
 	
 	public static int FINANCE_TYPE_PAYMENT = 1;
 	public static int FINANCE_TYPE_DEDUCTION = 2;
-	public static int FINANCE_TYPE_DETAILS = 3;
+	public static int FINANCE_TYPE_RECORD = 3;
 	
 	
 	

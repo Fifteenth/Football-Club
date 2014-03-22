@@ -4,15 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.xmlpull.v1.XmlPullParser;
 
 import com.android.base.ConstantVariable;
+import com.android.base.util.FileUtil;
+import com.android.base.util.SDCardUtil;
+import com.android.base.variable.XMLVariable;
 import com.android.club.R;
 import com.android.dialog.CostDialog;
 import com.android.service.FinanceService;
@@ -20,13 +20,10 @@ import com.android.to.FinanceTO;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
-import android.content.res.XmlResourceParser;
 import android.database.DataSetObserver;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.os.Bundle;
-import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,16 +39,18 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class FinanceActivity extends Activity{
 
-	List<FinanceTOEntity> list = new ArrayList<FinanceTOEntity>();
+	public List<FinanceTOEntity> list = new ArrayList<FinanceTOEntity>();
 	
 	private ListView listView;
 	private CostDialog dialog;
-	private List <FinanceTO>financeTOList;
-	private List <FinanceTO>financePaymentTOList;
-	private List <FinanceTO>financeDeductionsTOList;
+	private List <FinanceTO>financeList;
+	private List <FinanceTO>financePaymentList;
+	private List <FinanceTO>financeDeductionList;
 	
 	private FinanceTO selectedFinanceTO;
 	private Button buttonDownOrUp;
+	
+	//private static boolean initFlag = false;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,102 +61,61 @@ public class FinanceActivity extends Activity{
 				new CostDialog.OnCustomDialogListener() {
 			@Override
 			public void back(String name) {
-                     
             }
 		});
-		
-		File xmlFile = new File(getFilesDir(), "/person1.xml");  
-		
-		try {
-			InputStream inputStream = new FileInputStream(xmlFile.getPath());
-			
-			StringBuffer out = new StringBuffer();
-			byte[] b = new byte[4096];
+		 
+		// Init list&financeList
+//		if(!initFlag){
+			//initFlag = true;
+					
+			InputStream inputStreamFinance = null;
+			InputStream inputStreamFinancePayment = null;
+			InputStream inputStreamFinanceDeduction = null;
 			try {
-				for (int n; (n = inputStream.read(b)) != -1;) {
-					out.append(new String(b, 0, n));
-				}
-			} catch (IOException e) {
+				/*
+				 * this.getBaseContext().getFilesDir()
+				 */
+				String sdCardRootPath = SDCardUtil.getRootPath();
+				inputStreamFinance = FileUtil.getFileInputStream(
+						new File(sdCardRootPath,XMLVariable.FINANCE));
+				inputStreamFinancePayment = FileUtil.getFileInputStream(
+						new File(sdCardRootPath,XMLVariable.FINANCE_PAYMENT));
+				inputStreamFinanceDeduction = FileUtil.getFileInputStream(
+						new File(sdCardRootPath,XMLVariable.FINANCE_DEDUCTION));
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
-	        out.toString(); 
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		try {  
-            FileOutputStream outStream = new FileOutputStream(xmlFile);  
-            FileOutputStream fos = null;  
-            
-            StringBuffer str = new StringBuffer();  
-	           str.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>"  
-	                   + "<resources>");  
-	           str.append("</resources>"); 
-	           
-	          try {  
-	              fos = new FileOutputStream(xmlFile);  
-	              fos.write(str.toString().getBytes());  
-	          } catch (FileNotFoundException e) {  
-	              e.printStackTrace();  
-	          } catch (IOException e) {  
-	              e.printStackTrace();  
-	          } finally {  
-	              if (fos != null) {  
-	                  try {  
-	                      fos.flush();  
-	                      fos.close();  
-	                  } catch (IOException e) {  
-	                      e.printStackTrace();  
-	                  }  
-	              }  
-	          } 
-            
-            
-//            FinanceService.writeXML(getc,financePaymentList, outStream);
-            System.out.println("写入成功");  
-        } catch (Exception e) {  
-            // TODO Auto-generated catch block  
-            e.printStackTrace();  
-        }  
-		 
-		Resources resources = this.getResources();
-		InputStream inputStreamFinance = getClass().getClassLoader().getResourceAsStream("finance.xml");
-		InputStream inputStreamFinancePayment = getClass().getClassLoader().getResourceAsStream("finance_payment.xml");
-		InputStream inputStreamFinanceDeductions = getClass().getClassLoader().getResourceAsStream("finance_deductions.xml");
-		//通过Resources，获得XmlResourceParser实例   
-		financeTOList = FinanceService.getFinanceTOList(inputStreamFinance);
-		financePaymentTOList = FinanceService.getFinanceTOList(inputStreamFinancePayment);
-		financeDeductionsTOList = FinanceService.getFinanceTOList(inputStreamFinanceDeductions);
-		// 赋值实体类对象
-		if(list.size()==0){
-			for (int i = 0; i < 9; i++) {
-				FinanceTO financeTO = financeTOList.get(i);
-				
-				FinanceTOEntity financeTOEntity = new FinanceTOEntity();
-				financeTOEntity.setLayoutID(R.layout.listview_finance);
-				financeTOEntity.setText(financeTO.getName());
-				financeTOEntity.setTitle(ConstantVariable.FINANCE_LISTVIEW_BALANCE
-						+financeTO.getAmount() + ConstantVariable.FINANCE_SYSMBOL);
-				String pngName = ConstantVariable.PLAYER_AVATAR+(i+1);
-				int id = resources.getIdentifier(pngName, 
-		       			"drawable" , getApplicationContext().getPackageName());  
-				
-				financeTOEntity.setBitmap(id);
-				financeTOEntity.setBtnText(ConstantVariable.FINANCE_DIALOG_MONEY);
-				list.add(financeTOEntity);
 			}
-		}
-		
+			
+			//通过Resources，获得XmlResourceParser实例   
+			if(inputStreamFinance!=null){
+				financeList = FinanceService.getFinanceTOList(inputStreamFinance);
+				financePaymentList = FinanceService.getFinanceTOList(inputStreamFinancePayment);
+				financeDeductionList = FinanceService.getFinanceTOList(inputStreamFinanceDeduction);
+			}else{
+				financeList = new ArrayList<FinanceTO>();
+			}
+			
+			// 赋值实体类对象
+			if(list.size()==0
+					&&financeList!=null
+					&&financeList.size()>0){
+				setListForListView();
+			}
+			
+			if(financeList.size() == 0 
+					|| list.size() == 0){
+				// Default
+				inputStreamFinance = getClass().getClassLoader().getResourceAsStream("finance.xml");
+				financeList = FinanceService.getFinanceTOList(inputStreamFinance);
+				setListForListView();
+			}
+//		}
 
 		listView = (ListView) this.findViewById(R.id.listView_my);
-
 		// 实例化自定义适配器
 		MyAdapter ma = new MyAdapter(this, list);
-
 		listView.setAdapter(ma);
-
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -167,7 +125,6 @@ public class FinanceActivity extends Activity{
 				listView.setItemChecked(position, true);
 			}
 		});
-		
 	}
 
 	/**
@@ -233,30 +190,81 @@ public class FinanceActivity extends Activity{
 				ImageView iv = (ImageView) convertView.findViewById(R.id.img);
 				iv.setBackgroundResource(list.get(position).getBitmap());
 				
-				//Bitmap output = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
-
 				TextView tv_1 = (TextView) convertView.findViewById(R.id.title);
 				tv_1.setText(list.get(position).getTitle());
 
 				TextView tv_2 = (TextView) convertView.findViewById(R.id.text);
 				tv_2.setText(list.get(position).getText());
 				
-				//
+				// Payment
 				Button buttonPayment = (Button) convertView.findViewById(R.id.button_payment);
 				buttonPayment.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						selectedFinanceTO = financeTOList.get(position);
+						if(financeList == null){
+							return;
+						}
+						System.out.println("financeList size:" + financeList.size());
+						System.out.println("position:" + position);
+						selectedFinanceTO = financeList.get(position);
 						dialog.setName(selectedFinanceTO.getName()
 								+"  "+ConstantVariable.FINANCE_DIALOG_MONEY);
-						dialog.setFinancePaymentList(financePaymentTOList);
-						dialog.setFinanceDeductionsList(financeDeductionsTOList);
+						dialog.setFinanceList(financeList);
+						dialog.setFinancePaymentList(financePaymentList);
+						dialog.setFinanceDeductionList(financeDeductionList);
 						dialog.setSelectedFinanceTO(selectedFinanceTO);
+						dialog.setFinanceListSelectedIndex(position);
 						dialog.showDialog(ConstantVariable.FINANCE_TYPE_PAYMENT);
 					}
 				});
 				
-				final RelativeLayout relativeLayoutDownOrUp = (RelativeLayout) convertView.findViewById(R.id.linearyoutDown);
+				// Deduction
+				Button buttonDeduction = (Button) convertView.findViewById(R.id.button_deduction);
+				buttonDeduction.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						if(financeList == null){
+							return;
+						}
+						System.out.println("financeList size:" + financeList.size());
+						System.out.println("position:" + position);
+						selectedFinanceTO = financeList.get(position);
+						dialog.setName(selectedFinanceTO.getName()
+								+"  "+ConstantVariable.FINANCE_DIALOG_MONEY);
+						dialog.setFinanceList(financeList);
+						dialog.setFinancePaymentList(financePaymentList);
+						dialog.setFinanceDeductionList(financeDeductionList);
+						dialog.setSelectedFinanceTO(selectedFinanceTO);
+						dialog.setFinanceListSelectedIndex(position);
+						dialog.showDialog(ConstantVariable.FINANCE_TYPE_DEDUCTION);
+					}
+				});
+				
+
+				// Deduction
+				Button buttonCostRecord = (Button) convertView.findViewById(R.id.button_costRecord);
+				buttonCostRecord.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent financeRecordActivity = new Intent(FinanceActivity.this, 
+								FinanceRecordActivity.class);
+						startActivity(financeRecordActivity);
+					}
+				});
+				
+				
+				// Deduction
+				Button buttonNotice = (Button) convertView.findViewById(R.id.button_notice);
+				buttonNotice.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent financeNoticeActivity = new Intent(FinanceActivity.this, 
+								FinanceNoticeActivity.class);
+						startActivity(financeNoticeActivity);
+					}
+				});
+				
+				final LinearLayout relativeLayoutDownOrUp = (LinearLayout) convertView.findViewById(R.id.linearyoutDown);
 				relativeLayoutDownOrUp.setVisibility(financeTOEntity.getLinearyoutVissble()); // 隐藏	
 				buttonDownOrUp = (Button) convertView.findViewById(R.id.button_down);
 
@@ -279,7 +287,6 @@ public class FinanceActivity extends Activity{
 						onCreate(null);
 					}
 				});
-				
 			}
 			return convertView;
 		}
@@ -401,6 +408,26 @@ public class FinanceActivity extends Activity{
 
 		public void setLinearyoutVissble(int linearyoutVissble) {
 			this.linearyoutVissble = linearyoutVissble;
+		}
+	}
+	
+	
+	public void setListForListView(){
+		Resources resources = this.getResources();
+		for (int i = 0; i < 9; i++) {
+			FinanceTO financeTO = financeList.get(i);
+			
+			FinanceTOEntity financeTOEntity = new FinanceTOEntity();
+			financeTOEntity.setLayoutID(R.layout.listview_finance);
+			financeTOEntity.setText(financeTO.getName());
+			financeTOEntity.setTitle(ConstantVariable.FINANCE_DIALOG_MONEY + financeTO.getAmount());
+			String pngName = ConstantVariable.PLAYER_AVATAR+(i+1);
+			int id = resources.getIdentifier(pngName, 
+	       			"drawable" , getApplicationContext().getPackageName());  
+			
+			financeTOEntity.setBitmap(id);
+			financeTOEntity.setBtnText(ConstantVariable.FINANCE_DIALOG_MONEY);
+			list.add(financeTOEntity);
 		}
 	}
 }

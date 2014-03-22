@@ -7,5 +7,8 @@ public class TOFieldsVariable {
 	final public static String FINANCETO_NUMBER = "number";
 	final public static String FINANCETO_NAME = "name";
 	final public static String FINANCETO_AMOUNT = "amount";
+	final public static String FINANCETO_TIME = "time";
+	final public static String FINANCETO_TYPE = "type";
+	
 
 }

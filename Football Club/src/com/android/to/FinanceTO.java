@@ -1,10 +1,15 @@
 package com.android.to;
 
+import java.util.Date;
+
 public class FinanceTO {
 	
 	private int number;
 	private String name;
 	private int amount;
+	
+	private String currentTime;
+	private String type;
 	
 	
 	public int getNumber() {
@@ -24,6 +29,19 @@ public class FinanceTO {
 	}
 	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+	
+	public String getCurrentTime() {
+		return currentTime;
+	}
+	public void setCurrentTime(String currentTime) {
+		this.currentTime = currentTime;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }
