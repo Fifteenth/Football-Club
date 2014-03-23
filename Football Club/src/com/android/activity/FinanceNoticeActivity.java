@@ -247,20 +247,4 @@ public class FinanceNoticeActivity extends Activity {
 		}
 	}
 	
-	public List <FinanceTO> getFinanceTOList(){
-		String sdCardRootPath = SDCardUtil.getRootPath();
-		InputStream inputStreamFinance = FileUtil.getFileInputStream(
-				new File(sdCardRootPath,XMLVariable.FINANCE_PAYMENT));
-		List <FinanceTO> financeTOList = new ArrayList<FinanceTO>();;
-		if(inputStreamFinance!=null){
-			financeTOList = FinanceService.getFinanceTOList(inputStreamFinance);
-		}
-		inputStreamFinance = FileUtil.getFileInputStream(
-				new File(sdCardRootPath,XMLVariable.FINANCE_DEDUCTION));
-		if(inputStreamFinance!=null){
-			financeTOList.addAll(FinanceService.getFinanceTOList(inputStreamFinance));
-		}
-		
-		return financeTOList;
-	}
 }

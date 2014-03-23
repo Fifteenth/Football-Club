@@ -89,9 +89,9 @@ public class FinanceActivity extends Activity{
 			
 			//通过Resources，获得XmlResourceParser实例   
 			if(inputStreamFinance!=null){
-				financeList = FinanceService.getFinanceTOList(inputStreamFinance);
-				financePaymentList = FinanceService.getFinanceTOList(inputStreamFinancePayment);
-				financeDeductionList = FinanceService.getFinanceTOList(inputStreamFinanceDeduction);
+				financeList = FinanceService.getFinanceTOList(inputStreamFinance,null);
+				financePaymentList = FinanceService.getFinanceTOList(inputStreamFinancePayment,null);
+				financeDeductionList = FinanceService.getFinanceTOList(inputStreamFinanceDeduction,null);
 			}else{
 				financeList = new ArrayList<FinanceTO>();
 			}
@@ -107,7 +107,7 @@ public class FinanceActivity extends Activity{
 					|| list.size() == 0){
 				// Default
 				inputStreamFinance = getClass().getClassLoader().getResourceAsStream("finance.xml");
-				financeList = FinanceService.getFinanceTOList(inputStreamFinance);
+				financeList = FinanceService.getFinanceTOList(inputStreamFinance,null);
 				setListForListView();
 			}
 //		}
@@ -241,7 +241,7 @@ public class FinanceActivity extends Activity{
 				});
 				
 
-				// Deduction
+				// CostRecord
 				Button buttonCostRecord = (Button) convertView.findViewById(R.id.button_costRecord);
 				buttonCostRecord.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -249,11 +249,12 @@ public class FinanceActivity extends Activity{
 						Intent financeRecordActivity = new Intent(FinanceActivity.this, 
 								FinanceRecordActivity.class);
 						startActivity(financeRecordActivity);
+						FinanceRecordActivity.playerName = financeList.get(position).getName();
 					}
 				});
 				
 				
-				// Deduction
+				// Notice
 				Button buttonNotice = (Button) convertView.findViewById(R.id.button_notice);
 				buttonNotice.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -263,6 +264,7 @@ public class FinanceActivity extends Activity{
 						startActivity(financeNoticeActivity);
 					}
 				});
+				
 				
 				final LinearLayout relativeLayoutDownOrUp = (LinearLayout) convertView.findViewById(R.id.linearyoutDown);
 				relativeLayoutDownOrUp.setVisibility(financeTOEntity.getLinearyoutVissble()); // 隐藏	

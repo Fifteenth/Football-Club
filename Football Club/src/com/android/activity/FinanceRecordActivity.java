@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView.Validator;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class FinanceRecordActivity extends Activity {
 
+	public static String playerName;
 	
 	List<DetailEntity> list = new ArrayList<DetailEntity>();
 	ListView lv;
@@ -48,12 +50,24 @@ public class FinanceRecordActivity extends Activity {
 			DetailEntity de_1 = new DetailEntity();
 			de_1.setLayoutID(R.layout.listview_finance_record);
 			FinanceTO financeTO = financePaymentList.get(i);
-			de_1.setTitle(financeTO.getNumber()
+			
+			int amount = financeTO.getAmount();
+			String amountString; 
+			if(amount > 0 && amount < 10){
+				amountString = "    " + amount + ConstantVariable.FINANCE_SYSMBOL;
+			}else if(amount >= 10 && amount <100){
+				amountString = "  " + amount + ConstantVariable.FINANCE_SYSMBOL;
+			}else{
+				amountString = "" + amount + ConstantVariable.FINANCE_SYSMBOL;
+			}
+			de_1.setTitle(
+					financeTO.getNumber()
+					+ "-"
 					+ financeTO.getName()
-					+ "     " + financeTO.getType()
-					+ financeTO.getAmount()
-					+ ConstantVariable.FINANCE_SYSMBOL
-					+ "     Ê±¼ä" + financeTO.getCurrentTime());
+					+ "       "
+					+ financeTO.getType()
+					+ amountString);
+			de_1.setText("   " + financeTO.getCurrentTime());
 			list.add(de_1);
 		}
 
@@ -78,8 +92,6 @@ public class FinanceRecordActivity extends Activity {
 				}
 			});
 		}
-		
-
 	}
 
 	/**
@@ -142,6 +154,9 @@ public class FinanceRecordActivity extends Activity {
 
 				TextView tv_1 = (TextView) convertView.findViewById(R.id.title);
 				tv_1.setText(list.get(position).getTitle());
+				
+				TextView tv_3 = (TextView) convertView.findViewById(R.id.text);
+				tv_3.setText(list.get(position).getText());
 
 			}
 			return convertView;
@@ -263,12 +278,12 @@ public class FinanceRecordActivity extends Activity {
 				new File(sdCardRootPath,XMLVariable.FINANCE_PAYMENT));
 		List <FinanceTO> financeTOList = new ArrayList<FinanceTO>();;
 		if(inputStreamFinance!=null){
-			financeTOList = FinanceService.getFinanceTOList(inputStreamFinance);
+			financeTOList = FinanceService.getFinanceTOList(inputStreamFinance,playerName);
 		}
 		inputStreamFinance = FileUtil.getFileInputStream(
 				new File(sdCardRootPath,XMLVariable.FINANCE_DEDUCTION));
 		if(inputStreamFinance!=null){
-			financeTOList.addAll(FinanceService.getFinanceTOList(inputStreamFinance));
+			financeTOList.addAll(FinanceService.getFinanceTOList(inputStreamFinance,playerName));
 		}
 		
 		return financeTOList;

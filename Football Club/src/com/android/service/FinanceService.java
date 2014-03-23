@@ -22,7 +22,7 @@ import android.util.Xml;
 public class FinanceService {
 	
 	
-	public static List<FinanceTO> getFinanceTOList(InputStream inputStream){
+	public static List<FinanceTO> getFinanceTOList(InputStream inputStream,String playerName){
 		List<FinanceTO> financeTOList = new ArrayList<FinanceTO>(); 
 		int counter = 0; 
 		try {   
@@ -55,7 +55,14 @@ public class FinanceService {
 	        					null,TOFieldsVariable.FINANCETO_TIME));
 	        			financeTO.setType(pullParser.getAttributeValue(
 	        					null,TOFieldsVariable.FINANCETO_TYPE));
-	        			financeTOList.add(financeTO);
+	        			
+	        			if(financeTO.getName().equals(playerName)){
+	        				financeTOList.add(financeTO);
+	        			}
+	        			if(playerName == null){
+	        				financeTOList.add(financeTO);
+	        			}
+	        			
 	        		}   
 	        	} else if (event == XmlPullParser.END_TAG) {    
 			  

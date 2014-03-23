@@ -7,15 +7,19 @@ import java.util.List;
 import com.android.activity.FinanceActivity;
 import com.android.activity.ManagementAboutActivity;
 import com.android.activity.ManagementActivity;
+import com.android.activity.NavigationActivity;
 import com.android.base.ConstantVariable;
 import com.android.base.util.DateUtil;
 import com.android.base.util.FileUtil;
 import com.android.base.util.SDCardUtil;
+import com.android.base.util.ValidateUtil;
 import com.android.base.util.XMLUtil;
 import com.android.base.variable.XMLVariable;
 import com.android.club.R;
 import com.android.service.FinanceService;
 import com.android.to.FinanceTO;
+
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -144,6 +148,16 @@ public class CostDialog extends Dialog{
 			CostDialog.this.dismiss();
 
 			int amountText = 0;
+			
+			String amountString = editText.getText().toString();
+			if(!ValidateUtil.isNumeric(amountString)){
+				new  AlertDialog.Builder(financeActivity)    
+			    .setTitle("提示：" )
+			    .setMessage("请输入数字!" ).show();
+//			    .setPositiveButton("确定" ,null).show(); 
+				return;
+			}
+			
 			try {
 				switch (dialogType) {
 				case 1:
@@ -157,13 +171,14 @@ public class CostDialog extends Dialog{
 //							financePaymentXmlFile,XMLVariable.FINANCE_PAYMENT);
 //					System.out.println(SYSTEM_OUT_PRINTLN1);
 					
-					amountText = Integer.valueOf(editText.getText().toString());
+					
+					amountText = Integer.valueOf(amountString);
 					financeAction(dialogType,amountText);
 					break;
 
 				case 2:
 					
-					amountText = Integer.valueOf(editText.getText().toString());
+					amountText = Integer.valueOf(amountString);
 					financeAction(dialogType,amountText);
 					break;
 
