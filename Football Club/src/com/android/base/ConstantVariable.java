@@ -93,6 +93,11 @@ public class ConstantVariable {
 	public static int FINANCE_TYPE_RECORD = 3;
 	
 	
+	// Symbol
+	public static String SYSBOL_COMMA = ",";
+	public static String SYSBOL_PERIOD = ".";
+	public static String SYSBOL_DOUBLE_QUOTES = "";
+	public static String SYSBOL_SEMICOLON=";";
 	
 	
 

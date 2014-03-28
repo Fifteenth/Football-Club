@@ -18,10 +18,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,20 +36,26 @@ import android.widget.Toast;
  */
 public class TeamActivity extends Activity {
 
-	String playerNames[] = {"豪哥","2哥","大可可","涛哥","曹五","吴经理","海波","建华","叉哥"};
-	String playerPositions[]={"BC","CF","BC","CF","DM","SB","CF","SB","SB"};
+	String playerNames[] = {"豪哥","2哥","大可可","涛哥","曹五","吴经理","海波","建华","叉哥","叉哥","叉哥","叉哥","叉哥"};
+	String playerPositions[]={"BC","CF","BC","CF","DM","SB","CF","SB","SB","SB","SB","SB","SB"};
 	List<DetailEntity> list = new ArrayList<DetailEntity>();
 	
 	ListView lv;
+	RelativeLayout relativeLayout_bottom;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		this.setContentView(R.layout.activity_team);
+		
+		relativeLayout_bottom = (RelativeLayout) findViewById(R.id.linearLayout_bottom);
+		
+		relativeLayout_bottom.setVisibility(View.GONE);
+		
 
 		Resources resources = this.getResources();
 		// 赋值实体类对象
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 13; i++) {
 			DetailEntity de_1 = new DetailEntity();
 			de_1.setLayoutID(R.layout.listview_team);
 			de_1.setText(playerNames[i]);
@@ -78,7 +87,17 @@ public class TeamActivity extends Activity {
 				lv.setItemChecked(position, true);
 			}
 		});
-		
+	
+		lv.setOnItemLongClickListener(new OnItemLongClickListener(){
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				
+				relativeLayout_bottom.setVisibility(View.VISIBLE);
+				return false;
+			}
+		});
 	}
 
 	/**

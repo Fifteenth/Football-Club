@@ -10,6 +10,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
+import com.android.base.ConstantVariable;
 import com.android.base.util.XMLUtil;
 import com.android.base.variable.TOFieldsVariable;
 import com.android.to.FinanceTO;
@@ -88,29 +89,29 @@ public class FinanceService {
         XmlSerializer serializer = Xml.newSerializer();       
         serializer.setOutput(xmlOutputStream,"utf-8");
         serializer.startDocument("utf-8", true);                
-        serializer.startTag("", "finance");        
+        serializer.startTag(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "finance");        
         for (FinanceTO financeTO : financeTOList) {
         	// Start
-        	serializer.startTag("", "player");
+        	serializer.startTag(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "player");
             String name = financeTO.getName();
             // Number
             int number = financeTO.getNumber();
-            serializer.attribute("", "number", number+"");
+            serializer.attribute(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "number", number+"");
             // Name
             if(name!=null){
-            	serializer.attribute("", "name", name);
+            	serializer.attribute(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "name", name);
             }    
             // Amount
-            serializer.attribute("", "amount", financeTO.getAmount()+""); 
+            serializer.attribute(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "amount", financeTO.getAmount()+""); 
             // Time
-            serializer.attribute("", "time", financeTO.getCurrentTime()+""); 
+            serializer.attribute(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "time", financeTO.getCurrentTime()+""); 
             // Type
-            serializer.attribute("", "type", financeTO.getType()+""); 
+            serializer.attribute(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "type", financeTO.getType()+""); 
             
             // End
-            serializer.endTag("", "player");
+            serializer.endTag(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "player");
         }   
-        serializer.endTag("", "finance");
+        serializer.endTag(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "finance");
         serializer.endDocument();
         
         return xmlOutputStream.toString();

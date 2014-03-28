@@ -28,7 +28,7 @@
     <ListView
         android:id="@+id/listView_my"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:cacheColorHint="#00000000"
         android:dividerHeight="2dip"
      	android:divider="#00000000"
@@ -38,5 +38,26 @@
     </ListView>
     <!-- android:listSelector="#FF0000" -->
     <!-- android:cacheColorHint="#00000000"滑动listView时透明 -->
+    
+    
 
+	<RelativeLayout
+	    android:id="@+id/linearLayout_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="64dp"
+        android:orientation="horizontal"
+        android:gravity="bottom" 
+        android:background="@color/black"
+        >
+        
+	    <Button
+	        android:id="@+id/button_payment"
+	        android:layout_width="54dp"
+	        android:layout_height="64dp"
+	        android:layout_marginLeft="10sp"
+	        android:textSize="12sp"  
+	        android:layout_alignParentRight="true" 
+	        android:background="@drawable/button_team_add"/>
+	    
+    </RelativeLayout>
 </LinearLayout>

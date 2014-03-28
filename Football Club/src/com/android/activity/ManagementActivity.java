@@ -3,6 +3,7 @@ package com.android.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.android.base.ConstantVariable;
 import com.android.club.R;
 
 import android.app.Activity;
@@ -61,7 +62,7 @@ public class ManagementActivity extends Activity {
 			lv.setItemChecked(position, true);
 			
 			Intent aboutActivity = new Intent(ManagementActivity.this, ManagementAboutActivity.class);
-			ManagementAboutActivity.about = "" +
+			ManagementAboutActivity.about = ConstantVariable.SYSBOL_DOUBLE_QUOTES +
 					"目的:\n" +
 					"    采用积分制对每位球员出勤、迟到等情况量化衡量，" +
 					"每两个月根据累计分值管委会采取相应惩罚措施。" +

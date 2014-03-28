@@ -90,14 +90,14 @@ public class FootballFieldView extends SurfaceView
 		
         if(playerAList == null){
         	if(club == null){
-        		club = new Club("");
+        		club = new Club(ConstantVariable.SYSBOL_DOUBLE_QUOTES);
         	}
         	
         	//初始化球员基本信息
         	club.initClub();
         	playerAList = club.playerAList;
         	
-        	initPlayersPosition("playerB","");
+        	initPlayersPosition("playerB",ConstantVariable.SYSBOL_DOUBLE_QUOTES);
         	
         	football = new Point();
         	football.setPointX(222);
@@ -454,8 +454,8 @@ public class FootballFieldView extends SurfaceView
 							playerSelected.setSteps(step);
 							}else{
 								// init step
-								String[] step = {playerSelected.getPointX()+"",
-										playerSelected.getPointY()+""};
+								String[] step = {playerSelected.getPointX()+ConstantVariable.SYSBOL_DOUBLE_QUOTES,
+										playerSelected.getPointY()+ConstantVariable.SYSBOL_DOUBLE_QUOTES};
 								playerSelected.setSteps(step);
 							}
 						stepNum++;
@@ -499,9 +499,9 @@ public class FootballFieldView extends SurfaceView
 			 	 				String stepY = steps[1];
 			 	 				
 			 	 				if(stepX !=null
-			 	 						&&!stepX.equals("")){
-			 	 					String pointX[] = stepX.split(";");
-			 	 					String pointY[] = stepY.split(";");
+			 	 						&&!stepX.equals(ConstantVariable.SYSBOL_DOUBLE_QUOTES)){
+			 	 					String pointX[] = stepX.split(ConstantVariable.SYSBOL_SEMICOLON);
+			 	 					String pointY[] = stepY.split(ConstantVariable.SYSBOL_SEMICOLON);
 			 	 					
 			 	 					// 移动轨迹
 			 	 					if(pointX.length>i){

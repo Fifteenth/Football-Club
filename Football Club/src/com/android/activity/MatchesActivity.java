@@ -3,9 +3,13 @@ package com.android.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.android.activitySupport.MatchesActivitySupport;
 import com.android.club.R;
+import com.android.dialog.FinanceDialog;
+import com.android.dialog.MatchDialog;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
@@ -13,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,6 +26,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 public class MatchesActivity extends Activity{
 	
@@ -57,12 +63,21 @@ public class MatchesActivity extends Activity{
 					   "第三十一轮 JAVA足球队VS拜仁                2014/03/01",
 					   "第三十二轮 JAVA足球队VS多特蒙德      2014/03/01",		
 	};
-	List<DetailEntity> list = new ArrayList<DetailEntity>();
 	
-	ListView lv;
+	// Get Matches
+//	List 
+	
+	List<DetailEntity> list = new ArrayList<DetailEntity>();
+	ListView listViewMatch;
+	MatchDialog dialog;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		MatchesActivitySupport.WriteMatches();
+		MatchesActivitySupport.ReadMatches();
+		
+		dialog = new MatchDialog(this);
 
 		this.setContentView(R.layout.activity_matchs);
 
@@ -76,14 +91,14 @@ public class MatchesActivity extends Activity{
 			list.add(de_1);
 		}
 
-		lv = (ListView) this.findViewById(R.id.listView_my);
+		listViewMatch = (ListView) this.findViewById(R.id.listView_my);
 
 		// 实例化自定义适配器
 		MyAdapter ma = new MyAdapter(this, list);
 
-		lv.setAdapter(ma);
+		listViewMatch.setAdapter(ma);
 
-		lv.setOnItemClickListener(new OnItemClickListener() {
+		listViewMatch.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -91,7 +106,19 @@ public class MatchesActivity extends Activity{
 //				Toast.makeText(TeamActivity.this, "选中的是:" + position,
 //						Toast.LENGTH_SHORT).show();
 				
-				lv.setItemChecked(position, true);
+				listViewMatch.setItemChecked(position, true);
+			}
+		});
+		
+		
+		listViewMatch.setOnItemLongClickListener(new OnItemLongClickListener(){
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				
+				dialog.show();
+				return false;
 			}
 		});
 		
@@ -273,4 +300,8 @@ public class MatchesActivity extends Activity{
 		}
 	}
 
+	@Override
+  	public boolean onCreateOptionsMenu(Menu menu) {
+		return true;
+	}
 }

@@ -58,7 +58,9 @@ public class FinanceRecordActivity extends Activity {
 			}else if(amount >= 10 && amount <100){
 				amountString = "  " + amount + ConstantVariable.FINANCE_SYSMBOL;
 			}else{
-				amountString = "" + amount + ConstantVariable.FINANCE_SYSMBOL;
+				amountString = ConstantVariable.SYSBOL_DOUBLE_QUOTES 
+								+ amount 
+								+ ConstantVariable.FINANCE_SYSMBOL;
 			}
 			de_1.setTitle(
 					financeTO.getNumber()

@@ -17,7 +17,13 @@
     <string name="module_finance">财务管理</string>
     <string name="module_finance_record">财务记录</string>
     <string name="module_finance_notice">财务通知</string>
+    
     <string name="module_matchs">赛事信息</string>
+    <string name="module_matchs_textview_round">轮次</string>
+    <string name="module_matchs_textview_score">比分</string>
+    <string name="module_matchs_textview_competitor">对手</string>
+    <string name="module_matchs_textview_time">时间</string>
+    
     <string name="module_management">球队管理</string>
     <string name="module_team">球队阵容</string>
     

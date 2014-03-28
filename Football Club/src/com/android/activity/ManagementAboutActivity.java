@@ -1,5 +1,6 @@
 package com.android.activity;
 
+import com.android.base.ConstantVariable;
 import com.android.club.R;
 
 import android.app.Activity;
@@ -9,7 +10,7 @@ import android.widget.TextView;
 public class ManagementAboutActivity extends Activity {
 	
 	
-	public static String about = "";
+	public static String about = ConstantVariable.SYSBOL_DOUBLE_QUOTES;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -14,7 +14,7 @@ import com.android.base.util.FileUtil;
 import com.android.base.util.SDCardUtil;
 import com.android.base.variable.XMLVariable;
 import com.android.club.R;
-import com.android.dialog.CostDialog;
+import com.android.dialog.FinanceDialog;
 import com.android.service.FinanceService;
 import com.android.to.FinanceTO;
 
@@ -42,7 +42,7 @@ public class FinanceActivity extends Activity{
 	public List<FinanceTOEntity> list = new ArrayList<FinanceTOEntity>();
 	
 	private ListView listView;
-	private CostDialog dialog;
+	private FinanceDialog dialog;
 	private List <FinanceTO>financeList;
 	private List <FinanceTO>financePaymentList;
 	private List <FinanceTO>financeDeductionList;
@@ -57,8 +57,8 @@ public class FinanceActivity extends Activity{
 
 		setContentView(R.layout.activity_finance);
 		
-		dialog = new CostDialog(this,
-				new CostDialog.OnCustomDialogListener() {
+		dialog = new FinanceDialog(this,
+				new FinanceDialog.OnCustomDialogListener() {
 			@Override
 			public void back(String name) {
             }

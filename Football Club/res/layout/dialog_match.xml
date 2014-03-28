@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="220dip"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <!-- 轮次 -->
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/module_matchs_textview_round" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/edit1"
+            android:layout_width="160dip"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- 比分 -->
+
+    <LinearLayout
+        android:id="@+id/linearyoutDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/module_matchs_textview_score" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/edit2"
+            android:layout_width="160dip"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- 对手 -->
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/module_matchs_textview_competitor" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/edit3"
+            android:layout_width="160dip"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- 时间 -->
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/module_matchs_textview_time" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/edit4"
+            android:layout_width="160dip"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

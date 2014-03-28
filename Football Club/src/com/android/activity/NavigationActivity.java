@@ -1,5 +1,7 @@
 package com.android.activity;
 
+import java.util.HashMap;
+
 import com.android.base.ConstantVariable;
 import com.android.club.R;
 import com.android.module.member.GalleryView;
@@ -8,6 +10,8 @@ import com.android.module.member.ImageAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -31,6 +35,9 @@ public class NavigationActivity extends Activity {
 		setContentView(R.layout.activity_navigation);
 
 		initRes();
+		
+		
+		initSounds();
 	}
 	
 	private void initRes(){
@@ -45,6 +52,8 @@ public class NavigationActivity extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				tvTitle.setText(ConstantVariable.titles[position]);
+				
+				playSounds(1,0);
 			}
 
 			@Override
@@ -101,5 +110,27 @@ public class NavigationActivity extends Activity {
 				}
 			}
 		});
+	}
+	
+	
+	private SoundPool sp;
+	private HashMap<Integer,Integer> spMap;
+	
+	
+	public void playSounds(int sound, int number){
+        AudioManager am = (AudioManager)this.getSystemService(this.AUDIO_SERVICE);
+        float audioMaxVolumn = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        float audioCurrentVolumn = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+        float volumnRatio = audioCurrentVolumn/audioMaxVolumn;
+        
+        sp.play(spMap.get(sound), volumnRatio, volumnRatio, 1, number, 1);
+    }
+
+
+	public void initSounds(){
+		sp = new SoundPool(1,AudioManager.STREAM_MUSIC,0);
+		
+		spMap = new HashMap<Integer,Integer>();
+        spMap.put(1,sp.load(this, R.raw.slide_ringtones,1));
 	}
 }

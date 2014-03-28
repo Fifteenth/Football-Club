@@ -28,7 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class CostDialog extends Dialog{
+public class FinanceDialog extends Dialog{
 
 	//定义回调事件，用于dialog的点击事件
     public interface OnCustomDialogListener{
@@ -98,7 +98,7 @@ public class CostDialog extends Dialog{
 	private OnCustomDialogListener customDialogListener;
     EditText editText;
 
-    public CostDialog(Context context,OnCustomDialogListener customDialogListener) {
+    public FinanceDialog(Context context,OnCustomDialogListener customDialogListener) {
     	super(context);
     	this.customDialogListener = customDialogListener;
     	financeActivity = (FinanceActivity) context;
@@ -109,7 +109,7 @@ public class CostDialog extends Dialog{
            
 
 	   super.onCreate(savedInstanceState);
-	   setContentView(R.layout.dialog_payment);
+	   setContentView(R.layout.dialog_finance);
 	   //设置标题
 	   editText = (EditText)findViewById(R.id.edit);
 	   Button clickBtn = (Button) findViewById(R.id.clickbtn);
@@ -145,7 +145,7 @@ public class CostDialog extends Dialog{
 		@Override
 		public void onClick(View v) {
 			customDialogListener.back(String.valueOf(editText.getText()));
-			CostDialog.this.dismiss();
+			FinanceDialog.this.dismiss();
 
 			int amountText = 0;
 			
@@ -153,8 +153,8 @@ public class CostDialog extends Dialog{
 			if(!ValidateUtil.isNumeric(amountString)){
 				new  AlertDialog.Builder(financeActivity)    
 			    .setTitle("提示：" )
-			    .setMessage("请输入数字!" ).show();
-//			    .setPositiveButton("确定" ,null).show(); 
+			    .setMessage("请输入数字!" )
+			    .setPositiveButton("确定" ,null).show(); 
 				return;
 			}
 			
