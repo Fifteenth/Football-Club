@@ -7,13 +7,13 @@
         android:id="@+id/edit"
         android:layout_width="160dip"
         android:layout_height="wrap_content"
+        android:hint="@string/edit_hint_number"
          />
+     
      <Button 
-        android:id="@+id/clickbtn"
+        android:id="@+id/buttonConfirmPayment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_payment_confirm" />
-     
-     
+        android:text="@string/button_confirm" />
 
 </LinearLayout>

@@ -36,8 +36,8 @@ import android.widget.Toast;
  */
 public class TeamActivity extends Activity {
 
-	String playerNames[] = {"豪哥","2哥","大可可","涛哥","曹五","吴经理","海波","建华","叉哥","叉哥","叉哥","叉哥","叉哥"};
-	String playerPositions[]={"BC","CF","BC","CF","DM","SB","CF","SB","SB","SB","SB","SB","SB"};
+	String playerNames[] = {"豪哥","2哥","大可可","涛哥","曹五","吴经理","海波","建华","叉哥"};
+	String playerPositions[]={"BC","CF","BC","CF","DM","SB","CF","SB","SB"};
 	List<DetailEntity> list = new ArrayList<DetailEntity>();
 	
 	ListView lv;
@@ -55,7 +55,7 @@ public class TeamActivity extends Activity {
 
 		Resources resources = this.getResources();
 		// 赋值实体类对象
-		for (int i = 0; i < 13; i++) {
+		for (int i = 0; i < 9; i++) {
 			DetailEntity de_1 = new DetailEntity();
 			de_1.setLayoutID(R.layout.listview_team);
 			de_1.setText(playerNames[i]);

@@ -112,7 +112,7 @@ public class FinanceDialog extends Dialog{
 	   setContentView(R.layout.dialog_finance);
 	   //设置标题
 	   editText = (EditText)findViewById(R.id.edit);
-	   Button clickBtn = (Button) findViewById(R.id.clickbtn);
+	   Button clickBtn = (Button) findViewById(R.id.buttonConfirmPayment);
 	   clickBtn.setOnClickListener(clickListener);
    }
     
@@ -162,16 +162,6 @@ public class FinanceDialog extends Dialog{
 				switch (dialogType) {
 				case 1:
 					
-					/*
-					 * getContext().getFilesDir()
-					 */
-					
-					// 看不到文件 API
-//					String SYSTEM_OUT_PRINTLN1 = XMLUtil.getXMLAsString(
-//							financePaymentXmlFile,XMLVariable.FINANCE_PAYMENT);
-//					System.out.println(SYSTEM_OUT_PRINTLN1);
-					
-					
 					amountText = Integer.valueOf(amountString);
 					financeAction(dialogType,amountText);
 					break;
@@ -185,10 +175,8 @@ public class FinanceDialog extends Dialog{
 				case 3:
 
 					break;
-
 				}
 			}
-
 			catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -227,7 +215,7 @@ public class FinanceDialog extends Dialog{
 		financeList.get(financeListSelectedIndex).setAmount(amountTotal);
 		
 		
-		// finance.xml
+		// Finance.xml
 		saveFinanceXML(financeList,financeXMLFile);
 		// Refresh
 		RefreshFinanceActivity();

@@ -1,4 +1,4 @@
-package com.android.activitySupport;
+package com.android.activity.support;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,25 +35,7 @@ public class MatchesActivitySupport {
 	}
 	
 	
-	public static void WriteMatches(){
-		List list = new ArrayList();
-		
-		// **Test Date
-		MatchTO matchTO = new MatchTO();
-		String assistsPlayers  = "涛哥,曹五,曹五";
-		matchTO.setAssistsPlayers(assistsPlayers);
-		matchTO.setCompetitionDate("2014-03-04 12:00:00");
-		matchTO.setCompetitor("高次元");
-		matchTO.setDescription("秒杀对手");
-		matchTO.setGoalPlayers("涛哥,二哥,二哥");
-		matchTO.setGoalTimes("33,44,66");
-		matchTO.setRound("第一轮");
-		matchTO.setScore("3:0");
-		matchTO.setSeason("2014-2015");
-		matchTO.setWeather("晴");
-		list.add(matchTO);
-		// **
-		
+	public static void WriteMatches(List <MatchTO>list){
 		File xmlFileMatch = new File(sdCardRootPath,MatchesActivitySupport.FILE_NAME_MATCH);
 		FileOutputStream financePaymentXmlOutputStream = FileUtil.getFileOutputStream(xmlFileMatch);
 		try {

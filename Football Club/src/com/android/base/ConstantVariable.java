@@ -100,5 +100,10 @@ public class ConstantVariable {
 	public static String SYSBOL_SEMICOLON=";";
 	
 	
+	// Dialog
+	public final static int DIALOG_DEFAULT = 0;
+	public final static int DIALOG_ADD = 1;
+	public final static int DIALOG_UPDATE = 2;
+	
 
 }

@@ -1,8 +1,10 @@
 package com.android.to;
 
-import java.util.Date;
+import com.android.dialog.MatchDialog;
 
 public class MatchTO {
+	
+	final public static String classPath = "com.android.to.MatchTO";
 	
 	private String season;
 	private String round; 
@@ -77,5 +79,21 @@ public class MatchTO {
 		this.goalTimes = goalTimes;
 	}
 	
+	
+	// matchDialog
+	public void setRound(MatchDialog matchDialog) {
+		String round = String.valueOf(matchDialog.getEditTextRound().getText());
+		setRound(round);
+	}
+
+	public void setScore(MatchDialog matchDialog) {
+		String score = String.valueOf(matchDialog.getEditTextScore().getText());
+		setScore(score);
+	}
+
+	public void setCompetitor(MatchDialog matchDialog) {
+		String competitor = String.valueOf(matchDialog.getEditTextCompetitor().getText());
+		setCompetitor(competitor);
+	}
 
 }

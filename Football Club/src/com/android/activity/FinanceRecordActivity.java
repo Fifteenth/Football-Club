@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.android.activity.MatchesActivity.DetailEntity;
-import com.android.activity.MatchesActivity.MyAdapter;
 import com.android.base.ConstantVariable;
 import com.android.base.util.FileUtil;
 import com.android.base.util.SDCardUtil;

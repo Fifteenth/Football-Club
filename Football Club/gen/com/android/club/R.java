@@ -511,31 +511,34 @@ public final class R {
     }
     public static final class id {
         public static final int TextView01=0x7f080001;
-        public static final int button_costRecord=0x7f080016;
-        public static final int button_deduction=0x7f080015;
-        public static final int button_down=0x7f080014;
-        public static final int button_notice=0x7f080017;
-        public static final int button_payment=0x7f08000a;
-        public static final int clickbtn=0x7f08000c;
-        public static final int edit=0x7f08000b;
-        public static final int edit1=0x7f08000d;
-        public static final int edit2=0x7f08000f;
-        public static final int edit3=0x7f080010;
-        public static final int edit4=0x7f080011;
-        public static final int footballField=0x7f080019;
+        public static final int buttonConfirmPayment=0x7f08000d;
+        public static final int button_confirm_payment=0x7f080012;
+        public static final int button_costRecord=0x7f080017;
+        public static final int button_deduction=0x7f080016;
+        public static final int button_down=0x7f080015;
+        public static final int button_matchAdd=0x7f080007;
+        public static final int button_notice=0x7f080018;
+        public static final int button_payment=0x7f08000b;
+        public static final int edit=0x7f08000c;
+        public static final int edit_competitor=0x7f080011;
+        public static final int edit_round=0x7f08000e;
+        public static final int edit_score=0x7f080010;
+        public static final int footballField=0x7f08001a;
         public static final int imageView1=0x7f080003;
-        public static final int img=0x7f080012;
-        public static final int imgc=0x7f080018;
-        public static final int linearLayout_bottom=0x7f080009;
-        public static final int linearyoutDown=0x7f08000e;
+        public static final int img=0x7f080013;
+        public static final int imgc=0x7f080019;
+        public static final int linearLayout_bottom=0x7f08000a;
+        public static final int linearyoutDown=0x7f08000f;
         public static final int listView_my=0x7f080000;
-        public static final int mygallery=0x7f080008;
+        public static final int mygallery=0x7f080009;
+        public static final int pickTime=0x7f08001c;
         public static final int spinner_City=0x7f080002;
-        public static final int text=0x7f080013;
+        public static final int text=0x7f080014;
         public static final int textView1=0x7f080004;
         public static final int textView2=0x7f080005;
+        public static final int timeDisplay=0x7f08001b;
         public static final int title=0x7f080006;
-        public static final int tvTitle=0x7f080007;
+        public static final int tvTitle=0x7f080008;
     }
     public static final class layout {
         public static final int activity_finance=0x7f030000;
@@ -569,6 +572,7 @@ public final class R {
         public static final int listviewstyle_matches=0x7f03001c;
         public static final int player_list_team=0x7f03001d;
         public static final int tactical=0x7f03001e;
+        public static final int timepicker=0x7f03001f;
     }
     public static final class raw {
         public static final int slide_ringtones=0x7f040000;
@@ -578,28 +582,33 @@ public final class R {
         public static final int about_cotent=0x7f060004;
         public static final int ai=0x7f060001;
         public static final int app_name=0x7f060000;
-        public static final int button_deduction=0x7f060011;
+        public static final int button_confirm=0x7f060014;
+        public static final int button_deduction=0x7f060012;
+        public static final int button_match_add=0x7f060015;
         /**  button 
          */
-        public static final int button_payment=0x7f060010;
-        public static final int button_payment_confirm=0x7f060013;
-        public static final int button_record=0x7f060012;
-        public static final int club_establish=0x7f060015;
-        public static final int footballclub=0x7f060014;
+        public static final int button_payment=0x7f060011;
+        public static final int button_record=0x7f060013;
+        public static final int club_establish=0x7f060018;
+        /**  Edit hint 
+         */
+        public static final int edit_hint_number=0x7f060016;
+        public static final int footballclub=0x7f060017;
         public static final int formation_cn=0x7f060005;
-        public static final int matches_season=0x7f060016;
+        public static final int matches_season=0x7f060019;
         /**   
          */
         public static final int module_finance=0x7f060006;
         public static final int module_finance_notice=0x7f060008;
         public static final int module_finance_record=0x7f060007;
-        public static final int module_management=0x7f06000e;
+        public static final int module_management=0x7f06000f;
         public static final int module_matchs=0x7f060009;
+        public static final int module_matchs_textview_competitionDate=0x7f06000d;
+        public static final int module_matchs_textview_competitionTime=0x7f06000e;
         public static final int module_matchs_textview_competitor=0x7f06000c;
         public static final int module_matchs_textview_round=0x7f06000a;
         public static final int module_matchs_textview_score=0x7f06000b;
-        public static final int module_matchs_textview_time=0x7f06000d;
-        public static final int module_team=0x7f06000f;
+        public static final int module_team=0x7f060010;
         public static final int pvp=0x7f060002;
     }
     public static final class style {

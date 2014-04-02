@@ -9,27 +9,50 @@ public class ReflectUtil {
 	public static String METHOD_START_SET = "set";
 	public static String METHOD_START_GET = "get";
 	
-	public static String[] getAllSetOrGetMethodNames(String methodStart,String classPath){
-		StringBuilder setMethodNames = new StringBuilder();
+	/*
+	 * 
+	 */
+	public static String[] getAllSetOrGetMethodNames(String methodStart,
+			String []classPathParameters,String classPathDynamicTO){
+		StringBuilder methodNames = new StringBuilder();
 		Class<?> c;
 		try {
-			c = Class.forName(classPath);
+			c = Class.forName(classPathDynamicTO);
 			Method methods[] = c.getDeclaredMethods();
 			for (Method method : methods) {
+				Class<?>[] parameterTypes = method.getParameterTypes();
 				String methodName = method.getName();
 				if(methodName.startsWith(methodStart)){
-					if(setMethodNames.toString().equals(ConstantVariable.SYSBOL_DOUBLE_QUOTES)){
-						setMethodNames.append(methodName);
-					}else{
-						setMethodNames.append(ConstantVariable.SYSBOL_COMMA);
-						setMethodNames.append(methodName);
+					if(classPathParameters==null
+							||(classPathParameters!=null
+								&&classPathParameters.length==parameterTypes.length
+								&&matchParameters(classPathParameters,parameterTypes))){
+						if(methodNames.toString().equals(ConstantVariable.SYSBOL_DOUBLE_QUOTES)){
+							methodNames.append(methodName);
+						}else{
+							methodNames.append(ConstantVariable.SYSBOL_COMMA);
+							methodNames.append(methodName);
+						}
 					}
 				}
+				
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return setMethodNames.toString().split(ConstantVariable.SYSBOL_COMMA);
+		return methodNames.toString().split(ConstantVariable.SYSBOL_COMMA);
+	}
+	
+	
+	public static boolean matchParameters(String []parameters,Class<?> []classParameters){
+		if(parameters!=null){
+			for(int i=0;i<parameters.length;i++){
+				if(!parameters[i].equals(classParameters[i].getName())){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }

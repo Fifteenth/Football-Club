@@ -3,10 +3,13 @@ package com.android.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.android.activitySupport.MatchesActivitySupport;
+import com.android.activity.support.MatchesActivitySupport;
+import com.android.adapter.MatchesAdapter;
+import com.android.base.ConstantVariable;
 import com.android.club.R;
 import com.android.dialog.FinanceDialog;
 import com.android.dialog.MatchDialog;
+import com.android.to.MatchTO;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,6 +24,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -30,81 +34,43 @@ import android.widget.AdapterView.OnItemLongClickListener;
 
 public class MatchesActivity extends Activity{
 	
-	String matchs[] = {"第一轮           JAVA足球队VS朝九晚五      2014/02/22",
-					   "第二轮           JAVA足球队VS兄弟队           2014/03/01",
-					   "第三轮           JAVA足球队VS核潜艇           2014/03/01",
-					   "第四轮           JAVA足球队VS大国米           2014/03/01",
-					   "第五轮           JAVA足球队VS大巴黎           2014/03/01",
-					   "第六轮           JAVA足球队VS那不勒斯      2014/03/01",
-					   "第七轮           JAVA足球队VS巴勒莫           2014/03/01",
-					   "第八轮           JAVA足球队VS曼联                2014/03/01",
-					   "第九轮           JAVA足球队VS巴萨                2014/03/01",
-					   "第十轮           JAVA足球队VS皇马                2014/03/01",
-					   "第十一轮      JAVA足球队VS阿森纳           2014/03/01",
-					   "第十二轮      JAVA足球队VS利物浦           2014/03/01",
-					   "第十三轮      JAVA足球队VS切尔西           2014/03/01",
-					   "第十四轮      JAVA足球队VS热刺                2014/03/01",
-					   "第十五轮      JAVA足球队VS拜仁                2014/03/01",
-					   "第十六轮      JAVA足球队VS多特蒙德      2014/03/01",
-					   "第十七 轮     JAVA足球队VS朝九晚五      2014/02/22",
-					   "第十八轮      JAVA足球队VS兄弟队           2014/03/01",
-					   "第十九轮      JAVA足球队VS核潜艇           2014/03/01",
-					   "第二十轮      JAVA足球队VS大国米           2014/03/01",
-					   "第二十一轮 JAVA足球队VS大巴黎           2014/03/01",
-					   "第二十二轮 JAVA足球队VS那不勒斯      2014/03/01",
-					   "第二十三轮 JAVA足球队VS巴勒莫           2014/03/01",
-					   "第二十四轮 JAVA足球队VS曼联                2014/03/01",
-					   "第二十五轮 JAVA足球队VS巴萨                2014/03/01",
-					   "第二十六轮 JAVA足球队VS皇马                2014/03/01",
-					   "第二十七轮 JAVA足球队VS阿森纳           2014/03/01",
-					   "第二十八轮 JAVA足球队VS利物浦           2014/03/01",
-					   "第二十九轮 JAVA足球队VS切尔西           2014/03/01",
-					   "第三十轮      JAVA足球队VS热刺                2014/03/01",
-					   "第三十一轮 JAVA足球队VS拜仁                2014/03/01",
-					   "第三十二轮 JAVA足球队VS多特蒙德      2014/03/01",		
-	};
-	
-	// Get Matches
-//	List 
-	
-	List<DetailEntity> list = new ArrayList<DetailEntity>();
-	ListView listViewMatch;
-	MatchDialog dialog;
+
+	private List <MatchTO> listMatchTO = new ArrayList<MatchTO>();
+	private static int listIndex = -1;
+	private ListView listViewMatch;
+	private int layoutInt = R.layout.listview_matches;
+	private MatchDialog matchDialog;
+	int dialogType = 0;
 
 	public void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
-		
-		MatchesActivitySupport.WriteMatches();
-		MatchesActivitySupport.ReadMatches();
-		
-		dialog = new MatchDialog(this);
-
 		this.setContentView(R.layout.activity_matchs);
-
-		Resources resources = this.getResources();
-		// 赋值实体类对象
-		for (int i = 0; i < 32; i++) {
-			DetailEntity de_1 = new DetailEntity();
-			de_1.setLayoutID(R.layout.listview_matches);
-			de_1.setTitle(matchs[i]);
-			
-			list.add(de_1);
-		}
+		
+		matchDialog = new MatchDialog(this);
+		matchDialog.setMatchDialog(matchDialog);
 
 		listViewMatch = (ListView) this.findViewById(R.id.listView_my);
-
+		
+		listMatchTO = MatchesActivitySupport.ReadMatches();
 		// 实例化自定义适配器
-		MyAdapter ma = new MyAdapter(this, list);
+		MatchesAdapter adapter = new MatchesAdapter(this,listMatchTO,layoutInt);
 
-		listViewMatch.setAdapter(ma);
+		if(listMatchTO.size() > 0){
+			listViewMatch.setAdapter(adapter);
+		}
+		
 
 		listViewMatch.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-//				Toast.makeText(TeamActivity.this, "选中的是:" + position,
-//						Toast.LENGTH_SHORT).show();
+				/*
+				 * API
+				 * 
+				 * Toast.makeText(TeamActivity.this, "选中的是:" + position,
+				 *		Toast.LENGTH_SHORT).show();*/
 				
 				listViewMatch.setItemChecked(position, true);
 			}
@@ -115,193 +81,49 @@ public class MatchesActivity extends Activity{
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				
-				dialog.show();
+					int listIndex, long arg3) {
+				MatchesActivity.listIndex = listIndex;
+				matchDialog.show();
+				MatchTO matchTO = listMatchTO.get(listIndex);
+				matchDialog.setEditTextRound(matchTO.getRound());
+				matchDialog.setEditTextScore(matchTO.getScore());
+				matchDialog.setEditTextCompetitor(matchTO.getCompetitor());
+				dialogType = ConstantVariable.DIALOG_UPDATE;
 				return false;
 			}
 		});
 		
-	}
-
-	/**
-	 * 自定义一个Adapter(实现了ListAdapter接口)
-	 * 
-	 * @author Administrator
-	 * 
-	 */
-	class MyAdapter implements ListAdapter {
-
-		private List<DetailEntity> list;
-
-		/** 实例及其对应的视图布局的XML文件 */
-		private LayoutInflater layoutInflater;
-
-		public MyAdapter(Context context, List<DetailEntity> list) {
-			this.list = list;
-			layoutInflater = LayoutInflater.from(context);
-		}
-
-		@Override
-		public void registerDataSetObserver(DataSetObserver observer) {
-
-		}
-
-		@Override
-		public void unregisterDataSetObserver(DataSetObserver observer) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			return list.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			// TODO Auto-generated method stub
-			return list.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return position;
-		}
-
-		/**
-		 * 控制ITEM 布局内容
-		 */
-		@Override
-		public View getView(final int position, View convertView,
-				ViewGroup parent) {
-			if (convertView == null) {
-				// 加载布局
-				convertView = layoutInflater.inflate(list.get(position)
-						.getLayoutID(), null);
-				
-
-				TextView tv_1 = (TextView) convertView.findViewById(R.id.title);
-				tv_1.setText(list.get(position).getTitle());
-							
+		
+		
+		// Add Match
+		Button buttonMatchAdd = (Button) findViewById(R.id.button_matchAdd);
+		buttonMatchAdd.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				matchDialog.show();
+				dialogType = ConstantVariable.DIALOG_ADD;
 			}
-			return convertView;
-		}
-
-		@Override
-		public int getItemViewType(int position) {
-			// TODO Auto-generated method stub
-			return position;
-		}
-
-		@Override
-		public int getViewTypeCount() {
-			// TODO Auto-generated method stub
-			return list.size();
-		}
-
-		@Override
-		public boolean hasStableIds() {
-			// TODO Auto-generated method stub
-			return true;
-		}
-
-		/**
-		 * 是否Item监听
-		 */
-		@Override
-		public boolean isEmpty() {
-			// TODO Auto-generated method stub
-			return true;
-		}
-
-		/**
-		 * true所有项目可选择可点击
-		 */
-		@Override
-		public boolean areAllItemsEnabled() {
-			// TODO Auto-generated method stub
-			return true;
-		}
-
-		/**
-		 * 是否显示分割线
-		 */
-		@Override
-		public boolean isEnabled(int position) {
-			// TODO Auto-generated method stub
-			return true;
-		}
-
+		});
+		
 	}
-
-	/**
-	 * ListView内容实体类
-	 * 
-	 * @author Administrator
-	 * 
-	 */
-	class DetailEntity {
-		/** 布局ID */
-		private int layoutID;
-
-		/** 图片ID */
-		private int bitmap;
-
-		/** 标题 */
-		private String title;
-
-		/** 内容 */
-		private String text;
-
-		/** 按钮名称 */
-		private String BtnText;
-
-		public String getBtnText() {
-			return BtnText;
+	
+	// Dialog Back
+	public void back(MatchTO matchTO) {
+		switch (dialogType) {
+		case ConstantVariable.DIALOG_ADD: {
+			listMatchTO.add(matchTO);
+			break;
 		}
-
-		public void setBtnText(String btnText) {
-			BtnText = btnText;
+		case ConstantVariable.DIALOG_UPDATE: {
+			listMatchTO.set(listIndex, matchTO);
+			break;
 		}
-
-		public int getLayoutID() {
-			return layoutID;
 		}
-
-		public int getBitmap() {
-			return bitmap;
-		}
-
-		public void setBitmap(int bitmap) {
-			this.bitmap = bitmap;
-		}
-
-		public void setLayoutID(int layoutID) {
-			this.layoutID = layoutID;
-		}
-
-		public String getTitle() {
-			return title;
-		}
-
-		public void setTitle(String title) {
-			this.title = title;
-		}
-
-		public String getText() {
-			return text;
-		}
-
-		public void setText(String text) {
-			this.text = text;
-		}
+		// Set Default
+		dialogType = ConstantVariable.DIALOG_DEFAULT;
+		// Write
+		MatchesActivitySupport.WriteMatches(listMatchTO);
 	}
-
-	@Override
-  	public boolean onCreateOptionsMenu(Menu menu) {
-		return true;
-	}
+	
+	
 }

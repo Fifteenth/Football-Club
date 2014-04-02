@@ -49,7 +49,7 @@ public class RWTOService {
 	        			Object dynamicTO = dynamicClass.newInstance();
 	        			// Get All SetMethod
 	        			String setMethodNames[] = ReflectUtil.getAllSetOrGetMethodNames(
-	        					ReflectUtil.METHOD_START_SET,classPath);
+	        					ReflectUtil.METHOD_START_SET,null,classPath);
 	        			for(int methodIndex=0;methodIndex<setMethodNames.length;methodIndex++){
 	        				String getMethodName = setMethodNames[methodIndex];
 	        				String nodeProperty = getMethodName.substring(
@@ -57,8 +57,8 @@ public class RWTOService {
 	        				String nodeValue = pullParser.getAttributeValue(
 		        					null,nodeProperty);
 	        				if(nodeValue!=null){
-	        					Method getMethod = dynamicClass.getMethod(setMethodNames[methodIndex],String.class);
-	        					getMethod.invoke(dynamicTO,nodeValue);
+	        					Method setMethod = dynamicClass.getMethod(setMethodNames[methodIndex],String.class);
+	        					setMethod.invoke(dynamicTO,nodeValue);
 	        				}
 	        			}
 	        			list.add(dynamicTO);
@@ -89,7 +89,7 @@ public class RWTOService {
 		Class<?> dynamicClass = Class.forName(classPath);
 		// Get All GetMethod
 		String getMethodNames[] = ReflectUtil.getAllSetOrGetMethodNames(
-				ReflectUtil.METHOD_START_GET,classPath);
+				ReflectUtil.METHOD_START_GET,null,classPath);
 		
         XmlSerializer serializer = Xml.newSerializer();       
         serializer.setOutput(xmlOutputStream,"utf-8");

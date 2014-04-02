@@ -87,11 +87,16 @@ public class NavigationActivity extends Activity {
 					startActivity(startActivity);
 					break;
 				case 4:
-					new  AlertDialog.Builder(NavigationActivity.this)    
-				    .setTitle("提示：" )
-				    .setMessage("转会市场已关闭!" )
-				    .setPositiveButton("确定" ,null).show(); 
+//					new  AlertDialog.Builder(NavigationActivity.this)    
+//				    .setTitle("提示：" )
+//				    .setMessage("转会市场已关闭!" )
+//				    .setPositiveButton("确定" ,null).show(); 
+//					break;
+					
+					Intent timePickerDemo = new Intent(NavigationActivity.this,TimePickerDemo.class);
+					startActivity(timePickerDemo);
 					break;
+					
 				case 5:
 					Intent financeActivity = new Intent(NavigationActivity.this,FinanceActivity.class);
 					startActivity(financeActivity);
@@ -100,7 +105,8 @@ public class NavigationActivity extends Activity {
 					Intent managementActivity = new Intent(NavigationActivity.this,ManagementActivity.class);
 					startActivity(managementActivity);
 					break;
-				
+					
+					
 				default:
 					new  AlertDialog.Builder(NavigationActivity.this)    
 				    .setTitle("提示：" )
