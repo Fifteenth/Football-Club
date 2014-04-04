@@ -22,7 +22,7 @@ public class BuildTOService {
 			// TO
 			dynamicTO = dynamicClassTO.newInstance();
 			
-			String methodParameters[] = {MatchDialog.classPath};
+			String methodParameters[] = {classPahtDialog};
 			String setMethodNames[] = ReflectUtil.getAllSetOrGetMethodNames(
 					ReflectUtil.METHOD_START_SET,methodParameters,classPathTO);
 			

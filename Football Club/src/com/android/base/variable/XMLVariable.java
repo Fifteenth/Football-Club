@@ -2,9 +2,15 @@ package com.android.base.variable;
 
 public class XMLVariable {
 	
-	final public static String FINANCE_PAYMENT = "/finance_payment.xml";
-	final public static String FINANCE_DEDUCTION = "/finance_deduction.xml";
-	final public static String FINANCE = "/finance.xml";
+	// FINANCE
+	final public static String FINANCE_PAYMENT = "FINANCE_PAYMENT.XML";
+	final public static String FINANCE_DEDUCTION = "FINANCE_DEDUCTION.XML";
+	final public static String FINANCE = "FINANCE.XML";
+	
+	// Match
+	final public static String FILE_NAME_MATCH = "DATA_MATCHES.XML";
+	//
+	final public static String FILE_NAME_TEAM = "DATA_TEAM.XML";
 	
 
 }

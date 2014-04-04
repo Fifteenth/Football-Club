@@ -17,14 +17,12 @@ import com.android.to.MatchTO;
 public class MatchesActivitySupport {
 	
 	private static String classPath = "com.android.to.MatchTO";
-	private static String FILE_NAME_MATCH = "DATA_MATCHES.XML";
-	
 	static String sdCardRootPath = SDCardUtil.getRootPath();
 	
 	public static List ReadMatches(){
 		List list = null;
 		InputStream inputStreamFinance = FileUtil.getFileInputStream(
-				new File(sdCardRootPath,FILE_NAME_MATCH));
+				new File(sdCardRootPath,XMLVariable.FILE_NAME_MATCH));
 		try {
 			list = RWTOService.getListTOFromXML(classPath,inputStreamFinance,null);
 		} catch (Exception e) {
@@ -36,7 +34,7 @@ public class MatchesActivitySupport {
 	
 	
 	public static void WriteMatches(List <MatchTO>list){
-		File xmlFileMatch = new File(sdCardRootPath,MatchesActivitySupport.FILE_NAME_MATCH);
+		File xmlFileMatch = new File(sdCardRootPath,XMLVariable.FILE_NAME_MATCH);
 		FileOutputStream financePaymentXmlOutputStream = FileUtil.getFileOutputStream(xmlFileMatch);
 		try {
 			RWTOService.getWriteXMLFromListTO(list,classPath, financePaymentXmlOutputStream);
