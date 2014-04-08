@@ -30,11 +30,11 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:orientation="horizontal"
-		        android:layout_marginLeft="12dp">
+		        android:layout_marginLeft="10dp">
 		
 		        <TextView
 		            android:id="@+id/text"
-		            android:layout_width="100dp"
+		            android:layout_width="90dp"
 		            android:layout_height="wrap_content"
 		            android:textColor="#ff000000"
 		            android:textSize="22sp" 
@@ -48,7 +48,7 @@
 		            android:textColor="#ff000000"
 		            android:textSize="22sp" 
 		            android:text="@string/button_deduction"
-		            android:paddingLeft="30dp"
+		            android:paddingLeft="10dp"
 		            android:gravity="left"/>
 		        
 		    </LinearLayout>
@@ -73,8 +73,8 @@
 	        
 		    <Button
 		        android:id="@+id/button_payment"
-		        android:layout_width="54dp"
-		        android:layout_height="64dp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
 		        android:layout_weight="1"
 		        android:layout_marginLeft="10sp"
 		        android:textSize="12sp"  
@@ -82,25 +82,34 @@
 	    
 		    <Button
 		        android:id="@+id/button_deduction"
-		        android:layout_width="54dp"
-		        android:layout_height="64dp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
 		        android:layout_weight="1"
 		        android:textSize="12sp"  
 		        android:background="@drawable/button_finance_deduction"/>
 		    
 		    <Button
 		        android:id="@+id/button_costRecord"
-		        android:layout_width="54dp"
-		        android:layout_height="64dp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
 		        android:layout_weight="1"
 		        android:layout_marginRight="10sp"
 		        android:textSize="12sp"  
 		        android:background="@drawable/button_finance_record"/>
 		    
 		    <Button
+		        android:id="@+id/button_cost_export"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:layout_marginRight="10sp"
+		        android:textSize="12sp"  
+		        android:background="@drawable/button_finance_export"/>
+		    
+		    <Button
 		        android:id="@+id/button_notice"
-		        android:layout_width="54dp"
-		        android:layout_height="64dp"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
 		        android:layout_weight="1"
 		        android:layout_marginRight="10sp"
 		        android:textSize="12sp"  

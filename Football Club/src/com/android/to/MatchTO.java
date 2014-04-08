@@ -95,5 +95,11 @@ public class MatchTO {
 		String competitor = String.valueOf(matchDialog.getEditTextCompetitor().getText());
 		setCompetitor(competitor);
 	}
+	
+	public void setCompetitionDate(MatchDialog matchDialog){
+		String competitionDate = String.valueOf(matchDialog.getEditTextDate().getText())
+				+"  "+String.valueOf(matchDialog.getEditTextTime().getText());
+		setCompetitionDate(competitionDate);
+	}
 
 }

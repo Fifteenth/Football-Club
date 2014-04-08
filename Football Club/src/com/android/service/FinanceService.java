@@ -52,6 +52,8 @@ public class FinanceService {
 	        					null, TOFieldsVariable.FINANCETO_NAME));
 	        			financeTO.setAmount(Integer.valueOf(pullParser.getAttributeValue(
 	        					null,TOFieldsVariable.FINANCETO_AMOUNT)));
+	        			financeTO.setDescripition(pullParser.getAttributeValue(
+	        					null, TOFieldsVariable.FINANCETO_DESCRIPTION));
 	        			financeTO.setCurrentTime(pullParser.getAttributeValue(
 	        					null,TOFieldsVariable.FINANCETO_TIME));
 	        			financeTO.setType(pullParser.getAttributeValue(
@@ -103,6 +105,8 @@ public class FinanceService {
             }    
             // Amount
             serializer.attribute(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "amount", financeTO.getAmount()+""); 
+            // Description
+            serializer.attribute(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "description", financeTO.getDescripition()+"");
             // Time
             serializer.attribute(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "time", financeTO.getCurrentTime()+""); 
             // Type

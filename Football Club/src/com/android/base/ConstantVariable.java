@@ -104,6 +104,7 @@ public class ConstantVariable {
 	public final static int DIALOG_DEFAULT = 0;
 	public final static int DIALOG_ADD = 1;
 	public final static int DIALOG_UPDATE = 2;
+	public final static int DIALOG_DELETE = 3;
 	
 
 }

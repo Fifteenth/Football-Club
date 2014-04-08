@@ -3,6 +3,7 @@ package com.android.dialog;
 
 
 import com.android.activity.MatchesActivity;
+import com.android.base.ConstantVariable;
 import com.android.club.R;
 import com.android.service.BuildTOService;
 import com.android.to.MatchTO;
@@ -24,16 +25,15 @@ public class MatchDialog extends Dialog {
 	private EditText editTextRound;
 	private EditText editTextScore;
 	private EditText editTextCompetitor;
-	public static EditText showDate = null;  
-	public static EditText showTime = null; 
+	public static EditText editTextDate = null;  
+	public static EditText editTextTime = null; 
+	
+	
 	
 	private MatchDialog matchDialog;
 	private MatchesActivity mathchesActivity;
 	
-	
-	
 	public static Button pickDate = null;  
-	 
 	public static Button pickTime = null; 
 	
 	
@@ -49,6 +49,14 @@ public class MatchDialog extends Dialog {
 		return editTextCompetitor;
 	}
 	
+	public static EditText getEditTextDate() {
+		return editTextDate;
+	}
+	
+	public static EditText getEditTextTime() {
+		return editTextTime;
+	}
+	
 	
 	public void setEditTextRound(String round) {
 		this.editTextRound.setText(round);
@@ -61,6 +69,15 @@ public class MatchDialog extends Dialog {
 	public void setEditTextCompetitor(String competitor) {
 		this.editTextCompetitor.setText(competitor);
 	}
+	
+	public static void setEditTextDate(EditText editTextDate) {
+		MatchDialog.editTextDate = editTextDate;
+	}
+
+	public static void setEditTextTime(EditText editTextTime) {
+		MatchDialog.editTextTime = editTextTime;
+	}
+	
 	
 	
 	public MatchDialog getMatchDialog() {
@@ -82,23 +99,19 @@ public class MatchDialog extends Dialog {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_match);
 		
-		Button button_confirm_payment = (Button) findViewById(R.id.button_confirm_payment);
+		Button buttonConfirmPayment = (Button) findViewById(R.id.button_confirm_payment);
 		
 		editTextRound = (EditText)findViewById(R.id.edit_round);
 		editTextScore = (EditText)findViewById(R.id.edit_score);
 		editTextCompetitor = (EditText)findViewById(R.id.edit_competitor);
 		
-		button_confirm_payment.setOnClickListener(clickListener);
+		buttonConfirmPayment.setOnClickListener(clickListener);
 		
-		
-		
-		showDate = (EditText) findViewById(R.id.showdate);  
+		editTextDate = (EditText) findViewById(R.id.showdate);  
+		editTextTime = (EditText) findViewById(R.id.showtime);
         pickDate = (Button) findViewById(R.id.pickdate); 
-        showTime = (EditText)findViewById(R.id.showtime);
-        pickTime = (Button)findViewById(R.id.picktime);
+        pickTime = (Button) findViewById(R.id.picktime);
         
-        
-
         pickDate.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -122,6 +135,15 @@ public class MatchDialog extends Dialog {
 	           mathchesActivity.dateandtimeHandler.sendMessage(msg); 
 			}
 		});
+        
+        // Delete
+        Button buttonConfirmRecover = (Button) findViewById(R.id.button_recover);
+        buttonConfirmRecover.setOnClickListener(new View.OnClickListener() {
+    		@Override
+    		public void onClick(View arg0) {
+    			MatchesActivity.dialogType = ConstantVariable.DIALOG_DELETE;
+    		}
+        });
 	}
 	
 	private View.OnClickListener clickListener = new View.OnClickListener() {

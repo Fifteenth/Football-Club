@@ -44,6 +44,7 @@
     
     <!-- Edit hint -->
     <string name="edit_hint_number">请输入数字！</string>
+    <string name="edit_hint_description">费用描述!</string>
     
     
     <string name="footballclub">\t\t\t\tJAVA \n 足球俱乐部</string>

@@ -50,8 +50,6 @@ public class FinanceActivity extends Activity{
 	private FinanceTO selectedFinanceTO;
 	private Button buttonDownOrUp;
 	
-	//private static boolean initFlag = false;
-	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -64,53 +62,48 @@ public class FinanceActivity extends Activity{
             }
 		});
 		 
-		// Init list&financeList
-//		if(!initFlag){
-			//initFlag = true;
-					
-			InputStream inputStreamFinance = null;
-			InputStream inputStreamFinancePayment = null;
-			InputStream inputStreamFinanceDeduction = null;
-			try {
-				/*
-				 * this.getBaseContext().getFilesDir()
-				 */
-				String sdCardRootPath = SDCardUtil.getRootPath();
-				inputStreamFinance = FileUtil.getFileInputStream(
-						new File(sdCardRootPath,XMLVariable.FINANCE));
-				inputStreamFinancePayment = FileUtil.getFileInputStream(
-						new File(sdCardRootPath,XMLVariable.FINANCE_PAYMENT));
-				inputStreamFinanceDeduction = FileUtil.getFileInputStream(
-						new File(sdCardRootPath,XMLVariable.FINANCE_DEDUCTION));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			//通过Resources，获得XmlResourceParser实例   
-			if(inputStreamFinance!=null){
-				financeList = FinanceService.getFinanceTOList(inputStreamFinance,null);
-				financePaymentList = FinanceService.getFinanceTOList(inputStreamFinancePayment,null);
-				financeDeductionList = FinanceService.getFinanceTOList(inputStreamFinanceDeduction,null);
-			}else{
-				financeList = new ArrayList<FinanceTO>();
-			}
-			
-			// 赋值实体类对象
-			if(list.size()==0
-					&&financeList!=null
-					&&financeList.size()>0){
-				setListForListView();
-			}
-			
-			if(financeList.size() == 0 
-					|| list.size() == 0){
-				// Default
-				inputStreamFinance = getClass().getClassLoader().getResourceAsStream("finance.xml");
-				financeList = FinanceService.getFinanceTOList(inputStreamFinance,null);
-				setListForListView();
-			}
-//		}
+		InputStream inputStreamFinance = null;
+		InputStream inputStreamFinancePayment = null;
+		InputStream inputStreamFinanceDeduction = null;
+		try {
+			/*
+			 * this.getBaseContext().getFilesDir()
+			 */
+			String sdCardRootPath = SDCardUtil.getRootPath();
+			inputStreamFinance = FileUtil.getFileInputStream(
+					new File(sdCardRootPath,XMLVariable.FINANCE));
+			inputStreamFinancePayment = FileUtil.getFileInputStream(
+					new File(sdCardRootPath,XMLVariable.FINANCE_PAYMENT));
+			inputStreamFinanceDeduction = FileUtil.getFileInputStream(
+					new File(sdCardRootPath,XMLVariable.FINANCE_DEDUCTION));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//通过Resources，获得XmlResourceParser实例   
+		if(inputStreamFinance!=null){
+			financeList = FinanceService.getFinanceTOList(inputStreamFinance,null);
+			financePaymentList = FinanceService.getFinanceTOList(inputStreamFinancePayment,null);
+			financeDeductionList = FinanceService.getFinanceTOList(inputStreamFinanceDeduction,null);
+		}else{
+			financeList = new ArrayList<FinanceTO>();
+		}
+		
+		// 赋值实体类对象
+		if(list.size()==0
+				&&financeList!=null
+				&&financeList.size()>0){
+			setListForListView();
+		}
+		
+		if(financeList.size() == 0 
+				|| list.size() == 0){
+			// Default
+			inputStreamFinance = getClass().getClassLoader().getResourceAsStream("finance.xml");
+			financeList = FinanceService.getFinanceTOList(inputStreamFinance,null);
+			setListForListView();
+		}
 
 		listView = (ListView) this.findViewById(R.id.listView_my);
 		// 实例化自定义适配器

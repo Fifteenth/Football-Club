@@ -24,6 +24,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -96,7 +97,8 @@ public class FinanceDialog extends Dialog{
 	}
 
 	private OnCustomDialogListener customDialogListener;
-    EditText editText;
+    EditText edittextAmount;
+    EditText edittextDescription;
 
     public FinanceDialog(Context context,OnCustomDialogListener customDialogListener) {
     	super(context);
@@ -111,7 +113,8 @@ public class FinanceDialog extends Dialog{
 	   super.onCreate(savedInstanceState);
 	   setContentView(R.layout.dialog_finance);
 	   //设置标题
-	   editText = (EditText)findViewById(R.id.edit);
+	   edittextAmount = (EditText)findViewById(R.id.edittext_amount);
+	   edittextDescription = (EditText)findViewById(R.id.edittext_description);
 	   Button clickBtn = (Button) findViewById(R.id.buttonConfirmPayment);
 	   clickBtn.setOnClickListener(clickListener);
    }
@@ -134,8 +137,8 @@ public class FinanceDialog extends Dialog{
 	   }
 	   
 	   setTitle(name);
-	   if(editText!=null){
-		   editText.setText("");   
+	   if(edittextAmount!=null){
+		   edittextAmount.setText("");   
 	   }
 	   super.show();
    };
@@ -144,12 +147,25 @@ public class FinanceDialog extends Dialog{
 
 		@Override
 		public void onClick(View v) {
-			customDialogListener.back(String.valueOf(editText.getText()));
+			customDialogListener.back(String.valueOf(edittextAmount.getText()));
 			FinanceDialog.this.dismiss();
 
 			int amountText = 0;
+			String amountString = "";
+			String describition = "";
+			Editable editableAmount = edittextAmount.getText();
+			Editable editableDescribition = edittextDescription.getText();
+			if(editableAmount != null){
+				amountString = editableAmount.toString();
+			}
+			if(amountString.equals("")){
+				return;
+			}
+			if(editableDescribition != null){
+				describition = editableDescribition.toString();
+			}
+			selectedFinanceTO.setDescripition(describition);
 			
-			String amountString = editText.getText().toString();
 			if(!ValidateUtil.isNumeric(amountString)){
 				new  AlertDialog.Builder(financeActivity)    
 			    .setTitle("提示：" )
@@ -227,7 +243,8 @@ public class FinanceDialog extends Dialog{
 		financeActivity.onCreate(null);
     }
     
-    public void saveFinanceXML(List<FinanceTO> financeTOList,File financeXMLFile) throws Exception{
+    public void saveFinanceXML(List<FinanceTO> financeTOList,File financeXMLFile) 
+    		throws Exception{
     	FileOutputStream financePaymentXmlOutputStream = FileUtil.getFileOutputStream(financeXMLFile);
 		FinanceService.getWriteXMLAndSave(financeTOList, financePaymentXmlOutputStream);
     }

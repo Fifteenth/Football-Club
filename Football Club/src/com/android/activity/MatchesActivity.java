@@ -49,7 +49,8 @@ public class MatchesActivity extends Activity{
 	private ListView listViewMatch;
 	private int layoutInt = R.layout.listview_matches;
 	private MatchDialog matchDialog;
-	int dialogType = 0;
+	
+	public static int dialogType = 0;
 	
 	
 	
@@ -127,12 +128,6 @@ public class MatchesActivity extends Activity{
 			}
 		});
 		
-		
-		
-		
-		
-		initializeViews();
-        
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);  
         mMonth = c.get(Calendar.MONTH);  
@@ -149,14 +144,18 @@ public class MatchesActivity extends Activity{
 	// Dialog Back
 	public void back(MatchTO matchTO) {
 		switch (dialogType) {
-		case ConstantVariable.DIALOG_ADD: {
-			listMatchTO.add(matchTO);
-			break;
-		}
-		case ConstantVariable.DIALOG_UPDATE: {
-			listMatchTO.set(listIndex, matchTO);
-			break;
-		}
+			case ConstantVariable.DIALOG_ADD: {
+				listMatchTO.add(matchTO);
+				break;
+			}
+			case ConstantVariable.DIALOG_UPDATE: {
+				listMatchTO.set(listIndex, matchTO);
+				break;
+			}
+			case ConstantVariable.DIALOG_DELETE: {
+				listMatchTO.remove(matchTO);
+				break;
+			}
 		}
 		// Set Default
 		dialogType = ConstantVariable.DIALOG_DEFAULT;
@@ -165,44 +164,6 @@ public class MatchesActivity extends Activity{
 	}
 	
 	
-	
-	
-	
-	
-    /**
-     * 初始化控件和UI视图
-     */
-    private void initializeViews(){
-//        showDate = (EditText) findViewById(R.id.showdate);  
-//        pickDate = (Button) findViewById(R.id.pickdate); 
-//        showTime = (EditText)findViewById(R.id.showtime);
-//        pickTime = (Button)findViewById(R.id.picktime);
-//        
-//        pickDate.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//	           Message msg = new Message(); 
-//	           if (pickDate.equals((Button) v)) {  
-//	              msg.what = MatchesActivity.SHOW_DATAPICK;  
-//	           }  
-//	           MatchesActivity.this.dateandtimeHandler.sendMessage(msg); 
-//			}
-//		});
-//        
-//        pickTime.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//	           Message msg = new Message(); 
-//	           if (pickTime.equals((Button) v)) {  
-//	              msg.what = MatchesActivity.SHOW_TIMEPICK;  
-//	           }  
-//	           MatchesActivity.this.dateandtimeHandler.sendMessage(msg); 
-//			}
-//		});
-    }
-
     /**
      * 设置日期
      */
@@ -220,8 +181,8 @@ public class MatchesActivity extends Activity{
 	 * 更新日期显示
 	 */
 	private void updateDateDisplay(){
-		if(MatchDialog.showDate!=null){
-			MatchDialog.showDate.setText(new StringBuilder().append(mYear).append("-")
+		if(MatchDialog.editTextDate!=null){
+			MatchDialog.editTextDate.setText(new StringBuilder().append(mYear).append("-")
 					.append((mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append("-")
 					.append((mDay < 10) ? "0" + mDay : mDay)); 
 		}
@@ -257,8 +218,8 @@ public class MatchesActivity extends Activity{
 	 * 更新时间显示
 	 */
 	private void updateTimeDisplay(){
-		if(MatchDialog.showTime!=null){
-			MatchDialog.showTime.setText(new StringBuilder().append(mHour).append(":")
+		if(MatchDialog.editTextTime!=null){
+			MatchDialog.editTextTime.setText(new StringBuilder().append(mHour).append(":")
 		               .append((mMinute < 10) ? "0" + mMinute : mMinute)); 
 		}
 	}
