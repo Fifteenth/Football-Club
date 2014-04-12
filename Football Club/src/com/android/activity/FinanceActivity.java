@@ -1,67 +1,72 @@
 package com.android.activity;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-
-import com.android.base.ConstantVariable;
+import com.android.adapter.FinanceAdapter;
 import com.android.base.util.FileUtil;
 import com.android.base.util.SDCardUtil;
 import com.android.base.variable.XMLVariable;
 import com.android.club.R;
-import com.android.dialog.FinanceDialog;
 import com.android.service.FinanceService;
 import com.android.to.FinanceTO;
-
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
-import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class FinanceActivity extends Activity{
 
-	public List<FinanceTOEntity> list = new ArrayList<FinanceTOEntity>();
 	
 	private ListView listView;
-	private FinanceDialog dialog;
 	private List <FinanceTO>financeList;
 	private List <FinanceTO>financePaymentList;
 	private List <FinanceTO>financeDeductionList;
-	
 	private FinanceTO selectedFinanceTO;
-	private Button buttonDownOrUp;
+	
+	
+	public List<FinanceTO> getFinanceList() {
+		return financeList;
+	}
+
+	public void setFinanceList(List<FinanceTO> financeList) {
+		this.financeList = financeList;
+	}
+
+	public List<FinanceTO> getFinancePaymentList() {
+		return financePaymentList;
+	}
+
+	public void setFinancePaymentList(List<FinanceTO> financePaymentList) {
+		this.financePaymentList = financePaymentList;
+	}
+
+	public List<FinanceTO> getFinanceDeductionList() {
+		return financeDeductionList;
+	}
+
+	public void setFinanceDeductionList(List<FinanceTO> financeDeductionList) {
+		this.financeDeductionList = financeDeductionList;
+	}
+	
+	public FinanceTO getSelectedFinanceTO() {
+		return selectedFinanceTO;
+	}
+
+	public void setSelectedFinanceTO(FinanceTO selectedFinanceTO) {
+		this.selectedFinanceTO = selectedFinanceTO;
+	}
+	
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		Resources resources = this.getResources();
 		setContentView(R.layout.activity_finance);
 		
-		dialog = new FinanceDialog(this,
-				new FinanceDialog.OnCustomDialogListener() {
-			@Override
-			public void back(String name) {
-            }
-		});
-		 
 		InputStream inputStreamFinance = null;
 		InputStream inputStreamFinancePayment = null;
 		InputStream inputStreamFinanceDeduction = null;
@@ -90,25 +95,14 @@ public class FinanceActivity extends Activity{
 			financeList = new ArrayList<FinanceTO>();
 		}
 		
-		// 赋值实体类对象
-		if(list.size()==0
-				&&financeList!=null
-				&&financeList.size()>0){
-			setListForListView();
-		}
-		
-		if(financeList.size() == 0 
-				|| list.size() == 0){
-			// Default
-			inputStreamFinance = getClass().getClassLoader().getResourceAsStream("finance.xml");
-			financeList = FinanceService.getFinanceTOList(inputStreamFinance,null);
-			setListForListView();
-		}
-
 		listView = (ListView) this.findViewById(R.id.listView_my);
 		// 实例化自定义适配器
-		MyAdapter ma = new MyAdapter(this, list);
-		listView.setAdapter(ma);
+		FinanceAdapter adapter = new FinanceAdapter(this,financeList,resources);
+		
+		// 
+		if(financeList != null && financeList.size() > 0){
+			listView.setAdapter(adapter);
+		}
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -120,309 +114,4 @@ public class FinanceActivity extends Activity{
 		});
 	}
 
-	/**
-	 * 自定义一个Adapter(实现了ListAdapter接口)
-	 * 
-	 * @author Administrator
-	 * 
-	 */
-	class MyAdapter implements ListAdapter {
-
-		private List<FinanceTOEntity> list;
-
-		/** 实例及其对应的视图布局的XML文件 */
-		private LayoutInflater layoutInflater;
-
-		public MyAdapter(Context context, List<FinanceTOEntity> list) {
-			this.list = list;
-			layoutInflater = LayoutInflater.from(context);
-		}
-
-		@Override
-		public void registerDataSetObserver(DataSetObserver observer) {
-
-		}
-
-		@Override
-		public void unregisterDataSetObserver(DataSetObserver observer) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			return list.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			// TODO Auto-generated method stub
-			return list.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return position;
-		}
-
-		/**
-		 * 控制ITEM 布局内容
-		 */
-		@Override
-		public View getView(final int position, View convertView,
-				ViewGroup parent) {
-			final FinanceTOEntity financeTOEntity = list.get(position);
-			
-			if (convertView == null) {
-				// 加载布局
-				convertView = layoutInflater.inflate(
-						financeTOEntity.getLayoutID(), null);
-				// 设置布局内容
-				ImageView iv = (ImageView) convertView.findViewById(R.id.img);
-				iv.setBackgroundResource(list.get(position).getBitmap());
-				
-				TextView tv_1 = (TextView) convertView.findViewById(R.id.title);
-				tv_1.setText(list.get(position).getTitle());
-
-				TextView tv_2 = (TextView) convertView.findViewById(R.id.text);
-				tv_2.setText(list.get(position).getText());
-				
-				// Payment
-				Button buttonPayment = (Button) convertView.findViewById(R.id.button_payment);
-				buttonPayment.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if(financeList == null){
-							return;
-						}
-						System.out.println("financeList size:" + financeList.size());
-						System.out.println("position:" + position);
-						selectedFinanceTO = financeList.get(position);
-						dialog.setName(selectedFinanceTO.getName()
-								+"  "+ConstantVariable.FINANCE_DIALOG_MONEY);
-						dialog.setFinanceList(financeList);
-						dialog.setFinancePaymentList(financePaymentList);
-						dialog.setFinanceDeductionList(financeDeductionList);
-						dialog.setSelectedFinanceTO(selectedFinanceTO);
-						dialog.setFinanceListSelectedIndex(position);
-						dialog.showDialog(ConstantVariable.FINANCE_TYPE_PAYMENT);
-					}
-				});
-				
-				// Deduction
-				Button buttonDeduction = (Button) convertView.findViewById(R.id.button_deduction);
-				buttonDeduction.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if(financeList == null){
-							return;
-						}
-						System.out.println("financeList size:" + financeList.size());
-						System.out.println("position:" + position);
-						selectedFinanceTO = financeList.get(position);
-						dialog.setName(selectedFinanceTO.getName()
-								+"  "+ConstantVariable.FINANCE_DIALOG_MONEY);
-						dialog.setFinanceList(financeList);
-						dialog.setFinancePaymentList(financePaymentList);
-						dialog.setFinanceDeductionList(financeDeductionList);
-						dialog.setSelectedFinanceTO(selectedFinanceTO);
-						dialog.setFinanceListSelectedIndex(position);
-						dialog.showDialog(ConstantVariable.FINANCE_TYPE_DEDUCTION);
-					}
-				});
-				
-
-				// CostRecord
-				Button buttonCostRecord = (Button) convertView.findViewById(R.id.button_costRecord);
-				buttonCostRecord.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent financeRecordActivity = new Intent(FinanceActivity.this, 
-								FinanceRecordActivity.class);
-						startActivity(financeRecordActivity);
-						FinanceRecordActivity.playerName = financeList.get(position).getName();
-					}
-				});
-				
-				
-				// Notice
-				Button buttonNotice = (Button) convertView.findViewById(R.id.button_notice);
-				buttonNotice.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent financeNoticeActivity = new Intent(FinanceActivity.this, 
-								FinanceNoticeActivity.class);
-						startActivity(financeNoticeActivity);
-					}
-				});
-				
-				
-				final LinearLayout relativeLayoutDownOrUp = (LinearLayout) convertView.findViewById(R.id.linearyoutDown);
-				relativeLayoutDownOrUp.setVisibility(financeTOEntity.getLinearyoutVissble()); // 隐藏	
-				buttonDownOrUp = (Button) convertView.findViewById(R.id.button_down);
-
-				if(financeTOEntity.getLinearyoutVissble() == View.GONE){
-					buttonDownOrUp.setBackgroundResource(R.drawable.button_hidden_down);
-				}else{
-					buttonDownOrUp.setBackgroundResource(R.drawable.button_hidden_up);
-				}
-				buttonDownOrUp.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if(financeTOEntity.getLinearyoutVissble() == View.GONE){
-							buttonDownOrUp.setBackgroundResource(R.drawable.button_hidden_up);
-							financeTOEntity.setLinearyoutVissble(View.VISIBLE);
-						}else{
-							buttonDownOrUp.setBackgroundResource(R.drawable.button_hidden_down);
-							financeTOEntity.setLinearyoutVissble(View.GONE);
-						}
-						relativeLayoutDownOrUp.setVisibility(financeTOEntity.getLinearyoutVissble()); 
-						onCreate(null);
-					}
-				});
-			}
-			return convertView;
-		}
-
-		@Override
-		public int getItemViewType(int position) {
-			// TODO Auto-generated method stub
-			return position;
-		}
-
-		@Override
-		public int getViewTypeCount() {
-			// TODO Auto-generated method stub
-			return list.size();
-		}
-
-		@Override
-		public boolean hasStableIds() {
-			// TODO Auto-generated method stub
-			return true;
-		}
-
-		/**
-		 * 是否Item监听
-		 */
-		@Override
-		public boolean isEmpty() {
-			// TODO Auto-generated method stub
-			return true;
-		}
-
-		/**
-		 * true所有项目可选择可点击
-		 */
-		@Override
-		public boolean areAllItemsEnabled() {
-			// TODO Auto-generated method stub
-			return true;
-		}
-
-		/**
-		 * 是否显示分割线
-		 */
-		@Override
-		public boolean isEnabled(int position) {
-			// TODO Auto-generated method stub
-			return true;
-		}
-
-	}
-
-	/**
-	 * ListView内容实体类
-	 * 
-	 * @author Administrator
-	 * 
-	 */
-	class FinanceTOEntity {
-		/** 布局ID */
-		private int layoutID;
-
-		/** 图片ID */
-		private int bitmap;
-
-		/** 标题 */
-		private String title;
-
-		/** 内容 */
-		private String text;
-
-		/** 按钮名称 */
-		private String BtnText;
-		
-		private int linearyoutVissble = View.GONE;
-
-		public String getBtnText() {
-			return BtnText;
-		}
-
-		public void setBtnText(String btnText) {
-			BtnText = btnText;
-		}
-
-		public int getLayoutID() {
-			return layoutID;
-		}
-
-		public int getBitmap() {
-			return bitmap;
-		}
-
-		public void setBitmap(int bitmap) {
-			this.bitmap = bitmap;
-		}
-
-		public void setLayoutID(int layoutID) {
-			this.layoutID = layoutID;
-		}
-
-		public String getTitle() {
-			return title;
-		}
-
-		public void setTitle(String title) {
-			this.title = title;
-		}
-
-		public String getText() {
-			return text;
-		}
-
-		public void setText(String text) {
-			this.text = text;
-		}
-		
-		public int getLinearyoutVissble() {
-			return linearyoutVissble;
-		}
-
-		public void setLinearyoutVissble(int linearyoutVissble) {
-			this.linearyoutVissble = linearyoutVissble;
-		}
-	}
-	
-	
-	public void setListForListView(){
-		Resources resources = this.getResources();
-		for (int i = 0; i < 9; i++) {
-			FinanceTO financeTO = financeList.get(i);
-			
-			FinanceTOEntity financeTOEntity = new FinanceTOEntity();
-			financeTOEntity.setLayoutID(R.layout.listview_finance);
-			financeTOEntity.setText(financeTO.getName());
-			financeTOEntity.setTitle(ConstantVariable.FINANCE_DIALOG_MONEY + financeTO.getAmount());
-			String pngName = ConstantVariable.PLAYER_AVATAR+(i+1);
-			int id = resources.getIdentifier(pngName, 
-	       			"drawable" , getApplicationContext().getPackageName());  
-			
-			financeTOEntity.setBitmap(id);
-			financeTOEntity.setBtnText(ConstantVariable.FINANCE_DIALOG_MONEY);
-			list.add(financeTOEntity);
-		}
-	}
 }

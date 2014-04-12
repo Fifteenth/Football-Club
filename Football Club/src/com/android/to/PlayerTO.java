@@ -2,9 +2,9 @@ package com.android.to;
 
 import com.android.dialog.TeamDialog;
 
-public class TeamTO {
+public class PlayerTO {
 	
-	final public static String classPath = "com.android.to.TeamTO";
+	final public static String classPath = "com.android.to.PlayerTO";
 	
 	private String number;
 	private String name;

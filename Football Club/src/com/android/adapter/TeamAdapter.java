@@ -3,7 +3,7 @@ package com.android.adapter;
 import java.util.List;
 
 import com.android.club.R;
-import com.android.to.TeamTO;
+import com.android.to.PlayerTO;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
@@ -20,10 +20,10 @@ public class TeamAdapter implements ListAdapter{
 	private Context context;
 	private LayoutInflater layoutInflater;
 	private int layoutInt;
-	private List<TeamTO> list; 
+	private List<PlayerTO> list; 
 	private Resources resources;
 	
-	public TeamAdapter(Context context, List<TeamTO> list,int layoutInt,Resources resources) {
+	public TeamAdapter(Context context, List<PlayerTO> list,int layoutInt,Resources resources) {
 		this.context = context;
 		this.layoutInflater = LayoutInflater.from(context);
 		this.list = list;

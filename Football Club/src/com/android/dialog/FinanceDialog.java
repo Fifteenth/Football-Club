@@ -239,7 +239,7 @@ public class FinanceDialog extends Dialog{
     
     public void RefreshFinanceActivity(){
     	financeList = null;
-		financeActivity.list.clear();
+//		financeActivity.financeList.clear();
 		financeActivity.onCreate(null);
     }
     

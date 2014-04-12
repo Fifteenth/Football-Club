@@ -5,7 +5,7 @@ package com.android.dialog;
 import com.android.activity.TeamActivity;
 import com.android.club.R;
 import com.android.service.BuildTOService;
-import com.android.to.TeamTO;
+import com.android.to.PlayerTO;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -84,9 +84,9 @@ public class TeamDialog extends Dialog {
 	private View.OnClickListener clickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			TeamTO teamTO = (TeamTO)BuildTOService.buildTO(
-					TeamDialog.classPath,TeamTO.classPath,teamDialog);
-			teamActivity.back(teamTO);
+			PlayerTO playerTO = (PlayerTO)BuildTOService.buildTO(
+					TeamDialog.classPath,PlayerTO.classPath,teamDialog);
+			teamActivity.back(playerTO);
 			TeamDialog.this.dismiss();
 			teamActivity.onCreate(null);
 		}

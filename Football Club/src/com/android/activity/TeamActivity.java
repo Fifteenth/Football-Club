@@ -9,7 +9,7 @@ import com.android.base.ConstantVariable;
 import com.android.club.R;
 import com.android.dialog.TeamDialog;
 import com.android.to.MatchTO;
-import com.android.to.TeamTO;
+import com.android.to.PlayerTO;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -28,7 +28,7 @@ import android.widget.ListView;
  */
 public class TeamActivity extends Activity {
 
-	private List<TeamTO> listTeamTO = new ArrayList<TeamTO>();
+	private List<PlayerTO> listPlayerTO = new ArrayList<PlayerTO>();
 	private static int listIndex = -1;
 	private ListView listViewTeam;
 	private int layoutInt = R.layout.listview_team;
@@ -45,10 +45,10 @@ public class TeamActivity extends Activity {
 		
 		Resources resources = this.getResources();
 		listViewTeam = (ListView) this.findViewById(R.id.listView_my);
-		listTeamTO = TeamActivitySupport.ReadTeam();
+		listPlayerTO = TeamActivitySupport.ReadTeam();
 		// 实例化自定义适配器
-		TeamAdapter adapter = new TeamAdapter(this,listTeamTO,layoutInt,resources);
-		if(listTeamTO.size()>0){
+		TeamAdapter adapter = new TeamAdapter(this,listPlayerTO,layoutInt,resources);
+		if(listPlayerTO.size()>0){
 			listViewTeam.setAdapter(adapter);
 		}
 		listViewTeam.setOnItemClickListener(new OnItemClickListener() {
@@ -67,10 +67,10 @@ public class TeamActivity extends Activity {
 					int listIndex, long arg3) {
 				TeamActivity.listIndex = listIndex;
 				teamDialog.show();
-				TeamTO teamTO = listTeamTO.get(listIndex);
-				teamDialog.setEditTextNumber(teamTO.getNumber());
-				teamDialog.setEditTextPosition(teamTO.getPosition());
-				teamDialog.setEditTextName(teamTO.getName());
+				PlayerTO playerTO = listPlayerTO.get(listIndex);
+				teamDialog.setEditTextNumber(playerTO.getNumber());
+				teamDialog.setEditTextPosition(playerTO.getPosition());
+				teamDialog.setEditTextName(playerTO.getName());
 				dialogType = ConstantVariable.DIALOG_UPDATE;
 				return false;
 			}
@@ -93,21 +93,21 @@ public class TeamActivity extends Activity {
 	
 	
 	// Dialog Back
-	public void back(TeamTO teamTO) {
+	public void back(PlayerTO playerTO) {
 		switch (dialogType) {
 		case ConstantVariable.DIALOG_ADD: {
-			listTeamTO.add(teamTO);
+			listPlayerTO.add(playerTO);
 			break;
 		}
 		case ConstantVariable.DIALOG_UPDATE: {
-			listTeamTO.set(listIndex, teamTO);
+			listPlayerTO.set(listIndex, playerTO);
 			break;
 		}
 		}
 		// Set Default
 		dialogType = ConstantVariable.DIALOG_DEFAULT;
 		// Write
-		TeamActivitySupport.WriteTeam(listTeamTO);
+		TeamActivitySupport.WriteTeam(listPlayerTO);
 	}
 
 }

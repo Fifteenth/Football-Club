@@ -12,11 +12,11 @@ import com.android.base.util.SDCardUtil;
 import com.android.base.util.XMLUtil;
 import com.android.base.variable.XMLVariable;
 import com.android.service.RWTOService;
-import com.android.to.TeamTO;
+import com.android.to.PlayerTO;
 
 public class TeamActivitySupport {
 	
-	private static String classPath = "com.android.to.TeamTO";
+	private static String classPath = "com.android.to.PlayerTO";
 	static String sdCardRootPath = SDCardUtil.getRootPath();
 	
 	public static List ReadTeam(){
@@ -33,7 +33,7 @@ public class TeamActivitySupport {
 	}
 	
 	
-	public static void WriteTeam(List <TeamTO>list){
+	public static void WriteTeam(List <PlayerTO>list){
 		File xmlFileTeam = new File(sdCardRootPath,XMLVariable.FILE_NAME_TEAM);
 		FileOutputStream financePaymentXmlOutputStream = FileUtil.getFileOutputStream(xmlFileTeam);
 		try {
