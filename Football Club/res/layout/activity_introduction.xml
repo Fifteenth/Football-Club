@@ -7,7 +7,7 @@
     android:background="@drawable/bg_team_introduction">
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/imageview_introduction_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_x="10dp"

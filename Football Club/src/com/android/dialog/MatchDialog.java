@@ -25,8 +25,8 @@ public class MatchDialog extends Dialog {
 	private EditText editTextRound;
 	private EditText editTextScore;
 	private EditText editTextCompetitor;
-	public static EditText editTextDate = null;  
-	public static EditText editTextTime = null; 
+	public EditText editTextDate = null;  
+	public EditText editTextTime = null; 
 	
 	
 	
@@ -49,11 +49,11 @@ public class MatchDialog extends Dialog {
 		return editTextCompetitor;
 	}
 	
-	public static EditText getEditTextDate() {
+	public EditText getEditTextDate() {
 		return editTextDate;
 	}
 	
-	public static EditText getEditTextTime() {
+	public EditText getEditTextTime() {
 		return editTextTime;
 	}
 	
@@ -70,12 +70,12 @@ public class MatchDialog extends Dialog {
 		this.editTextCompetitor.setText(competitor);
 	}
 	
-	public static void setEditTextDate(EditText editTextDate) {
-		MatchDialog.editTextDate = editTextDate;
+	public void setEditTextDate(EditText editTextDate) {
+		this.editTextDate = editTextDate;
 	}
 
-	public static void setEditTextTime(EditText editTextTime) {
-		MatchDialog.editTextTime = editTextTime;
+	public void setEditTextTime(EditText editTextTime) {
+		this.editTextTime = editTextTime;
 	}
 	
 	
@@ -121,6 +121,8 @@ public class MatchDialog extends Dialog {
 	              msg.what = MatchesActivity.SHOW_DATAPICK;  
 	           }  
 	           mathchesActivity.dateandtimeHandler.sendMessage(msg); 
+	           
+	           MatchesActivity.onSetDateTimes = 0;
 			}
 		});
         
@@ -133,17 +135,10 @@ public class MatchDialog extends Dialog {
 	              msg.what = MatchesActivity.SHOW_TIMEPICK;  
 	           }  
 	           mathchesActivity.dateandtimeHandler.sendMessage(msg); 
+	           
+	           MatchesActivity.onSetTimeTimes = 0;
 			}
 		});
-        
-        // Delete
-        Button buttonConfirmRecover = (Button) findViewById(R.id.button_recover);
-        buttonConfirmRecover.setOnClickListener(new View.OnClickListener() {
-    		@Override
-    		public void onClick(View arg0) {
-    			MatchesActivity.dialogType = ConstantVariable.DIALOG_DELETE;
-    		}
-        });
 	}
 	
 	private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -156,4 +151,11 @@ public class MatchDialog extends Dialog {
 			mathchesActivity.onCreate(null);
 		}
 	};
+	
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+	}
 }

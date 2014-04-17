@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,7 +108,11 @@ public class FinanceAdapter implements ListAdapter {
 			
 			// Amount
 			TextView tv_1 = (TextView) convertView.findViewById(R.id.title);
-			tv_1.setText(ConstantVariable.FINANCE_DIALOG_MONEY + financeList.get(position).getAmount());
+			int amount = financeList.get(position).getAmount();
+			if(amount < 0){
+				tv_1.setTextColor(Color.RED);
+			}
+			tv_1.setText(ConstantVariable.FINANCE_DIALOG_MONEY + amount);
 
 			// Name
 			TextView textviewName = (TextView) convertView.findViewById(R.id.text);

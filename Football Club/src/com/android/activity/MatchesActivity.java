@@ -65,6 +65,9 @@ public class MatchesActivity extends Activity{
     private int mHour;
     private int mMinute;
 
+    
+    public static int onSetDateTimes = 0;
+    public static int onSetTimeTimes = 0;
 
 	public void onCreate(Bundle savedInstanceState) {
 		
@@ -181,8 +184,9 @@ public class MatchesActivity extends Activity{
 	 * 更新日期显示
 	 */
 	private void updateDateDisplay(){
-		if(MatchDialog.editTextDate!=null){
-			MatchDialog.editTextDate.setText(new StringBuilder().append(mYear).append("-")
+		EditText editTextDate = matchDialog.getEditTextDate();
+		if(editTextDate != null){
+			editTextDate.setText(new StringBuilder().append(mYear).append("-")
 					.append((mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append("-")
 					.append((mDay < 10) ? "0" + mDay : mDay)); 
 		}
@@ -194,14 +198,25 @@ public class MatchesActivity extends Activity{
      */  
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {  
   
-       public void onDateSet(DatePicker view, int year, int monthOfYear,  
+       
+    	@Override
+    	public void onDateSet(DatePicker view, int year, int monthOfYear,  
               int dayOfMonth) {  
-           mYear = year;  
-           mMonth = monthOfYear;  
-           mDay = dayOfMonth;  
-
-           updateDateDisplay();
-       }  
+    		
+    		onSetDateTimes++;
+    		
+    		if(onSetDateTimes == 2){
+    			mYear = year;  
+    			mMonth = monthOfYear;  
+    			mDay = dayOfMonth;  
+    			updateDateDisplay();
+    			
+    			onSetDateTimes = 0;
+    		}
+    		
+    	}  
+ 
+    	
     }; 
 	
 	/**
@@ -218,8 +233,9 @@ public class MatchesActivity extends Activity{
 	 * 更新时间显示
 	 */
 	private void updateTimeDisplay(){
-		if(MatchDialog.editTextTime!=null){
-			MatchDialog.editTextTime.setText(new StringBuilder().append(mHour).append(":")
+		EditText editTextTime = matchDialog.getEditTextTime();
+		if(editTextTime != null){
+			editTextTime.setText(new StringBuilder().append(mHour).append(":")
 		               .append((mMinute < 10) ? "0" + mMinute : mMinute)); 
 		}
 	}
@@ -231,11 +247,20 @@ public class MatchesActivity extends Activity{
 		
 		@Override
 		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-			mHour = hourOfDay;
-			mMinute = minute;
 			
-			updateTimeDisplay();
+			// API BUG
+			onSetTimeTimes ++;
+			
+			if(onSetTimeTimes == 2){
+				mHour = hourOfDay;
+				mMinute = minute;
+				updateTimeDisplay();
+				
+				onSetTimeTimes = 0;
+			}
+			
 		}
+		
 	};
     
     @Override  
@@ -279,4 +304,10 @@ public class MatchesActivity extends Activity{
            }  
        }  
     }; 
+    
+    @Override
+    public void onBackPressed() {
+    	// TODO Auto-generated method stub
+    	super.onBackPressed();
+    }
 }

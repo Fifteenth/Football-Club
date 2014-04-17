@@ -99,7 +99,7 @@ public class FinanceActivity extends Activity{
 		// 实例化自定义适配器
 		FinanceAdapter adapter = new FinanceAdapter(this,financeList,resources);
 		
-		// 
+		// financeList
 		if(financeList != null && financeList.size() > 0){
 			listView.setAdapter(adapter);
 		}

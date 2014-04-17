@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@+drawable/bg_matchs"
+    android:background="@drawable/bg_matchs"
     android:orientation="vertical">
     
     <RelativeLayout
@@ -13,8 +13,6 @@
         android:layout_gravity="bottom"
         android:background="@layout/listviewstyle_match2"
         >
-        <!-- horizontal -->
-        
         
         <TextView
             android:layout_width="wrap_content"
@@ -46,12 +44,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:cacheColorHint="#00000000"
-        android:dividerHeight="2dip"
-        android:layout_marginTop="36dip"
+        android:dividerHeight="0dip"
+        android:layout_marginTop="44dip"
         android:layout_marginBottom="40dip"
      	android:divider="#00000000"
      	android:choiceMode="singleChoice"
-     	android:listSelector="@layout/listviewstyle_matches"
      	>
     </ListView>
     
@@ -70,4 +67,6 @@
 	        android:textSize="12sp"
 	        android:background="@drawable/button_match_add"/>
     </RelativeLayout>
+    
+    
 </RelativeLayout>
