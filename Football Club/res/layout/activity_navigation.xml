@@ -13,7 +13,7 @@
         android:textSize="46sp"
         android:textColor="@drawable/clubColor"/>
 
-    <com.android.module.member.GalleryView
+    <com.cf.module.member.GalleryView
         android:id="@+id/mygallery"
         android:layout_width="fill_parent"
         android:layout_height="280sp"
