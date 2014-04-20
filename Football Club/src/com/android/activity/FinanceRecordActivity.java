@@ -10,7 +10,7 @@ import com.android.adapter.FinanceRecordAdapter;
 import com.android.base.ConstantVariable;
 import com.android.base.util.FileUtil;
 import com.android.base.util.SDCardUtil;
-import com.android.base.variable.XMLVariable;
+import com.android.base.variable.FileVariable;
 import com.android.club.R;
 import com.android.service.FinanceService;
 import com.android.to.FinanceTO;
@@ -69,13 +69,13 @@ public class FinanceRecordActivity extends Activity {
 	public List <FinanceTO> getFinanceTOList(){
 		String sdCardRootPath = SDCardUtil.getRootPath();
 		InputStream inputStreamFinance = FileUtil.getFileInputStream(
-				new File(sdCardRootPath,XMLVariable.FINANCE_PAYMENT));
+				new File(sdCardRootPath,FileVariable.FINANCE_PAYMENT));
 		List <FinanceTO> financeTOList = new ArrayList<FinanceTO>();;
 		if(inputStreamFinance!=null){
 			financeTOList = FinanceService.getFinanceTOList(inputStreamFinance,playerName);
 		}
 		inputStreamFinance = FileUtil.getFileInputStream(
-				new File(sdCardRootPath,XMLVariable.FINANCE_DEDUCTION));
+				new File(sdCardRootPath,FileVariable.FINANCE_DEDUCTION));
 		if(inputStreamFinance!=null){
 			financeTOList.addAll(FinanceService.getFinanceTOList(inputStreamFinance,playerName));
 		}

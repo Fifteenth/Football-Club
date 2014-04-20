@@ -9,10 +9,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+import com.android.base.ConstantVariable;
+import com.android.base.variable.FileVariable;
+
 import android.content.Context;
 
 public class XMLUtil {
 	
+	public static String PARENT_LEVEL_ONE="one";
+	public static String PARENT_LEVEL_TWO="two";
 	
 	/**
      * 将xml字符串写入xml文件
@@ -68,10 +73,32 @@ public class XMLUtil {
 		return null;
 	}
 	
-	public static void saveXML(OutputStream xmlOutputStream)
-			throws Exception {
+	public static void saveXML(String fileName) throws Exception {
+		File xmlFileMatch = new File(SDCardUtil.sdCardRootPath,fileName);
+		FileOutputStream xmlOutputStream = FileUtil.getFileOutputStream(xmlFileMatch);
+		
 		xmlOutputStream.flush();
-        xmlOutputStream.close();
+		xmlOutputStream.close();
+	}
+	
+	public static void saveXML(FileOutputStream xmlOutputStream) throws IOException{
+		xmlOutputStream.flush();
+		xmlOutputStream.close();
 	}
 
+	
+	/*
+	 * XML Node Name
+	 */
+	public static String parentLevelMarkName(String level,String classPath){
+		String parentLevelMarkName;
+		if(PARENT_LEVEL_ONE.equals(level)){
+			parentLevelMarkName = classPath.substring(classPath.lastIndexOf(
+					ConstantVariable.SYSBOL_PERIOD)+1,classPath.length()) + "s";
+		}else{
+			parentLevelMarkName = classPath.substring(classPath.lastIndexOf(
+					ConstantVariable.SYSBOL_PERIOD)+1,classPath.length());
+		}
+		return parentLevelMarkName;
+	}
 }

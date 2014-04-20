@@ -3,7 +3,10 @@ package com.android.adapter;
 import java.util.List;
 
 import com.android.club.R;
+import com.android.support.TeamSupport;
 import com.android.to.PlayerTO;
+import com.android.to.TeamTO;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
@@ -92,9 +95,9 @@ public class TeamAdapter implements ListAdapter{
 			tv_2.setText(list.get(position).getName());
 			// Captain Bitmap
 			ImageView ivc = (ImageView) convertView.findViewById(R.id.image_team_captain);
-			ivc.setBackgroundResource(R.drawable.player_caption);
-			if(position!=0){
-				ivc.setVisibility(View.INVISIBLE);
+			TeamTO teamTO = TeamSupport.ReadTeamSetting();
+			if(number.equals(teamTO.getCaptionPlayerNumber())){
+				ivc.setBackgroundResource(R.drawable.player_caption);
 			}
 						
 		}

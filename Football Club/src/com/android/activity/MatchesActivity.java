@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.android.activity.support.MatchesActivitySupport;
 import com.android.adapter.MatchesAdapter;
 import com.android.base.ConstantVariable;
 import com.android.club.R;
 import com.android.dialog.FinanceDialog;
 import com.android.dialog.MatchDialog;
+import com.android.support.MatchesSupport;
 import com.android.to.MatchTO;
 
 import android.app.Activity;
@@ -78,7 +78,7 @@ public class MatchesActivity extends Activity{
 		matchDialog.setMatchDialog(matchDialog);
 
 		listViewMatch = (ListView) this.findViewById(R.id.listView_my);
-		listMatchTO = MatchesActivitySupport.ReadMatches();
+		listMatchTO = MatchesSupport.ReadMatches();
 		// 实例化自定义适配器
 		MatchesAdapter adapter = new MatchesAdapter(this,listMatchTO,layoutInt);
 		if(listMatchTO.size() > 0){
@@ -163,7 +163,7 @@ public class MatchesActivity extends Activity{
 		// Set Default
 		dialogType = ConstantVariable.DIALOG_DEFAULT;
 		// Write
-		MatchesActivitySupport.WriteMatches(listMatchTO);
+		MatchesSupport.WriteMatches(listMatchTO);
 	}
 	
 	

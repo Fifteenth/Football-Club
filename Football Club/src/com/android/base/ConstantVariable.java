@@ -98,6 +98,8 @@ public class ConstantVariable {
 	public static String SYSBOL_PERIOD = ".";
 	public static String SYSBOL_DOUBLE_QUOTES = "";
 	public static String SYSBOL_SEMICOLON=";";
+	public static String SYSBOL_PLUS="+";
+	public static String SYSBOL_MINUS="-";
 	
 	
 	// Dialog

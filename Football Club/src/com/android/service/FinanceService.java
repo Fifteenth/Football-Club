@@ -1,5 +1,7 @@
 package com.android.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,6 +13,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
 import com.android.base.ConstantVariable;
+import com.android.base.util.FileUtil;
+import com.android.base.util.SDCardUtil;
 import com.android.base.util.XMLUtil;
 import com.android.base.variable.TOFieldsVariable;
 import com.android.to.FinanceTO;
@@ -86,10 +90,14 @@ public class FinanceService {
 	
 	
 	//
-	public static String getWriteXML(List<FinanceTO> financeTOList, OutputStream xmlOutputStream) 
+	public static String getWriteXML(List<FinanceTO> financeTOList, String fileName) 
 			throws Exception {
+		// 
+		File xmlFileMatch = new File(SDCardUtil.sdCardRootPath,fileName);
+		FileOutputStream financeOutputStream = FileUtil.getFileOutputStream(xmlFileMatch);
+		
         XmlSerializer serializer = Xml.newSerializer();       
-        serializer.setOutput(xmlOutputStream,"utf-8");
+        serializer.setOutput(financeOutputStream,"utf-8");
         serializer.startDocument("utf-8", true);                
         serializer.startTag(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "finance");        
         for (FinanceTO financeTO : financeTOList) {
@@ -118,13 +126,15 @@ public class FinanceService {
         serializer.endTag(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "finance");
         serializer.endDocument();
         
-        return xmlOutputStream.toString();
+        return financeOutputStream.toString();
     }
 	
-	public static void getWriteXMLAndSave(List<FinanceTO> financeTOList, OutputStream xmlOutputStream) 
+	public static void getWriteXMLAndSave(List<FinanceTO> financeTOList, String fileName) 
 			throws Exception {
-		getWriteXML(financeTOList,xmlOutputStream);
-		XMLUtil.saveXML(xmlOutputStream);
+		
+		
+		getWriteXML(financeTOList,fileName);
+		XMLUtil.saveXML(fileName);
 	}
 	
 	

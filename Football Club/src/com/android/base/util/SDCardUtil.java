@@ -6,6 +6,8 @@ import android.os.Environment;
 
 public class SDCardUtil {
 	
+	public final static String sdCardRootPath = SDCardUtil.getRootPath();
+	
 	public final static String PROGRAM_DATA = "/Football-Club/data";
 	public final static String PROGRAM_EXPORT = "/Football-Club/export";
 	

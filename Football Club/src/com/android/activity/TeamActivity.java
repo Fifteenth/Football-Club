@@ -3,13 +3,14 @@ package com.android.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.android.activity.support.TeamActivitySupport;
 import com.android.adapter.TeamAdapter;
 import com.android.base.ConstantVariable;
 import com.android.club.R;
-import com.android.dialog.TeamDialog;
-import com.android.to.MatchTO;
+import com.android.dialog.TeamPlayerDialog;
+import com.android.support.TeamSupport;
 import com.android.to.PlayerTO;
+import com.android.to.TeamTO;
+
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -28,24 +29,46 @@ import android.widget.ListView;
  */
 public class TeamActivity extends Activity {
 
+	private TeamTO teamTO;
+	private int listIndex = -1;
+	
 	private List<PlayerTO> listPlayerTO = new ArrayList<PlayerTO>();
-	private static int listIndex = -1;
 	private ListView listViewTeam;
 	private int layoutInt = R.layout.listview_team;
-	private TeamDialog teamDialog;
+	private TeamPlayerDialog teamDialog;
 	int dialogType = 0;
+	
+	
+	public TeamTO getTeamTO() {
+		return teamTO;
+	}
+
+	public void setTeamTO(TeamTO teamTO) {
+		this.teamTO = teamTO;
+	}
+	
+	public int getListIndex() {
+		return listIndex;
+	}
+
+	public void setListIndex(int listIndex) {
+		this.listIndex = listIndex;
+	}
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		this.setContentView(R.layout.activity_team);
 		
-		teamDialog = new TeamDialog(this);
+		teamDialog = new TeamPlayerDialog(this);
 		teamDialog.setTeamDialog(teamDialog);
 		
 		Resources resources = this.getResources();
 		listViewTeam = (ListView) this.findViewById(R.id.listView_my);
-		listPlayerTO = TeamActivitySupport.ReadTeam();
+		
+		// Player
+		listPlayerTO = TeamSupport.ReadTeamPlayer();
+		
 		// 实例化自定义适配器
 		TeamAdapter adapter = new TeamAdapter(this,listPlayerTO,layoutInt,resources);
 		if(listPlayerTO.size()>0){
@@ -65,12 +88,20 @@ public class TeamActivity extends Activity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int listIndex, long arg3) {
-				TeamActivity.listIndex = listIndex;
+				setListIndex(listIndex);
 				teamDialog.show();
 				PlayerTO playerTO = listPlayerTO.get(listIndex);
 				teamDialog.setEditTextNumber(playerTO.getNumber());
 				teamDialog.setEditTextPosition(playerTO.getPosition());
 				teamDialog.setEditTextName(playerTO.getName());
+				
+				// Caption Checkbox--Data_Team_Setting
+				teamTO = TeamSupport.ReadTeamSetting();
+				if(playerTO.getNumber().equals(teamTO.getCaptionPlayerNumber())){
+					teamDialog.getCheckBoxIsCaptain().setChecked(true);
+				}else{
+					teamDialog.getCheckBoxIsCaptain().setChecked(false);
+				}
 				dialogType = ConstantVariable.DIALOG_UPDATE;
 				return false;
 			}
@@ -95,19 +126,19 @@ public class TeamActivity extends Activity {
 	// Dialog Back
 	public void back(PlayerTO playerTO) {
 		switch (dialogType) {
-		case ConstantVariable.DIALOG_ADD: {
-			listPlayerTO.add(playerTO);
-			break;
-		}
-		case ConstantVariable.DIALOG_UPDATE: {
-			listPlayerTO.set(listIndex, playerTO);
-			break;
-		}
+			case ConstantVariable.DIALOG_ADD: {
+				listPlayerTO.add(playerTO);
+				break;
+			}
+			case ConstantVariable.DIALOG_UPDATE: {
+				listPlayerTO.set(listIndex, playerTO);
+				break;
+			}
 		}
 		// Set Default
 		dialogType = ConstantVariable.DIALOG_DEFAULT;
 		// Write
-		TeamActivitySupport.WriteTeam(listPlayerTO);
+		TeamSupport.WriteTeamPlayer(listPlayerTO);
 	}
 
 }

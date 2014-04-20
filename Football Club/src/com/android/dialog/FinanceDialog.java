@@ -14,7 +14,7 @@ import com.android.base.util.FileUtil;
 import com.android.base.util.SDCardUtil;
 import com.android.base.util.ValidateUtil;
 import com.android.base.util.XMLUtil;
-import com.android.base.variable.XMLVariable;
+import com.android.base.variable.FileVariable;
 import com.android.club.R;
 import com.android.service.FinanceService;
 import com.android.to.FinanceTO;
@@ -122,17 +122,17 @@ public class FinanceDialog extends Dialog{
    public void showDialog(int dialogType) {
 	   switch(dialogType){
 	 
-	   case 1:
-		   this.dialogType = ConstantVariable.FINANCE_TYPE_PAYMENT;
-		   break;
-	
-	   case 2:
-		   this.dialogType = ConstantVariable.FINANCE_TYPE_DEDUCTION;
-		   break;
-		   
-	   case 3:
-		   this.dialogType = ConstantVariable.FINANCE_TYPE_RECORD;
-		   break;
+		   case 1:
+			   this.dialogType = ConstantVariable.FINANCE_TYPE_PAYMENT;
+			   break;
+		
+		   case 2:
+			   this.dialogType = ConstantVariable.FINANCE_TYPE_DEDUCTION;
+			   break;
+			   
+		   case 3:
+			   this.dialogType = ConstantVariable.FINANCE_TYPE_RECORD;
+			   break;
 	   
 	   }
 	   
@@ -202,10 +202,6 @@ public class FinanceDialog extends Dialog{
     
     
     public void financeAction(int dialogType,int amountText) throws Exception{
-    	String sdCardRootPath = SDCardUtil.getRootPath();
-		
-		File financeXMLFile = new File(sdCardRootPath,XMLVariable.FINANCE);
-		
 		int amountOld = selectedFinanceTO.getAmount();
 		selectedFinanceTO.setAmount(amountText);
 		// Replace 
@@ -213,26 +209,24 @@ public class FinanceDialog extends Dialog{
 		int amountTotal;
 		selectedFinanceTO.setCurrentTime(DateUtil.getCurrentTimeYYYYMMDDhhmmss());
 		if(dialogType==ConstantVariable.FINANCE_TYPE_PAYMENT){
-			selectedFinanceTO.setType("+");
+			selectedFinanceTO.setType(ConstantVariable.SYSBOL_PLUS);
 			financePaymentList.add(selectedFinanceTO);
 			amountTotal = amountOld + amountText;
 			// finance_payment.xml
-			File financePaymentXmlFile = new File(sdCardRootPath,XMLVariable.FINANCE_PAYMENT);
-			saveFinanceXML(financePaymentList,financePaymentXmlFile);
+			saveFinanceXML(financePaymentList,FileVariable.FINANCE_PAYMENT);
 		}else{
-			selectedFinanceTO.setType("-");
+			selectedFinanceTO.setType(ConstantVariable.SYSBOL_MINUS);
 			financeDeductionList.add(selectedFinanceTO);
 			amountTotal = amountOld - amountText;
 			// finance_deduction.xml
-			File financeDeductionXmlFile = new File(sdCardRootPath,XMLVariable.FINANCE_DEDUCTION);
-			saveFinanceXML(financeDeductionList,financeDeductionXmlFile);
+			saveFinanceXML(financeDeductionList,FileVariable.FINANCE_DEDUCTION);
 		}
 		 
 		financeList.get(financeListSelectedIndex).setAmount(amountTotal);
 		
 		
 		// Finance.xml
-		saveFinanceXML(financeList,financeXMLFile);
+		saveFinanceXML(financeList,FileVariable.FINANCE);
 		// Refresh
 		RefreshFinanceActivity();
     }
@@ -243,10 +237,10 @@ public class FinanceDialog extends Dialog{
 		financeActivity.onCreate(null);
     }
     
-    public void saveFinanceXML(List<FinanceTO> financeTOList,File financeXMLFile) 
+    public void saveFinanceXML(List<FinanceTO> financeTOList,String fileName) 
     		throws Exception{
-    	FileOutputStream financePaymentXmlOutputStream = FileUtil.getFileOutputStream(financeXMLFile);
-		FinanceService.getWriteXMLAndSave(financeTOList, financePaymentXmlOutputStream);
+    	
+		FinanceService.getWriteXMLAndSave(financeTOList, fileName);
     }
     
     

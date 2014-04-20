@@ -1,5 +1,7 @@
 package com.android.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,13 +16,16 @@ import org.xmlpull.v1.XmlSerializer;
 import android.util.Xml;
 
 import com.android.base.ConstantVariable;
+import com.android.base.util.FileUtil;
 import com.android.base.util.ReflectUtil;
+import com.android.base.util.SDCardUtil;
+import com.android.base.util.XMLUtil;
+import com.android.base.variable.FileVariable;
 import com.android.base.variable.TOFieldsVariable;
 import com.android.to.FinanceTO;
 
 public class RWTOService {
-	private static String PARENT_LEVEL_ONE="one";
-	private static String PARENT_LEVEL_TWO="two";
+	
 	private static String METHOD_GET = "get";
 	private static String METHOD_SET = "set";
 	
@@ -28,15 +33,21 @@ public class RWTOService {
 	 * Read
 	 * 	 playerName is filter name,it can be null
 	 */
-	public static List<?> getListTOFromXML(String classPath,InputStream inputStream,
-			String playerName) throws Exception{
+	public static List<?> getListTOFromXML(String classPath,String fileName) throws Exception{
+		
+		// InputStream
+		InputStream inputStreamFinance = FileUtil.getFileInputStream(
+				new File(SDCardUtil.sdCardRootPath,fileName));
+		
 		List list = new ArrayList();
-		String parentTwoMarkName = classPath.substring(classPath.lastIndexOf(
-				ConstantVariable.SYSBOL_PERIOD)+1,classPath.length());
+		
+		// Node Name
+		String parentTwoMarkName = XMLUtil.parentLevelMarkName(XMLUtil.PARENT_LEVEL_TWO,classPath);
+		
 		try {   
             //如果没有到文件尾继续执行   
 			XmlPullParser pullParser = Xml.newPullParser();
-			pullParser.setInput(inputStream, "UTF-8"); //为Pull解释器设置要解析的XML数据
+			pullParser.setInput(inputStreamFinance, "UTF-8"); //为Pull解释器设置要解析的XML数据
 			int event = pullParser.getEventType();
 	        while (event != XmlPullParser.END_DOCUMENT) {    
 	            //如果是开始标签   
@@ -44,7 +55,7 @@ public class RWTOService {
 			      //获取标签名称   
 	        		String name = pullParser.getName();   
 	        		//判断标签名称是否等于friend   
-	        		if(name.equals(parentLevelMarkName(PARENT_LEVEL_TWO,classPath))){   
+	        		if(name.equals(XMLUtil.parentLevelMarkName(XMLUtil.PARENT_LEVEL_TWO,classPath))){   
 	        			Class<?> dynamicClass = Class.forName(classPath);
 	        			Object dynamicTO = dynamicClass.newInstance();
 	        			// Get All SetMethod
@@ -82,10 +93,15 @@ public class RWTOService {
 	/*
 	 * Write
 	 */
-	public static String getWriteXMLFromListTO(List<?>listTO,String classPath, 
-			OutputStream xmlOutputStream) throws Exception {
-		String parentOneMarkName = parentLevelMarkName(PARENT_LEVEL_ONE,classPath);
-		String parentTwoMarkName = parentLevelMarkName(PARENT_LEVEL_TWO,classPath);
+	public static FileOutputStream getWriteXMLFromListTO(List<?>listTO,String classPath, 
+			String fileName) throws Exception {
+		
+		// OutputStream
+		File xmlFileMatch = new File(SDCardUtil.sdCardRootPath,fileName);
+		FileOutputStream xmlOutputStream = FileUtil.getFileOutputStream(xmlFileMatch);
+		
+		String parentOneMarkName = XMLUtil.parentLevelMarkName(XMLUtil.PARENT_LEVEL_ONE,classPath);
+		String parentTwoMarkName = XMLUtil.parentLevelMarkName(XMLUtil.PARENT_LEVEL_TWO,classPath);
 		Class<?> dynamicClass = Class.forName(classPath);
 		// Get All GetMethod
 		String getMethodNames[] = ReflectUtil.getAllSetOrGetMethodNames(
@@ -114,19 +130,12 @@ public class RWTOService {
         serializer.endTag(ConstantVariable.SYSBOL_DOUBLE_QUOTES, parentOneMarkName);
         serializer.endDocument();
         
-        return xmlOutputStream.toString();
+        return xmlOutputStream;
     }
 	
-	
-	public static String parentLevelMarkName(String level,String classPath){
-		String parentLevelMarkName;
-		if(PARENT_LEVEL_ONE.equals(level)){
-			parentLevelMarkName = classPath.substring(classPath.lastIndexOf(
-					ConstantVariable.SYSBOL_PERIOD)+1,classPath.length()) + "s";
-		}else{
-			parentLevelMarkName = classPath.substring(classPath.lastIndexOf(
-					ConstantVariable.SYSBOL_PERIOD)+1,classPath.length());
-		}
-		return parentLevelMarkName;
+	public static void getWriteXMLFromListTOAndSave(List<?>listTO,String classPath, 
+			String fileName) throws Exception {
+		FileOutputStream xmlOutputStream = getWriteXMLFromListTO(listTO,classPath,fileName);
+		XMLUtil.saveXML(xmlOutputStream);
 	}
 }

@@ -8,7 +8,7 @@ import java.util.List;
 import com.android.base.ConstantVariable;
 import com.android.base.util.FileUtil;
 import com.android.base.util.SDCardUtil;
-import com.android.base.variable.XMLVariable;
+import com.android.base.variable.FileVariable;
 import com.android.club.R;
 import com.android.service.FinanceService;
 import com.android.to.FinanceTO;

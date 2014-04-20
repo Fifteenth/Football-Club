@@ -7,7 +7,7 @@ import java.util.List;
 import com.android.adapter.FinanceAdapter;
 import com.android.base.util.FileUtil;
 import com.android.base.util.SDCardUtil;
-import com.android.base.variable.XMLVariable;
+import com.android.base.variable.FileVariable;
 import com.android.club.R;
 import com.android.service.FinanceService;
 import com.android.to.FinanceTO;
@@ -76,11 +76,11 @@ public class FinanceActivity extends Activity{
 			 */
 			String sdCardRootPath = SDCardUtil.getRootPath();
 			inputStreamFinance = FileUtil.getFileInputStream(
-					new File(sdCardRootPath,XMLVariable.FINANCE));
+					new File(sdCardRootPath,FileVariable.FINANCE));
 			inputStreamFinancePayment = FileUtil.getFileInputStream(
-					new File(sdCardRootPath,XMLVariable.FINANCE_PAYMENT));
+					new File(sdCardRootPath,FileVariable.FINANCE_PAYMENT));
 			inputStreamFinanceDeduction = FileUtil.getFileInputStream(
-					new File(sdCardRootPath,XMLVariable.FINANCE_DEDUCTION));
+					new File(sdCardRootPath,FileVariable.FINANCE_DEDUCTION));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

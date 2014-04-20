@@ -1,6 +1,6 @@
 package com.android.to;
 
-import com.android.dialog.TeamDialog;
+import com.android.dialog.TeamPlayerDialog;
 
 public class PlayerTO {
 	
@@ -10,7 +10,7 @@ public class PlayerTO {
 	private String name;
 	private String position;
 	private String bitmapNumber;
-	private String isCaptain;
+	private String captain;
 	private String bitmapCaptain;
 	
 
@@ -38,11 +38,11 @@ public class PlayerTO {
 	public void setBitmapNumber(String bitmapNumber) {
 		this.bitmapNumber = bitmapNumber;
 	}
-	public String isCaptain() {
-		return isCaptain;
+	public String getCaptain() {
+		return captain;
 	}
-	public void setCaptain(String isCaptain) {
-		this.isCaptain = isCaptain;
+	public void setCaptain(String captain) {
+		this.captain = captain;
 	}
 	public String getBitmapCaptain() {
 		return bitmapCaptain;
@@ -53,17 +53,17 @@ public class PlayerTO {
 	
 	
 	// teamDialog
-	public void setNumber(TeamDialog teamDialog) {
+	public void setNumber(TeamPlayerDialog teamDialog) {
 		String number = String.valueOf(teamDialog.getEditTextNumber().getText());
 		setNumber(number);
 	}
 
-	public void setPosition(TeamDialog teamDialog) {
+	public void setPosition(TeamPlayerDialog teamDialog) {
 		String position = String.valueOf(teamDialog.getEditTextPosition().getText());
 		setPosition(position);
 	}
 
-	public void setName(TeamDialog teamDialog) {
+	public void setName(TeamPlayerDialog teamDialog) {
 		String name = String.valueOf(teamDialog.getEditTextName().getText());
 		setName(name);
 	}
