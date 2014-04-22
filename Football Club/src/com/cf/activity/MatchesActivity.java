@@ -66,9 +66,6 @@ public class MatchesActivity extends Activity{
     private int mMinute;
 
     
-    public static int onSetDateTimes = 0;
-    public static int onSetTimeTimes = 0;
-
 	public void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
@@ -108,9 +105,13 @@ public class MatchesActivity extends Activity{
 				MatchesActivity.listIndex = listIndex;
 				matchDialog.show();
 				MatchTO matchTO = listMatchTO.get(listIndex);
-				matchDialog.setEditTextRound(matchTO.getRound());
+				// Dialog Set
+				matchDialog.setEditTextRound(matchTO.getRound().trim());
 				matchDialog.setEditTextScore(matchTO.getScore());
 				matchDialog.setEditTextCompetitor(matchTO.getCompetitor());
+				matchDialog.setEditTextDate(matchTO.getCompetitionDate());
+				matchDialog.setEditTextTime(matchTO.getCompetitionTime());
+				// Dialog Type
 				dialogType = ConstantVariable.DIALOG_UPDATE;
 				return false;
 			}
@@ -203,20 +204,11 @@ public class MatchesActivity extends Activity{
     	public void onDateSet(DatePicker view, int year, int monthOfYear,  
               int dayOfMonth) {  
     		
-    		onSetDateTimes++;
-    		
-    		if(onSetDateTimes == 2){
-    			mYear = year;  
-    			mMonth = monthOfYear;  
-    			mDay = dayOfMonth;  
-    			updateDateDisplay();
-    			
-    			onSetDateTimes = 0;
-    		}
-    		
+			mYear = year;  
+			mMonth = monthOfYear;  
+			mDay = dayOfMonth;  
+			updateDateDisplay();
     	}  
- 
-    	
     }; 
 	
 	/**
@@ -247,20 +239,10 @@ public class MatchesActivity extends Activity{
 		
 		@Override
 		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-			
-			// API BUG
-			onSetTimeTimes ++;
-			
-			if(onSetTimeTimes == 2){
-				mHour = hourOfDay;
-				mMinute = minute;
-				updateTimeDisplay();
-				
-				onSetTimeTimes = 0;
-			}
-			
+			mHour = hourOfDay;
+			mMinute = minute;
+			updateTimeDisplay();
 		}
-		
 	};
     
     @Override  

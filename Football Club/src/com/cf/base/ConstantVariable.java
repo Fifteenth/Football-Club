@@ -67,7 +67,8 @@ public class ConstantVariable {
 		{102,240},{222,220},{343,240},//lsb,cb,rsb
 		{224,300}};//gk
 	
-	public static String[] titles = { "球队简介", "赛事信息", "球队阵容", "战术设置", "转会市场", "财务管理", "球队管理"};
+	public static String[] titles = { "球队简介", "赛事信息", "球队阵容", "战术设置", 
+		"转会市场", "财务管理", "球队管理"};
 	
 	public static String BITMAP_TYPE_ROUND = "round";
 	public static String BITMAP_TYPE_ROUND_RECTANGLE = "roundedRectangle";
@@ -100,7 +101,9 @@ public class ConstantVariable {
 	public static String SYSBOL_SEMICOLON=";";
 	public static String SYSBOL_PLUS="+";
 	public static String SYSBOL_MINUS="-";
-	
+	public static String SYSBOL_SPAN_ONE=" ";
+	public static String SYSBOL_SPAN_TWO="  ";
+	public static String SYSBOL_SPAN_THREE="   ";
 	
 	// Dialog
 	public final static int DIALOG_DEFAULT = 0;

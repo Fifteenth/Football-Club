@@ -1,4 +1,4 @@
-package com.cf.module.member;
+package com.ff.gallery;
 
 import java.util.ArrayList;
 import java.util.HashMap;

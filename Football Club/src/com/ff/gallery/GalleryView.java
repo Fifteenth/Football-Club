@@ -1,4 +1,4 @@
-package com.cf.module.member;
+package com.ff.gallery;
 
 import android.content.Context;
 import android.graphics.Camera;

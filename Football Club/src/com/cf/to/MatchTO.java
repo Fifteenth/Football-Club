@@ -1,5 +1,8 @@
 package com.cf.to;
 
+import android.app.AlertDialog;
+
+import com.cf.base.ConstantVariable;
 import com.cf.dialog.MatchDialog;
 
 public class MatchTO {
@@ -11,6 +14,7 @@ public class MatchTO {
 	private String score;
 	private String competitor;
 	private String competitionDate;
+	private String competitionTime;
 	private String weather;
 	private String description;
 	private String goalPlayers;
@@ -48,6 +52,12 @@ public class MatchTO {
 	public void setCompetitionDate(String competitionDate) {
 		this.competitionDate = competitionDate;
 	}
+	public String getCompetitionTime() {
+		return competitionTime;
+	}
+	public void setCompetitionTime(String competitionTime) {
+		this.competitionTime = competitionTime;
+	}
 	public String getWeather() {
 		return weather;
 	}
@@ -80,9 +90,21 @@ public class MatchTO {
 	}
 	
 	
-	// matchDialog
+	
+	
+	/* 
+	 * MatchDialog--Injection Property 
+	 * round
+	 * score
+	 * competitor
+	 * competitionDate
+	 */
 	public void setRound(MatchDialog matchDialog) {
 		String round = String.valueOf(matchDialog.getEditTextRound().getText());
+		// Handle Different length 
+		if(round.length() == 1){
+			round = ConstantVariable.SYSBOL_SPAN_TWO + round;
+		}
 		setRound(round);
 	}
 
@@ -97,9 +119,13 @@ public class MatchTO {
 	}
 	
 	public void setCompetitionDate(MatchDialog matchDialog){
-		String competitionDate = String.valueOf(matchDialog.getEditTextDate().getText())
-				+"  "+String.valueOf(matchDialog.getEditTextTime().getText());
+		String competitionDate = String.valueOf(matchDialog.getEditTextDate().getText());
 		setCompetitionDate(competitionDate);
+	}
+	
+	public void setCompetitionTime(MatchDialog matchDialog){
+		String competitionTime = String.valueOf(matchDialog.getEditTextTime().getText());
+		setCompetitionTime(competitionTime);
 	}
 
 }

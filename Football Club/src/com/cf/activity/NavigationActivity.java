@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import com.android.club.R;
 import com.cf.base.ConstantVariable;
-import com.cf.module.member.GalleryView;
-import com.cf.module.member.ImageAdapter;
+import com.ff.gallery.GalleryView;
+import com.ff.gallery.ImageAdapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
