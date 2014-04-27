@@ -9,10 +9,11 @@
 	android:background="@layout/listviewstyle_matches"
     >
     
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:descendantFocusability="blocksDescendants">
 
         <TextView
             android:id="@+id/title"
@@ -23,7 +24,22 @@
             android:paddingLeft="15dp"
             android:gravity="left"
             />
-    </LinearLayout>
+        
+        
+        <Button
+	        android:id="@+id/button_matchDel"
+	        android:layout_width="40dp"
+	        android:layout_height="44dp"
+	        android:layout_alignParentRight="true"
+	        android:textSize="12sp"
+	        android:text="@string/button_match_del"
+	        
+	        android:focusable="false"
+   			android:clickable="false"
+			android:focusableInTouchMode="false"
+			/>
+        
+    </RelativeLayout>
 
 
 </RelativeLayout>

@@ -42,6 +42,8 @@
     <string name="button_confirm">确认</string>
     <string name="button_match_add">添加比赛</string>
     
+    <string name="button_match_del">删除</string>
+    
     
     <!-- Edit hint -->
     <string name="edit_hint_number">请输入数字！</string>

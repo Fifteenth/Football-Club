@@ -27,7 +27,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -66,6 +68,10 @@ public class MatchesActivity extends Activity{
     private int mMinute;
 
     
+    private float listviewTouchStartX = -1;
+    private float listviewTouchLastX = -1;
+    
+    
 	public void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
@@ -76,6 +82,10 @@ public class MatchesActivity extends Activity{
 
 		listViewMatch = (ListView) this.findViewById(R.id.listView_my);
 		listMatchTO = MatchesSupport.ReadMatches();
+		
+		if(listMatchTO == null){
+			listMatchTO = new ArrayList();
+		}
 		// 实例化自定义适配器
 		MatchesAdapter adapter = new MatchesAdapter(this,listMatchTO,layoutInt);
 		if(listMatchTO.size() > 0){
@@ -113,11 +123,40 @@ public class MatchesActivity extends Activity{
 				matchDialog.setEditTextTime(matchTO.getCompetitionTime());
 				// Dialog Type
 				dialogType = ConstantVariable.DIALOG_UPDATE;
-				return false;
+				return true;
 			}
 		});
 		
-		
+		listViewMatch.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				float currentViewX = event.getX();
+				boolean returnFlag = false;
+				if(listviewTouchStartX == -1){
+					// Init
+					listviewTouchStartX = currentViewX;
+				}
+				if(listviewTouchStartX - currentViewX > 4){
+					Button button = (Button)v.findViewById(R.id.button_matchDel);
+					button.setVisibility(View.VISIBLE);
+					returnFlag = true;
+				}
+				if(currentViewX - listviewTouchStartX > 4){
+					Button button = (Button)v.findViewById(R.id.button_matchDel);
+					button.setVisibility(View.INVISIBLE);
+					returnFlag = true;
+				}
+				
+				if(listviewTouchLastX == currentViewX){
+					listviewTouchStartX = -1;
+				}
+				
+				listviewTouchLastX = currentViewX;
+				return true;
+			}
+		});
 		
 		// Add Match
 		Button buttonMatchAdd = (Button) findViewById(R.id.button_matchAdd);

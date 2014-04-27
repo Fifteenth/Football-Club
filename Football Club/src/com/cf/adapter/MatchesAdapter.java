@@ -10,6 +10,7 @@ import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -79,6 +80,10 @@ public class MatchesAdapter implements ListAdapter{
 					+ list.get(position).getCompetitor());
 						
 		}
+		
+		Button button = (Button)convertView.findViewById(R.id.button_matchDel);
+		button.setVisibility(View.INVISIBLE);
+		
 		return convertView;
 	}
 

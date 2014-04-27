@@ -547,6 +547,7 @@ public final class R {
         public static final int button_deduction=0x7f080020;
         public static final int button_down=0x7f08001e;
         public static final int button_matchAdd=0x7f080007;
+        public static final int button_matchDel=0x7f080027;
         public static final int button_notice=0x7f080023;
         public static final int button_payment=0x7f08001f;
         public static final int button_team_add=0x7f08000a;
@@ -560,9 +561,9 @@ public final class R {
         public static final int edittext_amount=0x7f08000b;
         public static final int edittext_description=0x7f08000c;
         public static final int finance_record_decription=0x7f080026;
-        public static final int footballField=0x7f08002b;
-        public static final int image_team_captain=0x7f08002a;
-        public static final int image_team_number=0x7f080027;
+        public static final int footballField=0x7f08002c;
+        public static final int image_team_captain=0x7f08002b;
+        public static final int image_team_number=0x7f080028;
         public static final int imageview_introduction_logo=0x7f080003;
         public static final int img=0x7f08001c;
         public static final int linearyoutDown=0x7f08000f;
@@ -578,8 +579,8 @@ public final class R {
         public static final int textView2=0x7f080005;
         public static final int textview_datetime=0x7f080025;
         public static final int textview_matchInfo=0x7f080024;
-        public static final int textview_team_name=0x7f080029;
-        public static final int textview_team_position=0x7f080028;
+        public static final int textview_team_name=0x7f08002a;
+        public static final int textview_team_position=0x7f080029;
         public static final int title=0x7f080006;
         public static final int tvTitle=0x7f080008;
     }
@@ -632,18 +633,19 @@ public final class R {
         public static final int button_confirm=0x7f060018;
         public static final int button_deduction=0x7f060016;
         public static final int button_match_add=0x7f060019;
+        public static final int button_match_del=0x7f06001a;
         /**  button 
          */
         public static final int button_payment=0x7f060015;
         public static final int button_record=0x7f060017;
-        public static final int club_establish=0x7f06001d;
-        public static final int edit_hint_description=0x7f06001b;
+        public static final int club_establish=0x7f06001e;
+        public static final int edit_hint_description=0x7f06001c;
         /**  Edit hint 
          */
-        public static final int edit_hint_number=0x7f06001a;
-        public static final int footballclub=0x7f06001c;
+        public static final int edit_hint_number=0x7f06001b;
+        public static final int footballclub=0x7f06001d;
         public static final int formation_cn=0x7f060005;
-        public static final int matches_season=0x7f06001e;
+        public static final int matches_season=0x7f06001f;
         /**  Finance 
          */
         public static final int module_finance=0x7f060006;
