@@ -3,42 +3,28 @@ package com.cf.activity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 import com.android.club.R;
 import com.cf.adapter.MatchesAdapter;
 import com.cf.base.ConstantVariable;
-import com.cf.dialog.FinanceDialog;
 import com.cf.dialog.MatchDialog;
 import com.cf.support.MatchesSupport;
 import com.cf.to.MatchTO;
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.res.Resources;
-import android.database.DataSetObserver;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -51,10 +37,9 @@ public class MatchesActivity extends Activity{
 	private ListView listViewMatch;
 	private int layoutInt = R.layout.listview_matches;
 	private MatchDialog matchDialog;
+	private MatchesAdapter adapter;
 	
 	public static int dialogType = 0;
-	
-	
 	
 	public static final int SHOW_DATAPICK = 0; 
 	public static final int DATE_DIALOG_ID = 1;  
@@ -69,7 +54,12 @@ public class MatchesActivity extends Activity{
 
     
     private float listviewTouchStartX = -1;
-    private float listviewTouchLastX = -1;
+    private boolean isTouchMove = false;
+    private boolean isTouchMoveFlag = false;
+    private boolean isAvoidResponseOnLongClick = false;
+    private View currentItemView;
+    
+    private RelativeLayout rl_right;
     
     
 	public void onCreate(Bundle savedInstanceState) {
@@ -87,15 +77,28 @@ public class MatchesActivity extends Activity{
 			listMatchTO = new ArrayList();
 		}
 		// 实例化自定义适配器
-		MatchesAdapter adapter = new MatchesAdapter(this,listMatchTO,layoutInt);
+		adapter = new MatchesAdapter(this,listMatchTO,layoutInt);
 		if(listMatchTO.size() > 0){
 			listViewMatch.setAdapter(adapter);
 		}
+		
 		listViewMatch.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				
+				if(isTouchMoveFlag == true){
+					// Set Init State
+					isTouchMoveFlag = false;
+					// 
+					Button button = adapter.getButton();
+					if(button != null){
+						adapter.getButton().setBackgroundResource(R.drawable.button);
+					}
+					return;
+				}
+				
 				/*
 				 * API
 				 * 
@@ -112,6 +115,28 @@ public class MatchesActivity extends Activity{
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int listIndex, long arg3) {
+				
+				// Wish To Flicker
+				listViewMatch.setSelector(android.R.color.transparent);
+				
+				// Intercept
+				if(isAvoidResponseOnLongClick){
+					// Set Init State
+					isAvoidResponseOnLongClick = false;
+					return true;
+				}
+
+				// Intercept
+				if(isAvoidResponseOnLongClick){
+					// Set Init State
+					isAvoidResponseOnLongClick = false;
+					return true;
+				}
+				
+				// Set Init State
+				isTouchMoveFlag = false;
+				
+				//// 
 				MatchesActivity.listIndex = listIndex;
 				matchDialog.show();
 				MatchTO matchTO = listMatchTO.get(listIndex);
@@ -127,34 +152,130 @@ public class MatchesActivity extends Activity{
 			}
 		});
 		
+		
 		listViewMatch.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
-				float currentViewX = event.getX();
 				boolean returnFlag = false;
+				float currentViewX = event.getX();
+				
+				
+				
+				// Default Selector
+				if(!isTouchMove){
+					listViewMatch.setSelector(R.color.blue);
+				}
+				
 				if(listviewTouchStartX == -1){
 					// Init
 					listviewTouchStartX = currentViewX;
 				}
+				
+				System.out.println("listviewTouchStartX:" + listviewTouchStartX
+						+ "----" + "currentViewX:" + currentViewX);
+				
 				if(listviewTouchStartX - currentViewX > 4){
-					Button button = (Button)v.findViewById(R.id.button_matchDel);
-					button.setVisibility(View.VISIBLE);
-					returnFlag = true;
+					showRight(currentItemView);
 				}
 				if(currentViewX - listviewTouchStartX > 4){
-					Button button = (Button)v.findViewById(R.id.button_matchDel);
-					button.setVisibility(View.INVISIBLE);
-					returnFlag = true;
+					hiddenRight(currentItemView);
 				}
 				
-				if(listviewTouchLastX == currentViewX){
+
+				if(event.getAction() == MotionEvent.ACTION_DOWN){
+					System.out.println("++++++++++++++++++++++ACTION_DOWN");
+
+					/*
+					 * API Comment
+							 	该View会先响应ACTION_DOWN事件，并返回一个boolean值，这里有两种判断：
+					            a：返回True，表示该View接受此按下动作，就是说这个点击动作的按下操作被中止，
+					            然后就是响应ACTION_UP事件。点击动作的按下操作被ACTION_DOWN接受之后就结束了，所以
+					            之后的OnClick/OnLongClick事件就不会响应了。
+					            b：返回false，表示该View不接受此按下动作，响应完之后，按下操作继续往下发，
+					            之后是响应ACTION_UP事件，这里又有一个判断：
+					 */
+					// Look API Comment
+					isTouchMoveFlag = false;
+					
+					// Set Init State
+					returnFlag = false;
+					
+					
+
+					float lastX = event.getX();
+					float lastY = event.getY();
+					int motionPosition = listViewMatch.pointToPosition((int) lastX, (int) lastY);
+					
+					if (motionPosition >= 0) {
+						currentItemView = listViewMatch.getChildAt(motionPosition - 
+								listViewMatch.getFirstVisiblePosition());
+						
+						rl_right = (RelativeLayout)currentItemView.findViewById(R.id.item_right);
+
+					}
+				}
+				
+				if(event.getAction() == MotionEvent.ACTION_UP){
+					
+					System.out.println("++++++++++++++++++++++ACTION_UP");
+					
+					// Reflesh
+//					if(!isTouchMove){
+//						listViewMatch.setSelector(android.R.color.transparent);
+//					}
+					
+					// Set Init State
 					listviewTouchStartX = -1;
+					
+					// Return 
+					if(isTouchMove){
+						// Set Init State
+						isTouchMove = false;
+						isTouchMoveFlag = true;
+						
+						
+						/* 
+						 * 1.
+						 * return false
+						 * Will not Response OnLongClick
+						 * Will Response OnClick
+						 */
+						returnFlag = false;
+						
+						
+						
+						/*
+						 * 2.
+						 * return true
+						 * Will Response OnLongClick
+						 * Will not Response OnClick
+						 */
+						/*
+						isAvoidResponseOnLongClick = true;
+						returnFlag = true;
+						*/
+						
+						
+					}else{
+						// Will Response OnLongClick
+						isAvoidResponseOnLongClick = true;
+						returnFlag = true;
+					}
 				}
 				
-				listviewTouchLastX = currentViewX;
-				return true;
+				
+				if(event.getAction() == MotionEvent.ACTION_MOVE){
+					
+					System.out.println("++++++++++++++++++++++ACTION_MOVE");
+					
+					isTouchMove = true;
+					
+					// Selector
+					listViewMatch.setSelector(android.R.color.transparent);
+				}
+				return returnFlag;
 			}
 		});
 		
@@ -331,4 +452,15 @@ public class MatchesActivity extends Activity{
     	// TODO Auto-generated method stub
     	super.onBackPressed();
     }
+    
+    
+    
+    private void showRight(View rightView) {
+		rl_right.setVisibility(View.VISIBLE);
+	}
+	
+	private void hiddenRight(View rightView) {
+		rl_right.setVisibility(View.GONE);
+	}
+	
 }

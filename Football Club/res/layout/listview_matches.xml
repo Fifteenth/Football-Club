@@ -11,7 +11,7 @@
     
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:orientation="horizontal" 
         android:descendantFocusability="blocksDescendants">
 
@@ -24,21 +24,29 @@
             android:paddingLeft="15dp"
             android:gravity="left"
             />
+    </RelativeLayout>
+    
+    
+    <RelativeLayout
+        android:id="@+id/item_right"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        android:visibility="gone">
         
         
         <Button
 	        android:id="@+id/button_matchDel"
-	        android:layout_width="40dp"
-	        android:layout_height="44dp"
+	        android:layout_width="60dp"
+	        android:layout_height="30dp"
 	        android:layout_alignParentRight="true"
 	        android:textSize="12sp"
-	        android:text="@string/button_match_del"
-	        
 	        android:focusable="false"
    			android:clickable="false"
 			android:focusableInTouchMode="false"
 			/>
-        
     </RelativeLayout>
 
 

@@ -20,7 +20,12 @@ public class MatchesAdapter implements ListAdapter{
 	private LayoutInflater layoutInflater;
 	private int layoutInt;
 	private List<MatchTO> list; 
+	private Button button;
 	
+	public Button getButton() {
+		return button;
+	}
+
 	public MatchesAdapter(Context context, List<MatchTO> list,int layoutInt) {
 		this.list = list;
 		this.layoutInt = layoutInt;
@@ -82,8 +87,7 @@ public class MatchesAdapter implements ListAdapter{
 		}
 		
 		Button button = (Button)convertView.findViewById(R.id.button_matchDel);
-		button.setVisibility(View.INVISIBLE);
-		
+		button.setBackgroundResource(R.drawable.button);
 		return convertView;
 	}
 
