@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -54,12 +55,22 @@ public class MatchesActivity extends Activity{
 
     
     private float listviewTouchStartX = -1;
+    private float listviewTouchStartY = -1;
     private boolean isTouchMove = false;
     private boolean isTouchMoveFlag = false;
     private boolean isAvoidResponseOnLongClick = false;
-    private View currentItemView;
+    private boolean isAvoidResponseOnTouch = false;
     
-    private RelativeLayout rl_right;
+    
+    public void setAvoidResponseOnTouch(boolean isAvoidResponseOnTouch) {
+		this.isAvoidResponseOnTouch = isAvoidResponseOnTouch;
+	}
+
+	private View currentItemView;
+    
+    private RelativeLayout layoutRight;
+    private RelativeLayout lastLayoutRight;
+    
     
     
 	public void onCreate(Bundle savedInstanceState) {
@@ -118,6 +129,10 @@ public class MatchesActivity extends Activity{
 				
 				// Wish To Flicker
 				listViewMatch.setSelector(android.R.color.transparent);
+				listViewMatch.setSelection(-1);
+				
+//				Drawable drawable =  listViewMatch.getSelector();
+//				listViewMatch.setSelector(drawable);
 				
 				// Intercept
 				if(isAvoidResponseOnLongClick){
@@ -160,7 +175,7 @@ public class MatchesActivity extends Activity{
 				// TODO Auto-generated method stub
 				boolean returnFlag = false;
 				float currentViewX = event.getX();
-				
+				float currentViewY = event.getY();
 				
 				
 				// Default Selector
@@ -171,15 +186,18 @@ public class MatchesActivity extends Activity{
 				if(listviewTouchStartX == -1){
 					// Init
 					listviewTouchStartX = currentViewX;
+					listviewTouchStartY = currentViewY;
 				}
 				
 				System.out.println("listviewTouchStartX:" + listviewTouchStartX
 						+ "----" + "currentViewX:" + currentViewX);
 				
-				if(listviewTouchStartX - currentViewX > 4){
+				if(listviewTouchStartX - currentViewX > 80
+						&& listviewTouchStartY - currentViewY < 40){
 					showRight(currentItemView);
 				}
-				if(currentViewX - listviewTouchStartX > 4){
+				if(currentViewX - listviewTouchStartX > 80
+						&& listviewTouchStartY - currentViewY < 40){
 					hiddenRight(currentItemView);
 				}
 				
@@ -202,6 +220,12 @@ public class MatchesActivity extends Activity{
 					// Set Init State
 					returnFlag = false;
 					
+					// Intercept OnTouch
+					if(isAvoidResponseOnTouch){
+						isAvoidResponseOnTouch = false;
+						returnFlag = true;
+					}
+					
 					
 
 					float lastX = event.getX();
@@ -212,8 +236,10 @@ public class MatchesActivity extends Activity{
 						currentItemView = listViewMatch.getChildAt(motionPosition - 
 								listViewMatch.getFirstVisiblePosition());
 						
-						rl_right = (RelativeLayout)currentItemView.findViewById(R.id.item_right);
-
+						// Last Layout 
+						lastLayoutRight = layoutRight;
+						// Current Layout
+						layoutRight = (RelativeLayout)currentItemView.findViewById(R.id.item_right);
 					}
 				}
 				
@@ -228,6 +254,7 @@ public class MatchesActivity extends Activity{
 					
 					// Set Init State
 					listviewTouchStartX = -1;
+					listviewTouchStartY = -1;
 					
 					// Return 
 					if(isTouchMove){
@@ -291,6 +318,7 @@ public class MatchesActivity extends Activity{
 				dialogType = ConstantVariable.DIALOG_ADD;
 			}
 		});
+		
 		
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);  
@@ -455,12 +483,16 @@ public class MatchesActivity extends Activity{
     
     
     
+    
     private void showRight(View rightView) {
-		rl_right.setVisibility(View.VISIBLE);
+    	if(lastLayoutRight!=null){
+    		lastLayoutRight.setVisibility(View.GONE);	
+    	}
+    	layoutRight.setVisibility(View.VISIBLE);
 	}
 	
 	private void hiddenRight(View rightView) {
-		rl_right.setVisibility(View.GONE);
+		layoutRight.setVisibility(View.GONE);
 	}
 	
 }

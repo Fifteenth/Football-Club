@@ -3,6 +3,8 @@ package com.cf.adapter;
 import java.util.List;
 
 import com.android.club.R;
+import com.cf.activity.MatchesActivity;
+import com.cf.support.MatchesSupport;
 import com.cf.to.MatchTO;
 
 import android.content.Context;
@@ -21,6 +23,7 @@ public class MatchesAdapter implements ListAdapter{
 	private int layoutInt;
 	private List<MatchTO> list; 
 	private Button button;
+	private MatchesActivity matchesActivity;
 	
 	public Button getButton() {
 		return button;
@@ -30,6 +33,7 @@ public class MatchesAdapter implements ListAdapter{
 		this.list = list;
 		this.layoutInt = layoutInt;
 		this.layoutInflater = LayoutInflater.from(context);
+		matchesActivity = (MatchesActivity)context;
 	}
 
 	@Override
@@ -86,8 +90,22 @@ public class MatchesAdapter implements ListAdapter{
 						
 		}
 		
-		Button button = (Button)convertView.findViewById(R.id.button_matchDel);
-		button.setBackgroundResource(R.drawable.button);
+		Button buttonMatchDel = (Button)convertView.findViewById(R.id.button_matchDel);
+		buttonMatchDel.setBackgroundResource(R.drawable.button);
+		// Del Match
+		buttonMatchDel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// AvoidResponseOnTouch
+				matchesActivity.setAvoidResponseOnTouch(true);
+				// Remove
+				list.remove(position);
+				
+				MatchesSupport.WriteMatches(list);
+				// Reflesh
+				matchesActivity.onCreate(null);
+			}
+		});
 		return convertView;
 	}
 
