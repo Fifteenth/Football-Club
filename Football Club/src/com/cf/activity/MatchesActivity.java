@@ -34,6 +34,11 @@ public class MatchesActivity extends Activity{
 	
 
 	private List <MatchTO> listMatchTO = new ArrayList<MatchTO>();
+	
+	public List<MatchTO> getListMatchTO() {
+		return listMatchTO;
+	}
+
 	private static int listIndex = -1;
 	private ListView listViewMatch;
 	private int layoutInt = R.layout.listview_matches;
@@ -484,14 +489,17 @@ public class MatchesActivity extends Activity{
     
     
     
-    private void showRight(View rightView) {
+    public void showRight(View rightView) {
     	if(lastLayoutRight!=null){
     		lastLayoutRight.setVisibility(View.GONE);	
     	}
     	layoutRight.setVisibility(View.VISIBLE);
 	}
 	
-	private void hiddenRight(View rightView) {
+	public void hiddenRight(View rightView) {
+		if(rightView == null){
+			rightView = currentItemView;
+		}
 		layoutRight.setVisibility(View.GONE);
 	}
 	

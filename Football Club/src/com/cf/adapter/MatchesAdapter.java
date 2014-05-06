@@ -8,15 +8,14 @@ import com.cf.support.MatchesSupport;
 import com.cf.to.MatchTO;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.BaseAdapter;
 
-public class MatchesAdapter implements ListAdapter{
+public class MatchesAdapter extends BaseAdapter{
 	
 	/** 实例及其对应的视图布局的XML文件 */
 	private LayoutInflater layoutInflater;
@@ -24,6 +23,8 @@ public class MatchesAdapter implements ListAdapter{
 	private List<MatchTO> list; 
 	private Button button;
 	private MatchesActivity matchesActivity;
+	
+	Button buttonMatchDel;
 	
 	public Button getButton() {
 		return button;
@@ -33,19 +34,9 @@ public class MatchesAdapter implements ListAdapter{
 		this.list = list;
 		this.layoutInt = layoutInt;
 		this.layoutInflater = LayoutInflater.from(context);
-		matchesActivity = (MatchesActivity)context;
+		this.matchesActivity = (MatchesActivity)context;
 	}
 
-	@Override
-	public void registerDataSetObserver(DataSetObserver observer) {
-
-	}
-
-	@Override
-	public void unregisterDataSetObserver(DataSetObserver observer) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public int getCount() {
@@ -56,7 +47,7 @@ public class MatchesAdapter implements ListAdapter{
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		return list.get(position);
+		return null;
 	}
 
 	@Override
@@ -74,36 +65,45 @@ public class MatchesAdapter implements ListAdapter{
 		if (convertView == null) {
 			// 加载布局
 			convertView = layoutInflater.inflate(layoutInt, null);
-			
-
-			TextView tv_1 = (TextView) convertView.findViewById(R.id.title);
-			tv_1.setText(
-					  "第" 
-					+ list.get(position).getRound()
-					+ "轮"
-					+ "    " 
-					+ "JAVA足球队"
-					+ " "
-					+ list.get(position).getScore()
-					+ " "
-					+ list.get(position).getCompetitor());
-						
 		}
 		
-		Button buttonMatchDel = (Button)convertView.findViewById(R.id.button_matchDel);
+		// Bind Data
+		TextView tv_1 = (TextView) convertView.findViewById(R.id.title);
+		tv_1.setText(
+				  "第" 
+				+ list.get(position).getRound()
+				+ "轮"
+				+ "    " 
+				+ "JAVA足球队"
+				+ " "
+				+ list.get(position).getScore()
+				+ " "
+				+ list.get(position).getCompetitor());
+		
+		buttonMatchDel = (Button)convertView.findViewById(R.id.button_matchDel);
 		buttonMatchDel.setBackgroundResource(R.drawable.button);
 		// Del Match
 		buttonMatchDel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// AvoidResponseOnTouch
-				matchesActivity.setAvoidResponseOnTouch(true);
+//				matchesActivity.setAvoidResponseOnTouch(true);
 				// Remove
 				list.remove(position);
+//				MatchesSupport.WriteMatches(list);
+//				
+//				// Clear
+//				list.clear();
+//				list.addAll(MatchesSupport.ReadMatches());
 				
-				MatchesSupport.WriteMatches(list);
 				// Reflesh
-				matchesActivity.onCreate(null);
+				notifyDataSetChanged();
+				
+				// hidden Button
+				matchesActivity.hiddenRight(null);
+				
+				// Save
+				MatchesSupport.WriteMatches(list);
 			}
 		});
 		return convertView;
