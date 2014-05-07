@@ -9,7 +9,10 @@ import com.cf.to.MatchTO;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -67,6 +70,24 @@ public class MatchesAdapter extends BaseAdapter{
 			convertView = layoutInflater.inflate(layoutInt, null);
 		}
 		
+		
+		convertView.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+
+				if(event.getAction() == MotionEvent.ACTION_DOWN){
+					System.out.println("----------------------Adapt:ACTION_DOWN");
+					return false;
+				}
+				if(event.getAction() == MotionEvent.ACTION_UP){
+					System.out.println("----------------------ACTION_UP");
+					return false;
+				}
+				return false;
+			}
+		});
+		
 		// Bind Data
 		TextView tv_1 = (TextView) convertView.findViewById(R.id.title);
 		tv_1.setText(
@@ -90,11 +111,6 @@ public class MatchesAdapter extends BaseAdapter{
 //				matchesActivity.setAvoidResponseOnTouch(true);
 				// Remove
 				list.remove(position);
-//				MatchesSupport.WriteMatches(list);
-//				
-//				// Clear
-//				list.clear();
-//				list.addAll(MatchesSupport.ReadMatches());
 				
 				// Reflesh
 				notifyDataSetChanged();

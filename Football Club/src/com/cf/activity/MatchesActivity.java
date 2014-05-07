@@ -194,8 +194,8 @@ public class MatchesActivity extends Activity{
 					listviewTouchStartY = currentViewY;
 				}
 				
-				System.out.println("listviewTouchStartX:" + listviewTouchStartX
-						+ "----" + "currentViewX:" + currentViewX);
+//				System.out.println("listviewTouchStartX:" + listviewTouchStartX
+//						+ "----" + "currentViewX:" + currentViewX);
 				
 				if(listviewTouchStartX - currentViewX > 80
 						&& listviewTouchStartY - currentViewY < 40){
@@ -358,6 +358,9 @@ public class MatchesActivity extends Activity{
 		dialogType = ConstantVariable.DIALOG_DEFAULT;
 		// Write
 		MatchesSupport.WriteMatches(listMatchTO);
+		
+		// Reflesh Data
+		adapter.notifyDataSetChanged();;
 	}
 	
 	

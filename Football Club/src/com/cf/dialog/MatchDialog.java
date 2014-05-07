@@ -161,7 +161,6 @@ public class MatchDialog extends Dialog {
 						MatchDialog.classPath,MatchTO.classPath,matchDialog);
 				mathchesActivity.back(matchTO);
 				MatchDialog.this.dismiss();
-				mathchesActivity.onCreate(null);
 			}
 		});
 	}
