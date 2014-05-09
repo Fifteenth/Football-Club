@@ -34,6 +34,7 @@
     
     <string name="module_management">球队管理</string>
     <string name="module_team">球队阵容</string>
+    <string name="module_matches_match_detail">比赛详情</string>
     
     <!-- button -->
     <string name="button_payment">缴费</string>

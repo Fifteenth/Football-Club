@@ -50,6 +50,9 @@
     	<activity android:name="com.cf.activity.FinanceNoticeActivity"  
             android:screenOrientation="portrait"/>
     	
+    	<activity android:name="com.cf.activity.MatchesMatchDetailActivity"  
+            android:screenOrientation="portrait"/>
+    	
     </application>
     
     

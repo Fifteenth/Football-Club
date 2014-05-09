@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -63,7 +64,7 @@ public class MatchesActivity extends Activity{
     private float listviewTouchStartY = -1;
     private boolean isTouchMove = false;
     private boolean isTouchMoveFlag = false;
-    private boolean isAvoidResponseOnLongClick = false;
+//    private boolean isAvoidResponseOnLongClick = false;
     private boolean isAvoidResponseOnTouch = false;
     
     
@@ -122,6 +123,10 @@ public class MatchesActivity extends Activity{
 				 *		Toast.LENGTH_SHORT).show();*/
 				
 				listViewMatch.setItemChecked(position, true);
+
+				// Activity
+				Intent matchDetailActivity = new Intent(MatchesActivity.this,MatchesMatchDetailActivity.class);
+				startActivity(matchDetailActivity);
 			}
 		});
 		
@@ -140,18 +145,18 @@ public class MatchesActivity extends Activity{
 //				listViewMatch.setSelector(drawable);
 				
 				// Intercept
-				if(isAvoidResponseOnLongClick){
-					// Set Init State
-					isAvoidResponseOnLongClick = false;
-					return true;
-				}
+//				if(isAvoidResponseOnLongClick){
+//					// Set Init State
+//					isAvoidResponseOnLongClick = false;
+//					return true;
+//				}
 
 				// Intercept
-				if(isAvoidResponseOnLongClick){
-					// Set Init State
-					isAvoidResponseOnLongClick = false;
-					return true;
-				}
+//				if(isAvoidResponseOnLongClick){
+//					// Set Init State
+//					isAvoidResponseOnLongClick = false;
+//					return true;
+//				}
 				
 				// Set Init State
 				isTouchMoveFlag = false;
@@ -250,6 +255,15 @@ public class MatchesActivity extends Activity{
 				
 				if(event.getAction() == MotionEvent.ACTION_UP){
 					
+					
+					/*
+					 * API Comment
+						 	如果ACTION_UP事件返回True，表示ACTION_UP接受松开操作，松开操作中止；
+						 View会一直处于按下状态，之后View便会响应OnLongClick事件。
+	 						如果ACTION_UP事件返回false，表示ACTION_UP不接收松开操作，松开操作继续下发；
+	 					因为按下与松开操作都没有被中止，所以之后View就会响应OnClick事件。
+					 */
+					
 					System.out.println("++++++++++++++++++++++ACTION_UP");
 					
 					// Reflesh
@@ -274,7 +288,7 @@ public class MatchesActivity extends Activity{
 						 * Will not Response OnLongClick
 						 * Will Response OnClick
 						 */
-						returnFlag = false;
+//						returnFlag = false;
 						
 						
 						
@@ -292,9 +306,11 @@ public class MatchesActivity extends Activity{
 						
 					}else{
 						// Will Response OnLongClick
-						isAvoidResponseOnLongClick = true;
-						returnFlag = true;
+//						isAvoidResponseOnLongClick = true;
+//						returnFlag = true;
 					}
+					
+					returnFlag = false;
 				}
 				
 				

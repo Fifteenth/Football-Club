@@ -70,23 +70,22 @@ public class MatchesAdapter extends BaseAdapter{
 			convertView = layoutInflater.inflate(layoutInt, null);
 		}
 		
-		
-		convertView.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-
-				if(event.getAction() == MotionEvent.ACTION_DOWN){
-					System.out.println("----------------------Adapt:ACTION_DOWN");
-					return false;
-				}
-				if(event.getAction() == MotionEvent.ACTION_UP){
-					System.out.println("----------------------ACTION_UP");
-					return false;
-				}
-				return false;
-			}
-		});
+//		convertView.setOnTouchListener(new OnTouchListener() {
+//			
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//
+//				if(event.getAction() == MotionEvent.ACTION_DOWN){
+//					System.out.println("----------------------Adapt:ACTION_DOWN");
+//					return false;
+//				}
+//				if(event.getAction() == MotionEvent.ACTION_UP){
+//					System.out.println("----------------------ACTION_UP");
+//					return false;
+//				}
+//				return false;
+//			}
+//		});
 		
 		// Bind Data
 		TextView tv_1 = (TextView) convertView.findViewById(R.id.title);
