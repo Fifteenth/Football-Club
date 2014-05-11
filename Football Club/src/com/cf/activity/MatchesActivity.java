@@ -64,7 +64,6 @@ public class MatchesActivity extends Activity{
     private float listviewTouchStartY = -1;
     private boolean isTouchMove = false;
     private boolean isTouchMoveFlag = false;
-//    private boolean isAvoidResponseOnLongClick = false;
     private boolean isAvoidResponseOnTouch = false;
     
     
@@ -111,7 +110,7 @@ public class MatchesActivity extends Activity{
 					// 
 					Button button = adapter.getButton();
 					if(button != null){
-						adapter.getButton().setBackgroundResource(R.drawable.button);
+						adapter.getButton().setBackgroundResource(R.drawable.button_delete);
 					}
 					return;
 				}

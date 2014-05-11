@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@+drawable/bg_matches_match_detail"
+    android:orientation="vertical">
+    
+    
+	    <TextView
+	        android:id="@+id/title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/black"
+	        android:textSize="16sp" 
+	        android:paddingLeft="20dp"
+	        android:gravity="left"
+	        android:text="@string/module_matches_match_detail"
+	        />
+        
+	    
+	    
+	    <LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:orientation="vertical"
+		    >
+		    
+	        
+	        <RelativeLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="vertical"
+		        android:layout_gravity="bottom"
+	        	>
+	        	
+	            <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:textColor="@color/crimson"
+		            android:textSize="22sp" 
+		            android:layout_gravity="right"
+		            android:text="JAVA VS 国际米兰"
+		            android:layout_centerInParent="true"
+	            />
+	        </RelativeLayout>
+	        
+	    </LinearLayout>
+	    
+	
+</LinearLayout>

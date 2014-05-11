@@ -101,7 +101,7 @@ public class MatchesAdapter extends BaseAdapter{
 				+ list.get(position).getCompetitor());
 		
 		buttonMatchDel = (Button)convertView.findViewById(R.id.button_matchDel);
-		buttonMatchDel.setBackgroundResource(R.drawable.button);
+		buttonMatchDel.setBackgroundResource(R.drawable.button_delete);
 		// Del Match
 		buttonMatchDel.setOnClickListener(new View.OnClickListener() {
 			@Override

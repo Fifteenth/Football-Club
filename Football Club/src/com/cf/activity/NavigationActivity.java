@@ -9,10 +9,12 @@ import com.ff.gallery.ImageAdapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -138,5 +140,38 @@ public class NavigationActivity extends Activity {
 		
 		spMap = new HashMap<Integer,Integer>();
         spMap.put(1,sp.load(this, R.raw.slide_ringtones,1));
+	}
+	
+	
+	
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+		AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		int currentVolume = mAudioManager
+				.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_VOLUME_UP:// 音量增大
+			mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+					currentVolume + 1, 1);
+			break;
+		case KeyEvent.KEYCODE_VOLUME_DOWN:// 音量减小
+			mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+					currentVolume - 1, 1);
+			break;
+
+		case KeyEvent.KEYCODE_BACK:// 返回键
+			// jniOnCallCppEvent();
+			return true;
+			// return super.onKeyDown(keyCode, event);
+
+		default:
+			break;
+		}
+
+		return true;
+		// return super.onKeyDown(keyCode, event);
 	}
 }
