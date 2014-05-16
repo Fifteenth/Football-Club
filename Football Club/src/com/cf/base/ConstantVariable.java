@@ -98,12 +98,14 @@ public class ConstantVariable {
 	public static String SYSBOL_COMMA = ",";
 	public static String SYSBOL_PERIOD = ".";
 	public static String SYSBOL_DOUBLE_QUOTES = "";
-	public static String SYSBOL_SEMICOLON=";";
-	public static String SYSBOL_PLUS="+";
-	public static String SYSBOL_MINUS="-";
-	public static String SYSBOL_SPAN_ONE=" ";
-	public static String SYSBOL_SPAN_TWO="  ";
-	public static String SYSBOL_SPAN_THREE="   ";
+	public static String SYSBOL_SEMICOLON = ";";
+	public static String SYSBOL_PLUS = "+";
+	public static String SYSBOL_MINUS = "-";
+	public static String SYSBOL_SPAN_ONE = " ";
+	public static String SYSBOL_SPAN_TWO = "  ";
+	public static String SYSBOL_SPAN_THREE = "   ";
+	public static String SYSBOL_VS = "VS";
+	public static String SYSBOL_COLON = ":";
 	
 	// Dialog
 	public final static int DIALOG_DEFAULT = 0;
@@ -111,5 +113,7 @@ public class ConstantVariable {
 	public final static int DIALOG_UPDATE = 2;
 	public final static int DIALOG_DELETE = 3;
 	
+	
+	public final static String myTeam = "JAVA×ãÇò¶Ó";
 
 }

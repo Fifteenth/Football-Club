@@ -2,6 +2,8 @@ package com.cf.dialog;
 
 
 
+import java.util.List;
+
 import com.android.club.R;
 import com.cf.activity.TeamActivity;
 import com.cf.service.BuildTOService;
@@ -103,7 +105,10 @@ public class TeamPlayerDialog extends Dialog {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				
-				if(String.valueOf(teamActivity.getListIndex() + 1).equals(
+				List<PlayerTO> listPlayerTO = teamActivity.getListPlayerTO();
+				
+				if(teamActivity.getTeamTO() == null
+						|| listPlayerTO.get(teamActivity.getListIndex()).getNumber().equals(
 						teamActivity.getTeamTO().getCaptionPlayerNumber())){
 					// Save
 					needSaveCaption = true;

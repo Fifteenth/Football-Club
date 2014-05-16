@@ -73,13 +73,13 @@ public class XMLUtil {
 		return null;
 	}
 	
-	public static void saveXML(String fileName) throws Exception {
+	/*public static void saveXML(String fileName) throws Exception {
 		File xmlFileMatch = new File(SDCardUtil.sdCardRootPath,fileName);
 		FileOutputStream xmlOutputStream = FileUtil.getFileOutputStream(xmlFileMatch);
 		
 		xmlOutputStream.flush();
 		xmlOutputStream.close();
-	}
+	}*/
 	
 	public static void saveXML(FileOutputStream xmlOutputStream) throws IOException{
 		xmlOutputStream.flush();

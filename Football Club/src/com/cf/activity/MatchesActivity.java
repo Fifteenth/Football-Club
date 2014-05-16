@@ -119,11 +119,16 @@ public class MatchesActivity extends Activity{
 				 * API
 				 * 
 				 * Toast.makeText(TeamActivity.this, "选中的是:" + position,
-				 *		Toast.LENGTH_SHORT).show();*/
+				 *		Toast.LENGTH_SHORT).show();
+				 */
 				
 				listViewMatch.setItemChecked(position, true);
 
 				// Activity
+				MatchesMatchDetailActivity matchesMatchDetailActivity = new MatchesMatchDetailActivity();
+				// Selection MatchTO
+				matchesMatchDetailActivity.matchTO  = listMatchTO.get(position);
+				
 				Intent matchDetailActivity = new Intent(MatchesActivity.this,MatchesMatchDetailActivity.class);
 				startActivity(matchDetailActivity);
 			}
@@ -375,7 +380,7 @@ public class MatchesActivity extends Activity{
 		MatchesSupport.WriteMatches(listMatchTO);
 		
 		// Reflesh Data
-		adapter.notifyDataSetChanged();;
+		adapter.notifyDataSetChanged();
 	}
 	
 	

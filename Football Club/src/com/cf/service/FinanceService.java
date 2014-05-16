@@ -91,7 +91,7 @@ public class FinanceService {
 	
 	
 	//
-	public static String getWriteXML(List<FinanceTO> financeTOList, String fileName) 
+	public static FileOutputStream getWriteXML(List<FinanceTO> financeTOList, String fileName) 
 			throws Exception {
 		// 
 		File xmlFileMatch = new File(SDCardUtil.sdCardRootPath,fileName);
@@ -127,15 +127,15 @@ public class FinanceService {
         serializer.endTag(ConstantVariable.SYSBOL_DOUBLE_QUOTES, "finance");
         serializer.endDocument();
         
-        return financeOutputStream.toString();
+        return financeOutputStream;
     }
 	
 	public static void getWriteXMLAndSave(List<FinanceTO> financeTOList, String fileName) 
 			throws Exception {
 		
 		
-		getWriteXML(financeTOList,fileName);
-		XMLUtil.saveXML(fileName);
+		FileOutputStream xmlOutputStream = getWriteXML(financeTOList,fileName);
+		XMLUtil.saveXML(xmlOutputStream);
 	}
 	
 	

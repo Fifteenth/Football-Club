@@ -7,16 +7,17 @@ import java.io.FileOutputStream;
 public class FileUtil {
 	
 	public static FileOutputStream getFileOutputStream(File file){
+		FileOutputStream fileOutputStream = null;
 		try {
 			if(!file.exists()){
 				file.createNewFile();
 			}
-			return new FileOutputStream(file);
+			fileOutputStream = new FileOutputStream(file);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return fileOutputStream;
 	}
 	
 	

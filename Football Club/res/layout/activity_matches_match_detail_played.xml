@@ -35,16 +35,62 @@
 	        	>
 	        	
 	            <TextView
+	                android:id="@+id/textview_competitor"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:textColor="@color/crimson"
 		            android:textSize="22sp" 
 		            android:layout_gravity="right"
-		            android:text="JAVA VS 国际米兰"
 		            android:layout_centerInParent="true"
 	            />
 	        </RelativeLayout>
 	        
+	        
+	        <RelativeLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="vertical"
+		        android:layout_gravity="bottom"
+	        	>
+	        	
+	            <TextView
+	                android:id="@+id/textview_date_time"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:textColor="@color/crimson"
+		            android:textSize="16sp" 
+		            android:layout_gravity="right"
+		            android:layout_alignParentRight="true"
+		            android:layout_marginRight="10dp"
+	            />
+	        </RelativeLayout>
+	        
+	    </LinearLayout>
+	    
+	    
+	    <LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:orientation="vertical"
+		    >
+
+	        <RelativeLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="vertical"
+		        android:layout_gravity="bottom"
+	        	>
+		        <TextView
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:textColor="@color/crimson"
+			            android:textSize="16sp" 
+			            android:layout_gravity="right"
+			            android:layout_alignParentLeft="true"
+			            android:layout_marginLeft="10dp"
+			            android:text="罗纳尔多		齐达内"
+		            />
+	        </RelativeLayout>
 	    </LinearLayout>
 	    
 	

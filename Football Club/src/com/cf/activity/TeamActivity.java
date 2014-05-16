@@ -39,6 +39,14 @@ public class TeamActivity extends Activity {
 	int dialogType = 0;
 	
 	
+	public List<PlayerTO> getListPlayerTO() {
+		return listPlayerTO;
+	}
+
+	public void setListPlayerTO(List<PlayerTO> listPlayerTO) {
+		this.listPlayerTO = listPlayerTO;
+	}
+	
 	public TeamTO getTeamTO() {
 		return teamTO;
 	}
