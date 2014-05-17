@@ -19,11 +19,13 @@
 	        />
         
 	    
-	    
+	    <!-- 1. -->
 	    <LinearLayout
 		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
+		    android:layout_height="wrap_content"
 		    android:orientation="vertical"
+		    
+		    android:layout_weight="1"
 		    >
 		    
 	        
@@ -68,10 +70,47 @@
 	    </LinearLayout>
 	    
 	    
+	    <!-- 2. -->
 	    <LinearLayout
 		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
+		    android:layout_height="wrap_content"
 		    android:orientation="vertical"
+		    
+		    android:layout_weight="4"
+		    >
+
+	        <RelativeLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="vertical"
+		        android:layout_gravity="bottom"
+	        	>
+		        
+
+	            <!-- listview -->
+	            <ListView
+			        android:id="@+id/listview_goal"
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:cacheColorHint="#00000000"
+			        android:dividerHeight="0dip"
+			        android:layout_marginTop="44dip"
+			        android:layout_marginBottom="40dip"
+			     	android:divider="#00000000"
+			     	>
+			    </ListView>
+	            
+	        </RelativeLayout>
+	    </LinearLayout>
+	    
+	    
+	    <!-- 3. -->
+	    <LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical"
+		    
+		    android:layout_weight="2"
 		    >
 
 	        <RelativeLayout
@@ -83,15 +122,17 @@
 		        <TextView
 			            android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
-			            android:textColor="@color/crimson"
+			            android:textColor="@color/black"
 			            android:textSize="16sp" 
 			            android:layout_gravity="right"
 			            android:layout_alignParentLeft="true"
 			            android:layout_marginLeft="10dp"
-			            android:text="罗纳尔多		齐达内"
+			            android:text="（322）：1-卡西/2-麦孔、4-特里、3-卡洛斯/7-C罗、10-梅西、11-贝尔/9-罗纳尔多"
 		            />
 	        </RelativeLayout>
 	    </LinearLayout>
+	    
+	    
 	    
 	
 </LinearLayout>

@@ -1,11 +1,16 @@
 package com.cf.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.android.club.R;
+import com.cf.adapter.MatchesMatchDetailAdapter;
 import com.cf.base.ConstantVariable;
 import com.cf.to.MatchTO;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class MatchesMatchDetailActivity extends Activity{
@@ -39,7 +44,16 @@ public class MatchesMatchDetailActivity extends Activity{
 	public void detailPlayed(){
 		setContentView(R.layout.activity_matches_match_detail_played);
 		
+		// ListView
+		ListView listViewGoal = (ListView) this.findViewById(R.id.listview_goal);
 		
+		List list = new ArrayList();
+		list.add(1);
+		list.add(2);
+		list.add(3);
+		MatchesMatchDetailAdapter adapter = new MatchesMatchDetailAdapter(this,list);
+		
+		listViewGoal.setAdapter(adapter);
 	}
 	
 	public void detailUnplay(){

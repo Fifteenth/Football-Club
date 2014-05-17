@@ -174,4 +174,11 @@ public class NavigationActivity extends Activity {
 		return true;
 		// return super.onKeyDown(keyCode, event);
 	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+	}
+	
 }
