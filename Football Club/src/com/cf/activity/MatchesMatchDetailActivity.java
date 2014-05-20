@@ -31,18 +31,28 @@ public class MatchesMatchDetailActivity extends Activity{
 //			detailUnplay();
 //		}
 		
-		// Head
+		// Competitor
 		TextView textViewCompetitor = (TextView) findViewById(R.id.textview_competitor);
 		textViewCompetitor.setText(ConstantVariable.myTeam + score + matchTO.getCompetitor());
 		
-		// 
+		// DateTime
 		TextView textViewDate = (TextView) findViewById(R.id.textview_date_time);
-		textViewDate.setText(matchTO.getCompetitionDate() + 
+		textViewDate.setText(
+				"比赛时间:  "+
+				matchTO.getCompetitionDate() + 
 				ConstantVariable.SYSBOL_SPAN_TWO + matchTO.getCompetitionTime());
 	}
 	
 	public void detailPlayed(){
 		setContentView(R.layout.activity_matches_match_detail_played);
+		
+		
+		// Competition
+		TextView textViewCompetitionList = (TextView) findViewById(
+				R.id.textview_competition_list);
+		textViewCompetitionList.setText(
+				"(322):13-大保健/6-叉哥、26-豪哥、28-建华/16-吴经理、15-曹五、" +
+				"11-2哥/14-涛哥");
 		
 		// ListView
 		ListView listViewGoal = (ListView) this.findViewById(R.id.listview_goal);

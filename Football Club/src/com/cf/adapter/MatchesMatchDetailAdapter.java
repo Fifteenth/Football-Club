@@ -68,7 +68,7 @@ public class MatchesMatchDetailAdapter extends BaseAdapter{
 		
 		TextView textviewGoalPlayer = (TextView) convertView.findViewById(
 				R.id.textview_goal_player);
-		textviewGoalPlayer.setText("ÂíÀ­¶àÄÉ");
+		textviewGoalPlayer.setText("2¸ç");
 		return convertView;
 	}
 

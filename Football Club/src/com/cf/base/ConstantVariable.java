@@ -15,6 +15,8 @@ public class ConstantVariable {
 	public static String menuFormationDes ="阵型";
 	public static String menuTacticalDisplayDes = "战术演练";
 	
+	public static String FORMATION_SELECT = "选择阵型";
+	
 	public static String roleMember = "member";
 	public static String rolePlayer = "player";
 	

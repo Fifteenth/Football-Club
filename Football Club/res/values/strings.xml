@@ -12,6 +12,14 @@
     <drawable name="clubColor">#9ACD32</drawable>
     
     
+    <!-- Tactical -->
+    <string name="module_tactical_menu_start">开始</string>
+    <string name="module_tactical_menu_pause">暂停</string>
+    <string name="module_tactical_menu_stop">结束</string>
+    <string name="module_tactical_menu_select_formation">选择阵型</string>
+    <string name="module_tactical_menu_tactical_display">战术演练</string>
+    <string name="module_tactical_menu_save_formation">设为阵型</string>
+    <string name="module_tactical_menu_save_record">保存记录</string>
     
     <!-- Finance -->
     <string name="module_finance">财务管理</string>

@@ -153,22 +153,19 @@ public class NavigationActivity extends Activity {
 				.getStreamVolume(AudioManager.STREAM_MUSIC);
 
 		switch (keyCode) {
-		case KeyEvent.KEYCODE_VOLUME_UP:// 音量增大
-			mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-					currentVolume + 1, 1);
-			break;
-		case KeyEvent.KEYCODE_VOLUME_DOWN:// 音量减小
-			mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-					currentVolume - 1, 1);
-			break;
-
-		case KeyEvent.KEYCODE_BACK:// 返回键
-			// jniOnCallCppEvent();
-			return true;
-			// return super.onKeyDown(keyCode, event);
-
-		default:
-			break;
+			case KeyEvent.KEYCODE_VOLUME_UP:// 音量增大
+				mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+						currentVolume + 1, 1);
+				break;
+			case KeyEvent.KEYCODE_VOLUME_DOWN:// 音量减小
+				mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+						currentVolume - 1, 1);
+				break;
+	
+			case KeyEvent.KEYCODE_BACK:// 返回键
+				onBackPressed();
+			default:
+				break;
 		}
 
 		return true;

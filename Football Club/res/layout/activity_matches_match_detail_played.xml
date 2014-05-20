@@ -86,7 +86,18 @@
 		        android:layout_gravity="bottom"
 	        	>
 		        
-
+				
+	            <Button
+		            android:layout_width="wrap_content"
+		            android:layout_height="34dp"
+		            android:textColor="@color/black"
+		            android:textSize="14sp" 
+		            android:layout_gravity="right"
+		            android:layout_alignParentLeft="true"
+		            android:layout_marginLeft="20dp"
+		            android:text="比赛进球"
+		            />
+	            
 	            <!-- listview -->
 	            <ListView
 			        android:id="@+id/listview_goal"
@@ -94,7 +105,7 @@
 			        android:layout_height="wrap_content"
 			        android:cacheColorHint="#00000000"
 			        android:dividerHeight="0dip"
-			        android:layout_marginTop="44dip"
+			        android:layout_marginTop="30dip"
 			        android:layout_marginBottom="40dip"
 			     	android:divider="#00000000"
 			     	>
@@ -113,23 +124,36 @@
 		    android:layout_weight="2"
 		    >
 
-	        <RelativeLayout
+	        <LinearLayout
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:orientation="vertical"
 		        android:layout_gravity="bottom"
 	        	>
-		        <TextView
-			            android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:textColor="@color/black"
-			            android:textSize="16sp" 
-			            android:layout_gravity="right"
-			            android:layout_alignParentLeft="true"
-			            android:layout_marginLeft="10dp"
-			            android:text="（322）：1-卡西/2-麦孔、4-特里、3-卡洛斯/7-C罗、10-梅西、11-贝尔/9-罗纳尔多"
+	            
+	            <Button
+		            android:layout_width="wrap_content"
+		            android:layout_height="34dp"
+		            android:textColor="@color/black"
+		            android:textSize="14sp" 
+		            android:layout_gravity="left"
+		            android:layout_marginLeft="20dp"
+		            android:text="比赛名单"
 		            />
-	        </RelativeLayout>
+	            
+	            
+		        <TextView
+		            android:id="@+id/textview_competition_list"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:textColor="@color/black"
+		            android:textSize="14sp" 
+		            android:layout_gravity="left"
+		            android:layout_marginLeft="10dp"
+		            />
+		        
+	        </LinearLayout>
+	        
 	    </LinearLayout>
 	    
 	    

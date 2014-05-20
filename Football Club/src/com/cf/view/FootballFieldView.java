@@ -13,10 +13,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
+import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Toast;
+
+import com.cf.activity.FormationActivity;
+import com.cf.activity.TacticalActivity;
 import com.cf.base.BitmapUtil;
 import com.cf.base.ConstantVariable;
 import com.cf.club.Club;
@@ -24,11 +29,19 @@ import com.cf.club.Player;
 import com.cf.club.Point;
 
 
-public class FootballFieldView extends SurfaceView 
-							implements SurfaceHolder.Callback{
+public class FootballFieldView extends SurfaceView {
 	
 	private int viewHeight;
 	private int viewWidth;
+	
+	private float currentPointX;
+	private float currentPointY;
+	
+	
+	
+	// STANDARD
+	final int STANDARD_WIDTH = 480;
+	final int STANDARD_HEIGHT = 778;
     
     //画笔对象
   	private final Paint paint = new Paint(Paint.DITHER_FLAG);
@@ -47,14 +60,18 @@ public class FootballFieldView extends SurfaceView
 
     private List <Point> pointList;
     
-    private List <Player>playerAList;
-    private List <Player>playerBList;
+    private List <Player> playerAList;
+    private List <Player> playerBList;
     
     private Point football;
 
     private int stepsTotal = 0;
     private int stepNum = 0;
     private String showDisplay;//1.start 2.pause 3.stop
+    
+    
+    
+    private Toast toast;
     
     
     
@@ -81,11 +98,44 @@ public class FootballFieldView extends SurfaceView
     
     
     //构造函数
-   	public FootballFieldView(Context context, AttributeSet attrs) {
+   	public FootballFieldView(final Context context, AttributeSet attrs) {
    		
 		super(context, attrs);
 		this.context =context;
 		setFocusable(true);//使View获取焦点
+		
+		setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				Log.d("Log Info", "*****" + "onLongClick");
+				
+				toast = Toast.makeText(context,
+					    "分辨率:" + viewWidth +"*" + viewHeight + "\n" +
+						"x:" + currentPointX + "\n" +
+						"y:" + currentPointY, Toast.LENGTH_LONG);
+				toast.setGravity(Gravity.CENTER, 0, 0);
+				toast.show();
+				return false;
+			}
+		});
+		
+		
+		setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				Log.d("Log Info", "*****" + "onTouch:" + event.getAction());
+				
+				currentPointX = event.getX();
+				currentPointY = event.getY();
+				
+					
+				return onTouchView(event);
+			}
+		});
 		
 		
         if(playerAList == null){
@@ -96,19 +146,7 @@ public class FootballFieldView extends SurfaceView
         	//初始化球员基本信息
         	club.initClub();
         	playerAList = club.playerAList;
-        	
-        	initPlayersPosition("playerB",ConstantVariable.SYSBOL_DOUBLE_QUOTES);
-        	
-        	football = new Point();
-        	football.setPointX(222);
-           	football.setPointY(367);
 		}
-        
-        //绑定球员图片
-        setBitmap(playerAList,ConstantVariable.BITMAP_TYPE_ROUND);
-        setBitmap(playerBList,ConstantVariable.BITMAP_TYPE_ROUND_RECTANGLE);
-        
-        
 	}
    	
    	//自动匹配不同分辨率下的棋子大小
@@ -123,7 +161,7 @@ public class FootballFieldView extends SurfaceView
 		} else if (700 < h && h < 900) {// 800
 			pointSize = 38;
 		} else {
-			pointSize = 38;
+			pointSize = 24;
 		}
     }
    	
@@ -134,10 +172,23 @@ public class FootballFieldView extends SurfaceView
 	
 	@Override
 	protected void onSizeChanged(int width, int height, int oldw, int oldh) {
-		this.viewWidth = width;
-		this.viewHeight = height;
-		Log.d("INFO", "onSizeChanged"+ "width="+width+"----"+"h= "+height);
-		autoChangeSize(width);	//自动匹配不同分辨率下的大小
+		viewWidth = width;
+		viewHeight = height;
+		Log.d("Log Info", "*****" + "分辨率:" + width +"*" + height + "*****");
+		autoChangeSize(height);	//自动匹配不同分辨率下的大小
+		
+		// 得到分辨率后再设定初始位置
+		if(TacticalActivity.formation!=null){
+			initPlayersPosition("player",TacticalActivity.formation);
+		}else{
+			initPlayersPosition("player",ConstantVariable.formation331);
+		}
+		
+    	initPlayersPosition("playerB",ConstantVariable.SYSBOL_DOUBLE_QUOTES);
+    	
+    	football = new Point();
+    	football.setPointX(222*viewWidth/STANDARD_WIDTH);
+       	football.setPointY(367*viewHeight/STANDARD_HEIGHT);
 	}
 	
 	/*设置 bitmap
@@ -180,16 +231,33 @@ public class FootballFieldView extends SurfaceView
 	@Override
 	protected void onDraw(Canvas canvas) {
 		
+    	//绑定球员图片
+		BindBitmap(playerAList,ConstantVariable.BITMAP_TYPE_ROUND);
+		BindBitmap(playerBList,ConstantVariable.BITMAP_TYPE_ROUND_RECTANGLE);
+    			
 		// 队员
 		drawTeam(playerAList,playerAPointArray,canvas);
 		// 对手
 		drawTeam(playerBList,playerBPointArray,canvas);
 		// 足球
 		drawFootball(canvas);
+		
+		
+		
+		// 描点
+//		paint.setColor(Color.RED);
+//		canvas.drawPoint((float)20.0, (float)30.0,paint);
+//		canvas.drawPoint((float)25.0, (float)30.0,paint);
+//		canvas.drawPoint((float)30.0, (float)30.0,paint);
+//		canvas.drawPoint((float)35.0, (float)30.0,paint);
+//		canvas.drawPoint((float)40.0, (float)30.0,paint);
+//		canvas.drawPoint((float)45.0, (float)30.0,paint);
+//		canvas.drawPoint((float)45.0, (float)35.0,paint);
+//		canvas.drawPoint((float)45.0, (float)40.0,paint);
+		
 	}
 	
 	public void drawFootball(Canvas canvas){
-		
 	
 		Resources resources = this.getContext().getResources();
        	int id = context.getResources().getIdentifier("football", 
@@ -213,8 +281,8 @@ public class FootballFieldView extends SurfaceView
 		}
 	}
 	
-	public void setBitmap(List<Player> list,String type){
-   		Resources resources = this.getContext().getResources();
+	public void BindBitmap(List<Player> list,String type){
+   		Resources resources = getContext().getResources();
    		if(type.equals(ConstantVariable.BITMAP_TYPE_ROUND)){
    			playerAPointArray = new Bitmap[list.size()];
    	        for(int i=0;i<list.size();i++){
@@ -328,6 +396,7 @@ public class FootballFieldView extends SurfaceView
 	 */
 	public void initPlayersPosition(String role,String formation){
 		int playerposition[][] = {};
+		
 		if(role.equals("player")){
 			
 			if(formation.equals(ConstantVariable.formation331)){
@@ -344,12 +413,9 @@ public class FootballFieldView extends SurfaceView
 			if(playerAList==null){
 				playerAList = new ArrayList<Player>();
 			}
-			playerAList.clear();
 			for(int i=0;i<8;i++){
-				Player player = new Player();
-				player.setPointX(playerposition[i][0]);
-				player.setPointY(playerposition[i][1]);
-				playerAList.add(player);
+				playerAList.get(i).setPointX(playerposition[i][0]*viewWidth/STANDARD_WIDTH);
+				playerAList.get(i).setPointY(playerposition[i][1]*viewHeight/STANDARD_HEIGHT);
 			}
 		}else{
 			if(playerBList==null){
@@ -359,15 +425,21 @@ public class FootballFieldView extends SurfaceView
 			playerposition = ConstantVariable.playerBPosition331;
 			for(int i=0;i<8;i++){
 				Player player = new Player();
-				player.setPointX(playerposition[i][0]);
-				player.setPointY(playerposition[i][1]);
+				player.setPointX(playerposition[i][0]*viewWidth/STANDARD_WIDTH);
+				player.setPointY(playerposition[i][1]*viewHeight/STANDARD_HEIGHT);
 				playerBList.add(player);
 			}
 		}
 	}
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
+//
+//	}
+	
+	
+	public boolean onTouchView(MotionEvent event){
+			
 		Point playerSelected = null;
 		int touchX  = (int)event.getX();
 		int touchY =  (int)event.getY();
@@ -433,10 +505,13 @@ public class FootballFieldView extends SurfaceView
 				canMove = !isOver(pointList,playerSelected,touchX,touchY);
 			}
 			
+			// 可以移动
 			if(canMove){
-				// 可以移动
-				playerSelected.setPointX((int)touchX - pointSize/2);
-				playerSelected.setPointY((int)touchY - pointSize/2);
+				// 设置新位置坐标
+				{
+					playerSelected.setPointX((int)touchX - pointSize/2);
+					playerSelected.setPointY((int)touchY - pointSize/2);
+				}
 				
 				// 刷新 重绘位置
 				refressCanvas();
@@ -452,12 +527,12 @@ public class FootballFieldView extends SurfaceView
 							String[] step = {stepX + ";" + playerSelected.getPointX(),
 									stepY + ";" + playerSelected.getPointY()};
 							playerSelected.setSteps(step);
-							}else{
-								// init step
-								String[] step = {playerSelected.getPointX()+ConstantVariable.SYSBOL_DOUBLE_QUOTES,
-										playerSelected.getPointY()+ConstantVariable.SYSBOL_DOUBLE_QUOTES};
-								playerSelected.setSteps(step);
-							}
+						}else{
+							// init step
+							String[] step = {playerSelected.getPointX()+ConstantVariable.SYSBOL_DOUBLE_QUOTES,
+									playerSelected.getPointY()+ConstantVariable.SYSBOL_DOUBLE_QUOTES};
+							playerSelected.setSteps(step);
+						}
 						stepNum++;
 					}
 				}
@@ -469,16 +544,21 @@ public class FootballFieldView extends SurfaceView
 					stepsTotal = stepNum;
 				}
 			}
+		}else{
+			canMove = false;
 		}
-		return true;
+		
+		return canMove;
 	}
+	
+
 	
 	
 	/*
  	 *	演练战术
  	 */
  	public void displayTactics(){
- 		new RefreshThread().start(); 
+ 		new RefreshThread().start();
  	}
  	
 	public class RefreshThread extends Thread {
@@ -560,24 +640,5 @@ public class FootballFieldView extends SurfaceView
 		}
 		return false;
 	}
-
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		// TODO Auto-generated method stub
-		
-	} 
 
 }
