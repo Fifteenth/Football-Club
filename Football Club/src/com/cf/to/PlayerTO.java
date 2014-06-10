@@ -1,6 +1,6 @@
 package com.cf.to;
 
-import com.cf.dialog.TeamPlayerDialog;
+import com.af.dialog.TeamPlayerDialog;
 
 public class PlayerTO {
 	

@@ -5,44 +5,44 @@
         <position>Coach</position>
         <description>00</description>
     </member>
-    <member number="07" role="player">
-        <name>07</name>
-        <position>LSMF</position>
-        <description>07</description>
-    </member>
-    <member number="03" role="player">
-        <name>03</name>
-        <position>LSB</position>
-        <description>03</description>
+    <member number="14" role="player">
+        <name>14</name>
+        <position>CF</position>
+        <description>14</description>
     </member>
     <member number="11" role="player">
         <name>11</name>
-        <position>RSMF</position>
+        <position>LSB</position>
         <description>11</description>
     </member>
-    <member number="09" role="player">
-        <name>09</name>
-        <position>CF</position>
-        <description>09</description>
+    <member number="15" role="player">
+        <name>15</name>
+        <position>LSMF</position>
+        <description>15</description>
     </member>
-    <member number="05" role="player">
-        <name>05</name>
-        <position>DMF</position>
-        <description>05</description>
+    <member number="07" role="player">
+        <name>07</name>
+        <position>RSMF</position>
+        <description>07</description>
     </member>
-    <member number="01" role="player">
-        <name>01</name>
-        <position>GK</position>
-        <description>01</description>
+    <member number="28" role="player">
+        <name>28</name>
+        <position>LSB</position>
+        <description>28</description>
     </member>
-    <member number="04" role="player">
-        <name>04</name>
+    <member number="26" role="player">
+        <name>26</name>
         <position>CB</position>
-        <description>04</description>
+        <description>26</description>
     </member>
-    <member number="02" role="player">
-        <name>02</name>
+    <member number="06" role="player">
+        <name>06</name>
         <position>RSB</position>
-        <description>02</description>
+        <description>06</description>
+    </member>
+    <member number="13" role="player">
+        <name>13</name>
+        <position>CB</position>
+        <description>13</description>
     </member>
 </players>

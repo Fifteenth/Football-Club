@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.android.club.R;
-import com.cf.base.BitmapUtil;
+import com.cf.base.util.BitmapUtil;
 
 import android.content.Context;
 import android.graphics.Bitmap;

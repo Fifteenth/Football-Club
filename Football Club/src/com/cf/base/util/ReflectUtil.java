@@ -2,7 +2,7 @@ package com.cf.base.util;
 
 import java.lang.reflect.Method;
 
-import com.cf.base.ConstantVariable;
+import com.cf.base.variable.ConstantVariable;
 
 public class ReflectUtil {
 

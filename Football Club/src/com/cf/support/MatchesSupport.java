@@ -11,7 +11,7 @@ public class MatchesSupport {
 	public static List ReadMatches(){
 		List list = null;
 		try {
-			list = RWTOService.getListTOFromXML(MatchTO.classPath,FileVariable.FILE_NAME_MATCH);
+			list = RWTOService.gotListTOFromXML(MatchTO.classPath,FileVariable.FILE_NAME_MATCH);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -22,7 +22,7 @@ public class MatchesSupport {
 	
 	public static void WriteMatches(List <MatchTO>list){
 		try {
-			RWTOService.getWriteXMLFromListTOAndSave(list,MatchTO.classPath, FileVariable.FILE_NAME_MATCH);
+			RWTOService.writeXMLFromListTOAndSave(list,MatchTO.classPath, FileVariable.FILE_NAME_MATCH);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -15,11 +15,11 @@ import org.xmlpull.v1.XmlSerializer;
 
 import android.util.Xml;
 
-import com.cf.base.ConstantVariable;
 import com.cf.base.util.FileUtil;
 import com.cf.base.util.ReflectUtil;
 import com.cf.base.util.SDCardUtil;
 import com.cf.base.util.XMLUtil;
+import com.cf.base.variable.ConstantVariable;
 import com.cf.base.variable.FileVariable;
 import com.cf.base.variable.TOFieldsVariable;
 import com.cf.to.FinanceTO;
@@ -33,7 +33,7 @@ public class RWTOService {
 	 * Read
 	 * 	 playerName is filter name,it can be null
 	 */
-	public static List<?> getListTOFromXML(String classPath,String fileName) throws Exception{
+	public static List<?> gotListTOFromXML(String classPath,String fileName) throws Exception{
 		
 		// InputStream
 		InputStream inputStreamFinance = FileUtil.getFileInputStream(
@@ -93,7 +93,7 @@ public class RWTOService {
 	/*
 	 * Write
 	 */
-	public static FileOutputStream getWriteXMLFromListTO(List<?>listTO,String classPath, 
+	public static FileOutputStream writeXMLFromListTO(List<?>listTO,String classPath, 
 			String fileName) throws Exception {
 		
 		// OutputStream
@@ -118,10 +118,14 @@ public class RWTOService {
         	for(int methodIndex=0;methodIndex<getMethodNames.length;methodIndex++){
         		// Get
         		Method getMethod = dynamicClass.getMethod(getMethodNames[methodIndex]); 
-        		String nodeValue = (String) getMethod.invoke(listTO.get(toIndex));
-        		String nodeProperty = getMethod.getName();
-        		if(nodeValue!=null){
-        			serializer.attribute(ConstantVariable.SYSBOL_DOUBLE_QUOTES, nodeProperty.substring(METHOD_GET.length(), nodeProperty.length()), nodeValue);	
+        		
+        		Object object = getMethod.invoke(listTO.get(toIndex));
+        		if(object != null){
+        			String nodeValue = String.valueOf(object);
+            		String nodeProperty = getMethod.getName();
+            		if(nodeValue!=null){
+            			serializer.attribute(ConstantVariable.SYSBOL_DOUBLE_QUOTES, nodeProperty.substring(METHOD_GET.length(), nodeProperty.length()), nodeValue);	
+            		}
         		}
         	}
             // End
@@ -133,9 +137,9 @@ public class RWTOService {
         return xmlOutputStream;
     }
 	
-	public static void getWriteXMLFromListTOAndSave(List<?>listTO,String classPath, 
+	public static void writeXMLFromListTOAndSave(List<?>listTO,String classPath, 
 			String fileName) throws Exception {
-		FileOutputStream xmlOutputStream = getWriteXMLFromListTO(listTO,classPath,fileName);
+		FileOutputStream xmlOutputStream = writeXMLFromListTO(listTO,classPath,fileName);
 		XMLUtil.saveXML(xmlOutputStream);
 	}
 }

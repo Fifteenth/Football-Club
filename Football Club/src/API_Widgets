@@ -1,0 +1,4 @@
+TextView
+	android:paddingLeft="20dp"
+	android:paddingRight="60dp"
+	----文字相对组件来说，会把组件长度撑开

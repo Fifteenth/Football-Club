@@ -12,5 +12,14 @@ public class DateUtil {
 		  String dateString = formatter.format(currentTime);  
 		  return dateString;
 	}
+	
+	
+	
+	public static double gotTimedifferenceBySecond(long t1,long t2) {
+		int hours =(int) ((t1 - t2)/3600000.0);
+		int minutes =(int) (((t1 - t2)/1000.0 - hours*3600.0)/60.0);
+		return (double) ((t1 - t2)/1000.0 - hours*3600.0 - minutes*60.0);
+	}
+	
 
 }

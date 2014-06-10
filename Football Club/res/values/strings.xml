@@ -21,6 +21,8 @@
     <string name="module_tactical_menu_save_formation">设为阵型</string>
     <string name="module_tactical_menu_save_record">保存记录</string>
     
+    <string name="module_tactical_setting_display_competitor">显示对手</string>
+    
     <!-- Finance -->
     <string name="module_finance">财务管理</string>
     <string name="module_finance_record">财务记录</string>
@@ -40,6 +42,11 @@
     <string name="module_team_textview_name">姓名: </string>
     <string name="module_team_checkbox_is_caption">设为队长 </string>
     
+    <!-- tactical -->
+    <string name="module_tactical_editText_formtion">阵型</string>
+    <string name="module_tactical_editText_description">描述</string>
+    
+    <!--  -->
     <string name="module_management">球队管理</string>
     <string name="module_team">球队阵容</string>
     <string name="module_matches_match_detail">比赛详情</string>

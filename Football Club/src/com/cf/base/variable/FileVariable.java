@@ -12,8 +12,16 @@ public class FileVariable {
 	// 
 	final public static String FILE_NAME_TEAM_PLAYERS = "DATA_TEAM_PLAYERS.XML";
 	
-	
 	final public static String FILE_NAME_TEAM_SETTING = "DATA_TEAM_SETTING.XML";
+	
+	final public static String FILE_NAME_TACTICAL_SETTING = "DATA_TACTICAL_SETTING.XML";
+	
+	// Player Point
+//	final public static String FILE_NAME_PLAYER_MOVE_FILE_A = "FILE_NAME_PLAYER_MOVE_FILE_A.XML";
+//	final public static String FILE_NAME_PLAYER_MOVE_FILE_B = "FILE_NAME_PLAYER_MOVE_FILE_B.XML";
+//	final public static String FILE_NAME_PLAYER_MOVE_FILE_C = "FILE_NAME_PLAYER_MOVE_FILE_C.XML";
+	
+	final public static String FILE_NAME_PLAYER_MOVE_FILE = "FILE_NAME_PLAYER_MOVE_FILE.XML";
 	
 
 }
