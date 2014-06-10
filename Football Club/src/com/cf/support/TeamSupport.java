@@ -14,7 +14,7 @@ public class TeamSupport {
 	public static TeamTO ReadTeamSetting(){
 		List list = null;
 		try {
-			list = RWTOService.getListTOFromXML(TeamTO.classPath,FileVariable.FILE_NAME_TEAM_SETTING);
+			list = RWTOService.gotListTOFromXML(TeamTO.classPath,FileVariable.FILE_NAME_TEAM_SETTING);
 			if(list == null	|| list.size() == 0){
 				return new TeamTO();
 			}
@@ -29,7 +29,7 @@ public class TeamSupport {
 	public static List ReadTeamPlayer(){
 		List list = null;
 		try {
-			list = RWTOService.getListTOFromXML(PlayerTO.classPath,FileVariable.FILE_NAME_TEAM_PLAYERS);
+			list = RWTOService.gotListTOFromXML(PlayerTO.classPath,FileVariable.FILE_NAME_TEAM_PLAYERS);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,7 +40,7 @@ public class TeamSupport {
 	
 	public static void WriteTeamPlayer(List <PlayerTO>list){
 		try {
-			RWTOService.getWriteXMLFromListTOAndSave(list,PlayerTO.classPath, FileVariable.FILE_NAME_TEAM_PLAYERS);
+			RWTOService.writeXMLFromListTOAndSave(list,PlayerTO.classPath, FileVariable.FILE_NAME_TEAM_PLAYERS);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -53,7 +53,7 @@ public class TeamSupport {
 		List list = new ArrayList();
 		list.add(teamTO);
 		try {
-			RWTOService.getWriteXMLFromListTOAndSave(list,TeamTO.classPath, FileVariable.FILE_NAME_TEAM_SETTING);
+			RWTOService.writeXMLFromListTOAndSave(list,TeamTO.classPath, FileVariable.FILE_NAME_TEAM_SETTING);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -2,8 +2,8 @@ package com.cf.to;
 
 import android.app.AlertDialog;
 
-import com.cf.base.ConstantVariable;
-import com.cf.dialog.MatchDialog;
+import com.af.dialog.MatchDialog;
+import com.cf.base.variable.ConstantVariable;
 
 public class MatchTO {
 	

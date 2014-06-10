@@ -8,7 +8,7 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import com.cf.base.ConstantVariable;
+import com.cf.base.variable.ConstantVariable;
 
 import android.util.Xml;
 

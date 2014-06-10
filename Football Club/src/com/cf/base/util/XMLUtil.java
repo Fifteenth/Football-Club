@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
-import com.cf.base.ConstantVariable;
+import com.cf.base.variable.ConstantVariable;
 import com.cf.base.variable.FileVariable;
 
 import android.content.Context;

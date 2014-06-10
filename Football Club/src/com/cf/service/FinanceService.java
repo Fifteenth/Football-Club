@@ -12,10 +12,10 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
-import com.cf.base.ConstantVariable;
 import com.cf.base.util.FileUtil;
 import com.cf.base.util.SDCardUtil;
 import com.cf.base.util.XMLUtil;
+import com.cf.base.variable.ConstantVariable;
 import com.cf.base.variable.TOFieldsVariable;
 import com.cf.to.FinanceTO;
 

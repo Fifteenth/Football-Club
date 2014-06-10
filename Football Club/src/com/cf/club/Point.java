@@ -2,10 +2,12 @@ package com.cf.club;
 
 public class Point extends Member{
 	
+	
+	public static String classPath = Point.class.getName();
 	public int pointX;
 	public int pointY;
-	
-	private String steps[] = new String[2];
+
+	public String steps[] = new String[2];
 	
 	
 	public String[] getSteps() {
